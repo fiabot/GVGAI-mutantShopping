@@ -124,59 +124,75 @@ public class VGDLFactory
     /**
      * Singleton reference to game/sprite factory
      */
-    private static VGDLFactory factory;
+    private static class MyWrapper {
+        static VGDLFactory INSTANCE = new VGDLFactory();
+        
+    }
 
     /**
      * Cache for registered games.
      */
-    public static HashMap<String, Class> registeredGames;
+    public volatile static HashMap<String, Class> registeredGames;
 
     /**
      * Cache for registered sprites.
      */
-    public static HashMap<String, Class> registeredSprites;
+    public volatile static HashMap<String, Class> registeredSprites;
 
     /**
      * Cache for registered effects.
      */
-    public static HashMap<String, Class> registeredEffects;
+    public volatile static HashMap<String, Class> registeredEffects;
 
     /**
      * Cache for registered effects.
      */
-    public static HashMap<String, Class> registeredTerminations;
+    public volatile static HashMap<String, Class> registeredTerminations;
 
     /**
      * Default private constructor of this singleton.
      */
-    private VGDLFactory(){}
+    private VGDLFactory(){
+        init();
+    }
 
     /**
      * Initializes the maps for caching classes.
      */
     public void init()
     {
-        registeredGames = new HashMap<String, Class>();
-        registeredGames.put("BasicGame", BasicGame.class);
-        registeredGames.put("GameSpace", GameSpace.class);
+        if(registeredGames == null){
+            registeredGames = new HashMap<String, Class>();
+            registeredGames.put("BasicGame", BasicGame.class);
+            registeredGames.put("GameSpace", GameSpace.class);
+        }
+        
 
-        registeredSprites = new HashMap<String, Class>();
-        for(int i = 0;  i < spriteStrings.length; ++i)
-        {
-            registeredSprites.put(spriteStrings[i], spriteClasses[i]);
+        if(registeredSprites == null){
+            registeredSprites = new HashMap<String, Class>();
+            for(int i = 0;  i < spriteStrings.length; ++i)
+            {
+                registeredSprites.put(spriteStrings[i], spriteClasses[i]);
+            }
+
         }
 
-        registeredEffects  = new HashMap<String, Class>();
-        for(int i = 0;  i < effectStrings.length; ++i)
-        {
-            registeredEffects.put(effectStrings[i], effectClasses[i]);
+        if(registeredEffects == null){
+            registeredEffects  = new HashMap<String, Class>();
+            for(int i = 0;  i < effectStrings.length; ++i)
+            {
+                registeredEffects.put(effectStrings[i], effectClasses[i]);
+            }
         }
-
-        registeredTerminations = new HashMap<String, Class>();
-        for(int i = 0;  i < terminationStrings.length; ++i)
-        {
-            registeredTerminations.put(terminationStrings[i], terminationClasses[i]);
+       
+        if (registeredTerminations == null){
+            registeredTerminations = new HashMap<String, Class>();
+            for(int i = 0;  i < terminationStrings.length; ++i)
+            {
+                registeredTerminations.put(terminationStrings[i], terminationClasses[i]);
+            }
         }
+        
     }
 
     /**
@@ -185,9 +201,8 @@ public class VGDLFactory
      */
     public static VGDLFactory GetInstance()
     {
-        if(factory == null)
-            factory = new VGDLFactory();
-        return factory;
+        return MyWrapper.INSTANCE;
+        
     }
 
     /**

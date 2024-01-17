@@ -339,7 +339,7 @@ public class SLDescription {
 			}
 		}
 
-		VGDLRegistry.GetInstance().init();
+		VGDLRegistry.GetInstance();
 		this.currentGame.loadDefaultConstr();
 		this.currentGame.clearInteractionTerminationData();
 

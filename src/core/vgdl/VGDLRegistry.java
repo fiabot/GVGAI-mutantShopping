@@ -16,7 +16,11 @@ public class VGDLRegistry
     /**
      * Singleton instance of this class.
      */
-    private static VGDLRegistry registry;
+    private static ThreadLocal<VGDLRegistry> registry;
+    private static class MyWrapper {
+        static VGDLRegistry INSTANCE = new VGDLRegistry();
+        
+    }
 
     /**
      * Maps strings to int. Strings are VGDL identifiers for SPRITE TYPES,
@@ -27,7 +31,9 @@ public class VGDLRegistry
     /**
      * Private constructor.
      */
-    private VGDLRegistry(){}
+    private VGDLRegistry(){
+        init();
+    }
 
     /**
      * Initializes the registry of sprites for games.
@@ -35,7 +41,10 @@ public class VGDLRegistry
     public void init()
     {
         sprite_mapping = new TreeMap<String, Integer>();
+        System.out.println("Making new Map");
     }
+
+    
 
     /**
      * Returns the unique instance of this class.
@@ -43,12 +52,8 @@ public class VGDLRegistry
      */
     public static VGDLRegistry GetInstance()
     {
-        if(registry == null)
-        {
-            registry = new VGDLRegistry();
-            registry.init();
-        }
-        return registry;
+        return MyWrapper.INSTANCE;
+        
     }
 
     /**

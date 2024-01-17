@@ -899,12 +899,42 @@ public abstract class Game {
 
 		// Create and initialize the panel for the graphics.
 		VGDLViewer view = new VGDLViewer(this, players[humanID]);
-		JEasyFrame frame;
-		frame = new JEasyFrame(view, "Java-VGDL");
+		JFrame frame;
+		frame = new JFrame("Java-VGDL");
+		frame.setVisible(true);
 
 		frame.addKeyListener(ki);
 		frame.addWindowListener(wi);
 		wi.windowClosed = false;
+
+		
+		return playGame(players, randomSeed, isHuman, humanID, frame.getContentPane(), frame);
+	}
+
+
+	/**
+	 * Plays the game, graphics enabled.
+	 *
+	 * @param players
+	 *            Players that play this game.
+	 * @param randomSeed
+	 *            sampleRandom seed for the whole game.
+	 * @param isHuman
+	 *            indicates if a human is playing the game.
+	 * @param humanID
+	 *            ID of the human player
+	 * @return the score of the game played.
+	 */
+
+	 public double[] playGame(Player[] players, int randomSeed, boolean isHuman, int humanID, Container container, JFrame frame) {
+		// Prepare some structures and references for this game.
+		prepareGame(players, randomSeed, humanID);
+
+		// Create and initialize the panel for the graphics.
+		VGDLViewer view = new VGDLViewer(this, players[humanID]);
+		container.add(view); 
+		frame.pack();
+	
 
 		// Determine the delay for playing with a good fps.
 		double delay = CompetitionParameters.LONG_DELAY;
@@ -934,7 +964,7 @@ public abstract class Game {
 			view.paint(this.spriteGroups);
 
 			// Update the frame title to reflect current score and tick.
-			this.setTitle(frame);
+			//this.setTitle(frame);
 
 			if (firstRun && isHuman) {
 				if (CompetitionParameters.dialogBoxOnStartAndEnd) {
@@ -966,11 +996,12 @@ public abstract class Game {
 					JOptionPane.showMessageDialog(frame, "GAMEOVER - WINNER: " + sb);
 				}
 			}
-			frame.dispose();
 		}
 
 		// Update the forward model for the game state sent to the controller.
 		fwdModel.update(this);
+
+		container.remove(view);
 
 		return handleResult();
 	}
@@ -1029,7 +1060,7 @@ public abstract class Game {
 	 * @param frame
 	 *            The frame whose title needs to be set.
 	 */
-	private void setTitle(JEasyFrame frame) {
+	private void setTitle(JFrame frame) {
 		String sb = "";
 		sb += "Java-VGDL: ";
 		for (int i = 0; i < no_players; i++) {

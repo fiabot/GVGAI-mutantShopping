@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Logger {
 
-    private static final Logger instance = new Logger();
+    private static final ThreadLocal<Logger> instance = new ThreadLocal<Logger>();
     private ArrayList<Message> messages;
 
     /**
@@ -26,7 +26,10 @@ public class Logger {
      * @return the instance
      */
     public static Logger getInstance() {
-        return instance;
+        if (instance.get() == null){
+            instance.set(new Logger()); 
+        }
+        return instance.get();
     }
 
     /**
