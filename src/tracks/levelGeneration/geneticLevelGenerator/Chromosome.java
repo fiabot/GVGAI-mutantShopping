@@ -151,6 +151,25 @@ public class Chromosome implements Comparable<Chromosome>{
 		FixLevel();
 		constructAgent();
 	}
+
+	/**
+	 * initialize the chromosome using the contructive level generator
+	 */
+	public void InitializeBase(String startingLevel){
+		String[] levelString = startingLevel.split("\n");
+		//HashMap<Character, ArrayList<String>> charMap = SharedData.constructiveGen.getLevelMapping();
+		
+		for(int y=0; y<levelString.length; y++){
+			for(int x=0; x<levelString[y].length(); x++){
+				if(levelString[y].charAt(x) != ' '){
+					this.level[y][x].add(Character.toString(levelString[y].charAt(x))); 
+				}
+			}
+		}
+		
+		//FixLevel();
+		//constructAgent();
+	}
 	
 
 	/**
