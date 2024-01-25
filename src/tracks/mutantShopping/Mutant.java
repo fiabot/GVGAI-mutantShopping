@@ -43,6 +43,16 @@ public class Mutant {
 			"pullWithIt", "bounceForward", "teleportToExit", "collectResource", "setSpeedForAll", "undoAll",
 			"reverseDirection", "changeResource" };
 
+    public static String[] interactionParams = new String[] {
+        "scoreChange", "stype", "limit", "resource", "stype_other", "forceOrientation", "spawnPoint",
+        "value", "geq", "leq"};
+    public static String[] terminationParams = new String[] {
+        "stype", "stype1", "stype2", "stype3"
+    };
+
+    public static final int NUMERICAL_VALUE_PARAM = 2000;
+        
+
     private ArrayList<String> termination; 
     int terminationIndent; 
     int interactionIndent; 
@@ -173,25 +183,34 @@ public class Mutant {
 		return "";
 	}*/ 
     public void  addRandomInteraction(ArrayList<String> interaction, ArrayList<String> termination){
-         // get two random indeces for the two sprites in the interaction
-            int i = interaction.size(); 
-			int i1 = this.random.nextInt(this.usefulSprites.size());
-			int i2 = (i1 + 1 + this.random.nextInt(this.usefulSprites.size() - 1)) % this.usefulSprites.size();
-			// add score change parameter for interactions
-			String scoreChange = "";
-			if(this.random.nextBoolean()){
-				scoreChange += "scoreChange=" + (this.random.nextInt(5) - 2);
-			}
-			// add the new random interaction that doesn't produce errors
-			interaction.add(this.usefulSprites.get(i1) + " " + this.usefulSprites.get(i2) + " > " +
-					this.interactions[this.random.nextInt(this.interactions.length)] + " " + scoreChange);
-			/*sl.testRules(getArray(interaction), getArray(termination));
-			while(sl.getErrors().size() > 0){
-				interaction.remove(i);
-				interaction.add(this.usefulSprites.get(i1) + " " + this.usefulSprites.get(i2) + " > " +
-						this.interactions[this.random.nextInt(this.interactions.length)] + " " + scoreChange);
-				sl.testRules(getArray(interaction), getArray(termination));
-			}*/ 
+        String nInteraction = interactions[random.nextInt(interactions.length)];
+        int i1 = random.nextInt(usefulSprites.size());
+        int i2 = (i1 + 1 + random.nextInt(usefulSprites.size() - 1)) % usefulSprites.size();
+        
+        String newInteraction = usefulSprites.get(i1) + " " + usefulSprites.get(i2) + " > " + nInteraction;
+        // roll to see if you insert a parameter into this interaction
+        double roll = random.nextDouble();
+        
+        if(roll < 0.5) {
+            String nParam = interactionParams[random.nextInt(interactionParams.length)];
+            nParam += "=";
+            
+            // there are two types of parameters, ones that take sprites and ones that take values
+            if(nParam.equals("scoreChange=") || nParam.equals("limit=") || nParam.equals("value=") || nParam.equals("geq=")
+                    || nParam.equals("leq=")) {
+                int val = random.nextInt(NUMERICAL_VALUE_PARAM) - 1000;
+                nParam += val;
+            } else {
+                String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+                nParam += nSprite;
+            }
+            newInteraction += " " + nParam;
+        }
+        // add the new interaction to the interaction arraylist 
+        interaction.add(newInteraction);
+        // remove weird space from the arrayList
+        interaction.removeIf(s -> s == null);
+        
     }
 
     public void  removeRandomInteraction(ArrayList<String> interaction, ArrayList<String> termination){
