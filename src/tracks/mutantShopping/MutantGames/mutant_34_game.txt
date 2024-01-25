@@ -1,32 +1,44 @@
-BasicGame square_size=32
-    SpriteSet
-        background > Immovable img=oryx/space1 hidden=True
-        base    > Immovable    color=WHITE img=oryx/planet
-        avatar  > FlakAvatar   stype=sam img=oryx/spaceship1
-        missile > Missile
-            sam  > orientation=UP    color=BLUE singleton=True img=oryx/bullet1
-            bomb > orientation=DOWN  color=RED  speed=0.5 img=oryx/bullet2
-        alien   > Bomber       stype=bomb   prob=0.01  cooldown=3 speed=0.8
-            alienGreen > img=oryx/alien3
-            alienBlue > img=oryx/alien1
-        portal  > invisible=True hidden=True
-        	portalSlow  > SpawnPoint   stype=alienBlue  cooldown=16   total=20 img=portal
-        	portalFast  > SpawnPoint   stype=alienGreen  cooldown=12   total=20 img=portal
+BasicGame
+	SpriteSet
+		background > Immovable img=oryx/backBlack hidden=True
+		wall > Immovable autotiling=true img=oryx/dirtWall
+		sword > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/pickaxe
+		dirt > Immovable color=BROWN img=oryx/backLBrown
+		exitdoor > Door color=GREEN img=oryx/door2
+		diamond > Resource color=YELLOW limit=10 shrinkfactor=0.75 img=oryx/diamond3
+		boulder > Missile orientation=DOWN color=GRAY speed=0.2 img=oryx/mineral1
+		moving >
+			avatar  > ShootAvatar   stype=sword frameRate=8 img=oryx/spelunky
+			enemy > Chaser stype=avatar speed=0.1
+				crab > color=RED img=oryx/scorpion2
+				butterfly > color=PINK img=oryx/bat2
 
-    LevelMapping
-        . > background
-        0 > background base
-        1 > background portalSlow
-        2 > background portalFast
-        A > background avatar
+	LevelMapping
+		. > background dirt
+		e > background exitdoor
+		o > background boulder
+		x > background diamond
+		c > background crab
+		b > background butterfly
+		- > background
+		A > background avatar
 
-    InteractionSet
-    	avatar  EOS  > stepBack
-    	base sam > killBoth scoreChange=1
-    	base background > decreaseSpeedToAll
-    	portalSlow alienBlue > reverseDirection
-    	bomb portalSlow > killIfFromAbove stype=base
-    	alienGreen sam > decreaseSpeedToAll
-    TerminationSet
-    	SpriteCounter      stype=avatar               limit=0 win=False
-    	Timeout limit=929 win=True
+ InteractionSet
+ 	dirt avatar sword > killSprite
+ 	avatar butterfly crab > killSprite
+ 	dirt crab > transformTo stype=diamond
+ 	butterfly crab > transformTo stype=diamond scoreChange=1
+ 	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
+ 	diamond avatar > transformTo
+ 	dirt butterfly > removeScore
+ 	boulder dirt wall decreaseSpeedToAll boulder > stepBack
+ 	crab butterfly > bounceForward geq=-199
+ 	boulder crab > spawnBehind
+ 	avatar boulder > attractGaze forceOrientation=sword
+ 	wall EOS > killIfHasMore
+ 	avatar sword > transformToRandomChild stype=background
+ 	sword exitdoor > spawnBehind value=11
+ 	EOS wall > pullWithIt
+ TerminationSet
+ 	SpriteCounter stype=exitdoor limit=0 win=True
+ 	SpriteCounterMore stype3=avatar win=True limit=751

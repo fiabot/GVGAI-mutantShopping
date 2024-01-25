@@ -27,13 +27,14 @@ BasicGame
  	dirt avatar sword > killSprite
  	diamond avatar > collectResource scoreChange=2
  	moving wall boulder > stepBack
- 	avatar boulder > killIfFromAbove scoreChange=-1
  	avatar butterfly crab > killSprite scoreChange=-1
  	enemy boulder > killSprite scoreChange=5
- 	dirt crab > transformTo stype=diamond
+ 	boulder dirt wall diamond boulder > stepBack
+ 	dirt butterfly > killSprite
+ 	dirt crab > transformTo 
+ 	crab butterfly > killSprite
  	butterfly crab > transformTo stype=diamond scoreChange=1
- 	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
- 	crab dirt > killIfHasMore
+ 	exitdoor avatar > killIfOtherHasMore limit=9 
+ 	avatar boulder > removeScore scoreChange=-1 
  TerminationSet
  	SpriteCounter stype=avatar limit=0 win=False
- 	Timeout limit=1125 win=True

@@ -41,8 +41,10 @@ public class GamePlayView{
         button.setSize(400, 50);
        
         helperPanel.add(button); 
+        
 
         panel.add(gamePanel, BorderLayout.NORTH); 
+        panel.add(new Label(game)); 
         panel.add(helperPanel, BorderLayout.SOUTH); 
         
 

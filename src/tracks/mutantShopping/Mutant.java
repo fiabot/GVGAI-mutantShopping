@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.Random;
 
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.print.attribute.HashAttributeSet;
 import javax.swing.Spring;
 
@@ -50,7 +52,13 @@ public class Mutant {
         "stype", "stype1", "stype2", "stype3"
     };
 
+    public static String[] terminations = new String[] {
+		"SpriteCounter", "SpriteCounterMore", "MultiSpriteCounter",
+		"StopCounter", "Timeout"};
+
     public static final int NUMERICAL_VALUE_PARAM = 2000;
+
+    public static final int TERMINATION_LIMIT_PARAM = 1000;
         
 
     private ArrayList<String> termination; 
@@ -154,12 +162,255 @@ public class Mutant {
             spriteMapping.put(data.name, data); 
         }
     }
-
+    public void mutateTermination(){
+		double mutationType = random.nextDouble();
+		// we do an insertion
+		if(mutationType < 0.33) {
+			// roll dice to see if we will insert a new rule altogether or a new parameter into an existing rule
+			double roll = random.nextDouble();
+			// insert a new parameter onto an existing rule
+			if(roll < 0.2) {
+				// grab a random existing rule
+				int point = random.nextInt(termination.size());
+				String addToMe = termination.get(point);
+				// insert a new parameter into it
+				String nParam = terminationParams[random.nextInt(terminationParams.length)];
+				nParam += "=";
+				// add either a number or a sprite to the parameter
+				double roll1 = random.nextDouble();
+				// insert a sprite
+				if(roll1 <0.5) {
+					String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+					nParam += nSprite;
+				}
+				// insert a numerical value
+				else {
+					int val = random.nextInt(NUMERICAL_VALUE_PARAM);
+					nParam += val;
+				}
+				addToMe += " " + nParam;
+		
+                termination.set(point, addToMe); 
+				
+				// DEBUG CODE loop through terminations and find a bug
+				for(int i = 0; i < this.termination.size(); i++) {
+					if(termination.get(i).contains("limit= ")) {
+						System.out.println("Broken");
+					}
+				
+				}
+			}
+			// insert an entirely new rule, possibly with a parameter in it
+			else {
+				String nTermination = terminations[random.nextInt(terminations.length)];    
+				
+				
+				// roll to see if we include a parameter from the termination parameter set
+				double roll1 = random.nextDouble();
+				if(roll <0.33) {
+					String nParam = terminationParams[random.nextInt(terminationParams.length)];
+					nParam += "=";
+					// add either a number or a sprite to the parameter only two types
+					double roll2 = random.nextDouble();
+					// insert a sprite
+					String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+					nParam += nSprite;
+					
+					nTermination+= " " + nParam;
+				}
+				// add win and limit
+				nTermination += " win=";
+				
+				double roll2 = random.nextDouble();
+				if(roll2 < 0.5){
+					nTermination += "True";
+				} else {
+					nTermination += "False";
+				}
+				// special rules for Timeout rule
+				if(nTermination.contains("Timeout")) {
+					int val = random.nextInt(TERMINATION_LIMIT_PARAM) + 500;
+					nTermination += " limit="+val;
+				} else{
+					int val = random.nextInt(TERMINATION_LIMIT_PARAM);
+					nTermination += " limit="+val;
+				}
+			    // add the new termination to the termination set
+			    termination.add(nTermination);
+			    // remove weird space from the arrayList
+			    termination.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				termination = (ArrayList<String>) termination.stream().distinct().collect(Collectors.toList());
+		
+				
+				
+				// DEBUG CODE loop through terminations and find a bug
+				for(int i = 0; i < termination.size(); i++) {
+					if(termination.get(i).contains("limit= ")) {
+						System.out.println("Broken");
+					}
+				
+				}
+			}
+		} 
+		// we do a deletion
+		else if(mutationType <0.33 + 0.33) {
+			// roll dice to see if we will delete a rule altogether or a parameter of an existing rule
+			double roll = random.nextDouble();
+			// delete a parameter from an existing rule
+			if(roll < 0.33) {
+				int point = random.nextInt(termination.size());
+				String deleteFromMe = termination.get(point);
+				// find all parameters for this rule, note: there may be none.  In that case we do nothing.
+				String[] splitDeleteFromMe = deleteFromMe.split("\\s+");
+				ArrayList<String> params = new ArrayList<String>();
+				for(String param : splitDeleteFromMe) {
+					// we can assume that if one of the split strings contains an = sign that it is a parameter
+					// the extra rule here is that it is not a "limit" or a "win" param. We cannot remove those!
+					if(param.contains("=") && !param.contains("limit") && !param.contains("win")){
+						params.add(param);
+					}
+				}
+				// if no params do nothing
+				if(params.size() == 0) {
+					
+				} 
+				else {
+					// pick one of the rules and don't include it, but include the others
+					int rule = random.nextInt(params.size());
+					String fixedRule = "";
+					for(String part : splitDeleteFromMe) {
+						if(!part.equals(params.get(rule))) {
+							fixedRule += part + " ";
+						}
+					}
+					termination.set(point, fixedRule);
+				}
+			    // remove weird space from the arrayList
+				termination.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				termination = (ArrayList<String>) termination.stream().distinct().collect(Collectors.toList());
+				
+				
+			}
+			// delete an entire rule from the interaction set
+			else{
+				int point = random.nextInt(termination.size());
+				// dont try to delete from an empty interaction set
+				if (termination.size() > 1) {
+					termination.remove(point);
+				}
+			    // remove weird space from the arrayList
+				termination.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				termination = (ArrayList<String>) termination.stream().distinct().collect(Collectors.toList());
+		
+				
+				
+			}
+		} 
+		// modify a rule from the interaction set by changing its parameters
+		else if (mutationType < 0.1+ 0.33+0.33) {
+			// pick our modified rule
+			int point = random.nextInt(termination.size());
+			
+			// roll to see what kind of modification, either a rule change or a parameter change
+			double roll = random.nextDouble();
+			// modify a parameter of a rule completely
+			if(roll < 0.33) {
+				String modifyFromMe = termination.get(point);
+				// find all parameters for this rule, note: there may be none.  In that case we do nothing.
+				String[] splitModifyFromMe = modifyFromMe.split("\\s+");
+				ArrayList<String> ps = new ArrayList<String>();
+				for(String param : splitModifyFromMe) {
+					// we can assume that if one of the split strings contains an = sign that it is a parameter
+					// we can change limit and win parameters now (but this will cause us to have special rules)!
+					if(param.contains("=")){
+						ps.add(param);
+					}
+				}
+				// if no params do nothing
+				if(ps.size() == 0) {
+					
+				} else {
+					// pick one of the rules and don't include it, but include the others
+					int rule = random.nextInt(ps.size());
+					String fixedRule = "";
+					for(String part : splitModifyFromMe) {
+						if(!part.equals(ps.get(rule))) {
+							fixedRule += part + " ";
+						} 
+						// we are on the parameter we want to modify
+						else {
+							String nParam = ""; 
+							if(part.contains("win")) {
+								nParam = "win=";
+								// roll dice to see if true or false
+								double roll2 = random.nextDouble();
+								if(roll2 < 0.5) {
+									nParam += "True";
+								} else {
+									nParam += "False";
+								}
+							} else if(part.contains("limit")) {
+								nParam = "limit=";
+								// if this is a timeout rule, special conditions apply,  make so limit is at least 500
+								if(fixedRule.contains("Timeout")) {
+									int roll2 = random.nextInt(TERMINATION_LIMIT_PARAM) + 500;
+									nParam += roll2;
+								}
+								else{
+									// roll dice to see how high the new limit is
+									int roll2 =random.nextInt(TERMINATION_LIMIT_PARAM);
+									nParam += roll2;
+								}
+							} else {
+								// pick a new parameter
+								nParam = terminationParams[random.nextInt(terminationParams.length)] + "=";
+								// insert a sprite
+								String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+								nParam += nSprite;
+							}
+							fixedRule += nParam + " ";
+						}
+					}
+					termination.set(point, fixedRule);
+				}
+			    // remove weird space from the arrayList
+				termination.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				termination = (ArrayList<String>) termination.stream().distinct().collect(Collectors.toList());
+			
+				
+			} 
+			// modify a rule, but leave the parameters and sprites
+			else {
+				String newRule = terminations[random.nextInt(terminations.length)];
+				String modRule = termination.get(point);
+				
+				String[] splitModRule = modRule.split("\\s+");
+				// replace old rule with new one
+				splitModRule[0] = newRule;
+				newRule = "";
+				for(String part : splitModRule) {
+					newRule += part + " ";
+				}
+				termination.set(point, newRule);
+				
+				
+			}
+		} 
+		// we should never ever reach this point
+		else {
+			System.err.println("What?! Howd we even get here!?");
+		}
+		
+    }
     public Mutant Mutate(int mutationAmount){
         Mutant copy = new Mutant(game, level); 
         copy.mutate_level(mutationAmount);
         copy.updateLevel(); 
-        copy.mutate_game(mutationAmount / 2);
+        copy.mutate_game(5);
         copy.updateGame();
         copy.parseFiles();
         return copy; 
@@ -182,6 +433,204 @@ public class Mutant {
 		}
 		return "";
 	}*/ 
+    public void mutateInteraction(){
+        double mutationType = random.nextDouble();
+		// we do an insertion
+		if(mutationType < 0.33) {
+			// roll dice to see if we will insert a new rule altogether or a new parameter into an existing rule
+			double roll = random.nextDouble();
+			// insert a new parameter onto an existing rule
+			if(roll < 0.2) {
+				// grab a random existing rule
+				int point = random.nextInt(interaction.size());
+				String addToMe = interaction.get(point);
+                interaction.remove(addToMe);
+				// insert a new parameter into it
+				String nParam = interactionParams[random.nextInt(interactionParams.length)];
+				nParam += "=";
+				
+				// there are two types of parameters, ones that take sprites and ones that take values
+				if(nParam.equals("scoreChange=") || nParam.equals("limit=") || nParam.equals("value=") || nParam.equals("geq=")
+						|| nParam.equals("leq=")) {
+					int val = random.nextInt(NUMERICAL_VALUE_PARAM) - 1000;
+					nParam += val;
+				} else {
+					String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+					nParam += nSprite;
+				}
+				addToMe += " " + nParam;
+				// replace the old rule with the modified one
+				interaction.add(addToMe); 
+			}
+			// insert an entirely new rule, possibly with a parameter in it
+			else {
+				String nInteraction = interactions[random.nextInt(interactions.length)];
+				int i1 = random.nextInt(usefulSprites.size());
+			    int i2 = (i1 + 1 + random.nextInt(usefulSprites.size() - 1)) % usefulSprites.size();
+			    
+			    String newInteraction = usefulSprites.get(i1) + " " + usefulSprites.get(i2) + " > " + nInteraction;
+			    // roll to see if you insert a parameter into this interaction
+			    roll = random.nextDouble();
+			    
+			    if(roll < 0.5) {
+			    	String nParam = interactionParams[random.nextInt(interactionParams.length)];
+					nParam += "=";
+					
+					// there are two types of parameters, ones that take sprites and ones that take values
+					if(nParam.equals("scoreChange=") || nParam.equals("limit=") || nParam.equals("value=") || nParam.equals("geq=")
+							|| nParam.equals("leq=")) {
+						int val = random.nextInt(NUMERICAL_VALUE_PARAM) - 1000;
+						nParam += val;
+					} else {
+						String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+						nParam += nSprite;
+					}
+					newInteraction += " " + nParam;
+			    }
+			    // add the new interaction to the interaction set
+			    interaction.add(newInteraction);
+			    // remove weird space from the arrayList
+			    interaction.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				interaction = (ArrayList<String>) interaction.stream().distinct().collect(Collectors.toList());
+				
+			}
+		} 
+		// we do a deletion
+		else if(mutationType < 0.33 + 0.33) {
+			// roll dice to see if we will delete a rule altogether or a parameter of an existing rule
+			double roll = random.nextDouble();
+			// delete a parameter from an existing rule
+			if(roll < 0.5) {
+				int point = random.nextInt(interaction.size());
+				String deleteFromMe = interaction.get(point);
+				// find all parameters for this rule, note: there may be none.  In that case we do nothing.
+				String[] splitDeleteFromMe = deleteFromMe.split("\\s+");
+				ArrayList<String> params = new ArrayList<String>();
+				for(String param : splitDeleteFromMe) {
+					// we can assume that if one of the split strings contains an = sign that it is a parameter
+					if(param.contains("=")){
+						params.add(param);
+					}
+				}
+				// if no params do nothing
+				if(params.size() == 0) {
+					
+				} 
+				// if one param, remove it
+				else if(params.size() == 1) {
+					String fixedRule = "";
+					for(String part : splitDeleteFromMe) {
+						if(!part.contains("=")) {
+							fixedRule += part + " ";
+						}
+					}
+					interaction.set(point, fixedRule);
+				}
+				else {
+					// pick one of the rules and don't include it, but include the others
+					int rule = random.nextInt(params.size());
+					String fixedRule = "";
+					for(String part : splitDeleteFromMe) {
+						if(!part.equals(params.get(rule))) {
+							fixedRule += part + " ";
+						}
+					}
+					interaction.set(point, fixedRule);
+				}
+			    // remove weird space from the arrayList
+			    interaction.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				interaction = (ArrayList<String>) interaction.stream().distinct().collect(Collectors.toList());
+				
+			}
+			// delete an entire rule from the interaction set
+			else{
+				int point = random.nextInt(interaction.size());
+				// dont try to delete from an empty interaction set
+				if (interaction.size() > 1) {
+					interaction.remove(point);
+				}
+			    // remove weird space from the arrayList
+			    interaction.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				interaction = (ArrayList<String>) interaction.stream().distinct().collect(Collectors.toList());
+				
+			}
+		} 
+		// modify a rule from the interaction set by changing its parameters
+		else if (mutationType < 0.2 + 0.33 + 0.33) {
+			// pick our modified rule
+			int point = random.nextInt(interaction.size());
+			
+			// roll to see what kind of modification, either a rule change or a parameter change
+			double roll = random.nextDouble();
+			// modify a parameter of a rule completely
+			if(roll < 0.5) {
+				String modifyFromMe = interaction.get(point);
+				// find all parameters for this rule, note: there may be none.  In that case we do nothing.
+				String[] splitModifyFromMe = modifyFromMe.split("\\s+");
+				ArrayList<String> ps = new ArrayList<String>();
+				for(String param : splitModifyFromMe) {
+					// we can assume that if one of the split strings contains an = sign that it is a parameter
+					if(param.contains("=")){
+						ps.add(param);
+					}
+				}
+				// if no params do nothing
+				if(ps.size() == 0) {
+					
+				} else {
+					// pick one of the rules and don't include it, but include the others
+					int rule = random.nextInt(ps.size());
+					String fixedRule = "";
+					for(String part : splitModifyFromMe) {
+						if(!part.equals(ps.get(rule))) {
+							fixedRule += part + " ";
+						} 
+						// we are on the parameter we want to replace
+						else {
+							String nParam = interactionParams[random.nextInt(interactionParams.length)];
+							nParam += "=";
+							// there are two types of parameters, ones that take sprites and ones that take values
+							if(nParam.equals("scoreChange=") || nParam.equals("limit=") || nParam.equals("value=") || nParam.equals("geq=")
+									|| nParam.equals("leq=")) {
+								int val = random.nextInt(NUMERICAL_VALUE_PARAM) - 1000;
+								nParam += val;
+							} else {
+								String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
+								nParam += nSprite;
+							}
+							
+							fixedRule += nParam + " ";
+						}
+					}
+					interaction.set(point, fixedRule);
+				}
+			    // remove weird space from the arrayList
+			    interaction.removeIf(s -> s == null);
+			    // stream the list back into itself to avoid duplicate rules from having been created
+				interaction = (ArrayList<String>) interaction.stream().distinct().collect(Collectors.toList());
+				
+			} 
+			// modify a rule, but leave the parameters and sprites
+			else {
+				String newRule = interactions[random.nextInt(interactions.length)];
+				String modRule = interaction.get(point);
+
+                interaction.remove(modRule); 
+				
+				String[] splitModRule = modRule.split("\\s+");
+				// replace old rule with new one
+				splitModRule[3] = newRule;
+				newRule = "";
+				for(String part : splitModRule) {
+					newRule += part + " ";
+				}
+				interaction.add(newRule);
+			}
+        }
+    }
     public void  addRandomInteraction(ArrayList<String> interaction, ArrayList<String> termination){
         String nInteraction = interactions[random.nextInt(interactions.length)];
         int i1 = random.nextInt(usefulSprites.size());
@@ -257,14 +706,10 @@ public class Mutant {
 		{
             
             // add a interaction rule 
-            if(random.nextFloat() < 0.4 || interaction.size() < 2){
-                addRandomInteraction(interaction, termination);
-                
-            }else if (random.nextFloat() < 0.8){
-                // remove a interaction rule 
-                removeRandomInteraction(interaction, termination);
+            if(random.nextFloat() < 0.7){
+                mutateInteraction();
             }else{
-                changeWin(); 
+                mutateTermination();
             }
     
 
@@ -453,10 +898,9 @@ public class Mutant {
                             lastIndex =  index; 
                             if (inInteration){
                                 interaction.add(content);
-                                System.out.println(content);
                             }else if (inTerminat){
                                 termination.add(content); 
-                                System.out.println(content);
+                        
                             }
                             
                         }else if (lastIndex > index){ //de-indended 
@@ -465,10 +909,10 @@ public class Mutant {
                         }else{
                             if (inInteration){
                                 interaction.add(content);
-                                System.out.println(content);
+                        
                             }else if (inTerminat){
                                 termination.add(content); 
-                                System.out.println(content);
+                                
                             }
                         }
                     }

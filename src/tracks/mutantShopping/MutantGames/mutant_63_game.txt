@@ -1,0 +1,45 @@
+BasicGame
+	SpriteSet
+		background > Immovable img=oryx/backBlack hidden=True
+		wall > Immovable autotiling=true img=oryx/dirtWall
+		sword > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/pickaxe
+		dirt > Immovable color=BROWN img=oryx/backLBrown
+		exitdoor > Door color=GREEN img=oryx/door2
+		diamond > Resource color=YELLOW limit=10 shrinkfactor=0.75 img=oryx/diamond3
+		boulder > Missile orientation=DOWN color=GRAY speed=0.2 img=oryx/mineral1
+		moving >
+			avatar  > ShootAvatar   stype=sword frameRate=8 img=oryx/spelunky
+			enemy > Chaser stype=avatar speed=0.1
+				crab > color=RED img=oryx/scorpion2
+				butterfly > color=PINK img=oryx/bat2
+
+	LevelMapping
+		. > background dirt
+		e > background exitdoor
+		o > background boulder
+		x > background diamond
+		c > background crab
+		b > background butterfly
+		- > background
+		A > background avatar
+
+ InteractionSet
+ 	dirt avatar sword > killSprite
+ 	avatar butterfly crab > killSprite
+ 	dirt crab > transformTo 
+ 	butterfly crab > transformTo stype=diamond scoreChange=1
+ 	boulder dirt wall decreaseSpeedToAll boulder > stepBack
+ 	avatar boulder > attractGaze
+ 	wall EOS > killIfHasMore
+ 	avatar sword > transformToRandomChild
+ 	sword exitdoor > spawnBehind value=11
+ 	crab butterfly > addHealthPointsToMax scoreChange=61
+ 	diamond avatar > increaseSpeedToAll
+ 	boulder exitdoor > cloneSprite scoreChange=863
+ 	dirt butterfly > removeScore stype=wall
+ 	EOS sword > removeScore limit=809
+ TerminationSet
+ 	SpriteCounterMore limit=0 win=False
+ 	MultiSpriteCounter win=False limit=173
+ 	SpriteCounterMore win=False limit=424
+ 	SpriteCounter win=False limit=754

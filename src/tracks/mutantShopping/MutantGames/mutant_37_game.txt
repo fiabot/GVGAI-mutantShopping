@@ -25,28 +25,21 @@ BasicGame
 
  InteractionSet
  	dirt avatar sword > killSprite
- 	avatar butterfly crab > killSprite scoreChange=-1
- 	enemy boulder > killSprite scoreChange=5
- 	dirt butterfly > killSprite
- 	butterfly crab > transformTo stype=diamond scoreChange=1
+ 	avatar butterfly crab > killSprite
+ 	dirt crab > transformTo stype=diamond
  	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
- 	exitdoor avatar > increaseSpeedToAll
- 	dirt exitdoor > transformToRandomChild scoreChange=-2
- 	diamond butterfly > reverseDirection
- 	sword crab > changeResource scoreChange=1
- 	sword boulder > addHealthPoints
- 	wall dirt > transformToRandomChild scoreChange=-2
- 	wall dirt > cloneSprite scoreChange=-2
- 	exitdoor butterfly > collectResource scoreChange=0
- 	avatar boulder > attractGaze scoreChange=0
- 	diamond wall > killSprite scoreChange=0
- 	dirt crab > reverseDirection scoreChange=-1
- 	sword dirt > undoAll scoreChange=1
- 	avatar dirt > collectResource
- 	crab avatar > killIfFromAbove scoreChange=1
- 	butterfly sword > increaseSpeedToAll scoreChange=1
- 	crab avatar > killSprite scoreChange=1
- 	EOS dirt > wrapAround scoreChange=2
+ 	dirt butterfly > removeScore
+ 	boulder crab > spawnBehind
+ 	avatar boulder > attractGaze forceOrientation=sword
+ 	enemy boulder > updateSpawnType value=-371
+ 	wall EOS > killIfHasMore
+ 	avatar sword > transformToRandomChild stype=background
+ 	sword exitdoor > spawnBehind value=11
+ 	EOS wall > pullWithIt
+ 	crab butterfly > addHealthPointsToMax geq=-199
+ 	diamond avatar > increaseSpeedToAll
+ 	boulder exitdoor > cloneSprite scoreChange=863
+ 	boulder dirt wall attractGaze boulder > stepBack 
+ 	dirt diamond > decreaseSpeedToAll
  TerminationSet
- 	SpriteCounter stype=avatar limit=0 win=False
- 	SpriteCounter stype=butterfly limit=0 win=True
+ 	SpriteCounterMore limit=0 win=False

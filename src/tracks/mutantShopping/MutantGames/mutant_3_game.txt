@@ -27,14 +27,16 @@ BasicGame
  	dirt avatar sword > killSprite
  	diamond avatar > collectResource scoreChange=2
  	moving wall boulder > stepBack
- 	avatar boulder > killIfFromAbove scoreChange=-1
- 	avatar butterfly crab > killSprite scoreChange=-1
+ 	avatar boulder > killIfFromAbove 
+ 	avatar butterfly crab > killSprite 
+ 	enemy boulder > killSprite scoreChange=5
  	boulder dirt wall diamond boulder > stepBack
  	dirt butterfly > killSprite
  	dirt crab > transformTo stype=diamond
- 	crab butterfly > killSprite
+ 	butterfly crab > transformTo stype=diamond scoreChange=1
  	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
- 	background wall > wrapAround forceOrientation=exitdoor
+ 	EOS exitdoor > align leq=-73
+ 	crab butterfly > killIfHasMore 
  TerminationSet
- 	SpriteCounter stype=avatar limit=0 win=False
+ 	SpriteCounter stype=avatar limit=0 win=False stype2=817
  	SpriteCounter stype=exitdoor limit=0 win=True
