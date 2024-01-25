@@ -156,7 +156,7 @@ public class Test {
 		int seed = new Random().nextInt();
 
 		// Game 1 and level 1 to play
-		int gameIdx = 42;
+		int gameIdx = 31;
 		int level1Idx = 0; // level names from 0 to 4 (game_lvlN.txt).
 		String game1Name = games[gameIdx][1];
 		String game1 = games[gameIdx][0];
@@ -191,7 +191,7 @@ public class Test {
 						// executed. null if not to save.
 		String[] game_list = {game1, game2, game3, game4}; 
 		String[] levels = {level1, level2, level3, level4}; 
-		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleMCTSController, frame.getContentPane(), frame, seed);
+		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleOLETSController, frame.getContentPane(), frame, seed);
 		/*GamePlayView view1 = new GamePlayView(game1, level1, sampleOLETSController, panel, grid); 
 		GamePlayView view2 = new GamePlayView(game2, level2, sampleOLETSController, panel, grid); 
 		GamePlayView view3 = new GamePlayView(game3, level3, sampleOLETSController, panel, grid); 

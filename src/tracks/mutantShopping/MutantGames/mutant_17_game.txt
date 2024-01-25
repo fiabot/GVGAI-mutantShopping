@@ -1,0 +1,42 @@
+BasicGame
+	SpriteSet
+		background > Immovable img=oryx/backBlack hidden=True
+		wall > Immovable autotiling=true img=oryx/dirtWall
+		sword > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/pickaxe
+		dirt > Immovable color=BROWN img=oryx/backLBrown
+		exitdoor > Door color=GREEN img=oryx/door2
+		diamond > Resource color=YELLOW limit=10 shrinkfactor=0.75 img=oryx/diamond3
+		boulder > Missile orientation=DOWN color=GRAY speed=0.2 img=oryx/mineral1
+		moving >
+			avatar  > ShootAvatar   stype=sword frameRate=8 img=oryx/spelunky
+			enemy > Chaser stype=avatar speed=0.1
+				crab > color=RED img=oryx/scorpion2
+				butterfly > color=PINK img=oryx/bat2
+
+	LevelMapping
+		. > background dirt
+		e > background exitdoor
+		o > background boulder
+		x > background diamond
+		c > background crab
+		b > background butterfly
+		- > background
+		A > background avatar
+
+ InteractionSet
+ 	moving wall boulder > stepBack
+ 	dirt butterfly > killSprite
+ 	crab butterfly > killSprite
+ 	butterfly crab > transformTo stype=diamond scoreChange=1
+ 	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
+ 	sword background > removeScore
+ 	butterfly EOS > decreaseSpeedToAll scoreChange=2
+ 	EOS sword > killAll scoreChange=0
+ 	wall boulder > killIfHasLess
+ 	EOS exitdoor > spawnIfHasLess scoreChange=-2
+ 	avatar diamond > teleportToExit 
+ 	wall boulder > setSpeedForAll scoreChange=-2
+ 	exitdoor EOS > undoAll 
+ TerminationSet
+ 	SpriteCounter stype=avatar limit=0 win=False
+ 	Timeout limit=1021 win=True

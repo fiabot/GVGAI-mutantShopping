@@ -740,7 +740,10 @@ public abstract class Game {
 		// For each sprite type...
 		for (int i = 0; i < spriteGroups.length; ++i) {
 			// Create the space for the sprites and effects of this type.
-			spriteGroups[i].clear();
+			if (spriteGroups[i] != null){
+				spriteGroups[i].clear();
+			}
+			
 		}
 
 		if (kill_list != null) {
