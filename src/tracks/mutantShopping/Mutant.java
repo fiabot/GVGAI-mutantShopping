@@ -64,8 +64,11 @@ public class Mutant {
     private ArrayList<String> termination; 
     int terminationIndent; 
     int interactionIndent; 
+	
     private ArrayList<String> interaction; 
-
+	private ArrayList<String> sprites; 
+	
+	int spriteIndent; 
     String stableGame; //partof game description that remains constant 
 	/**
 	 * A list of all the useful sprites in the game without the avatar
@@ -872,15 +875,17 @@ public class Mutant {
         String ls = System.getProperty("line.separator");
         interaction = new ArrayList<String>();
         termination = new ArrayList<String>(); 
+		sprites = new ArrayList<String>();
 
         boolean inTerminat = false; 
         boolean inInteration = false; 
+		boolean inSprites = false; 
         String tabTemplate = "    ";
         int lastIndex = -1; 
     
         try {
             while((line = reader.readLine()) != null) {
-                if (inTerminat || inInteration){
+                if (inTerminat || inInteration ||inSprites){
                     line.replaceAll("\t", tabTemplate);
                     // remove comments starting with "#"
                     if (line.contains("#"))
@@ -901,18 +906,29 @@ public class Mutant {
                             }else if (inTerminat){
                                 termination.add(content); 
                         
+                            }else if (inSprites){
+                                sprites.add(content); 
+                        
                             }
                             
                         }else if (lastIndex > index){ //de-indended 
                             inInteration = false; 
                             inTerminat = false; 
+							inSprites = false; 
                         }else{
+							if (lastIndex < index){
+								String indent = new String(new char[index - lastIndex]).replace('\0', ' ');
+								content = indent + content; 
+							}
                             if (inInteration){
                                 interaction.add(content);
                         
                             }else if (inTerminat){
                                 termination.add(content); 
                                 
+                            }else if (inSprites){
+                                sprites.add(content); 
+                        
                             }
                         }
                     }
@@ -936,7 +952,15 @@ public class Mutant {
                     // figure out the indent of the line.
                     interactionIndent = line.indexOf(firstChar);
                 }
-                else if (!inTerminat && !inInteration){
+				else if(line.contains("SpriteSet")){
+                    inSprites = true; 
+                    String content = line.trim();
+                   
+                    char firstChar = content.charAt(0);
+                    // figure out the indent of the line.
+                    spriteIndent = line.indexOf(firstChar);
+                }
+                else if (!inTerminat && !inInteration && !inSprites){
                     stringBuilder.append(line);
                     stringBuilder.append(ls);
                 }
@@ -953,16 +977,22 @@ public class Mutant {
         String file = "src/tracks/mutantShopping/MutantGames/mutant_" + Integer.toString(id) + "_game.txt"; 
         String interactionSpace = new String(new char[interactionIndent]).replace('\0', ' ');
         String terminationSpace = new String(new char[interactionIndent]).replace('\0', ' ');
+		String spriteSpace = new String(new char[interactionIndent]).replace('\0', ' ');
 
         try {
             FileWriter myWriter = new FileWriter(file);
             //System.out.println(stableGame);
             myWriter.write(stableGame);
-            myWriter.write(interactionSpace + "InteractionSet\n");
+			myWriter.write(interactionSpace + "SpriteSet\n");
+            for(String line: sprites){
+                myWriter.write(spriteSpace + "\t" + line + "\n"); 
+            }
+			
+            myWriter.write("\n" + interactionSpace + "InteractionSet\n");
             for(String line: interaction){
                 myWriter.write(interactionSpace + "\t" + line + "\n"); 
             }
-            myWriter.write(interactionSpace + "TerminationSet\n");
+            myWriter.write("\n" + interactionSpace + "TerminationSet\n");
             for(String line: termination){
                 myWriter.write(terminationSpace + "\t" + line + "\n"); 
             }

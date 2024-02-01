@@ -25,20 +25,18 @@ BasicGame
 
  InteractionSet
  	dirt avatar sword > killSprite
- 	avatar butterfly crab > killSprite scoreChange=-1
+ 	diamond avatar > collectResource scoreChange=2
+ 	avatar butterfly crab > killSprite
+ 	enemy boulder > killSprite
+ 	boulder dirt wall diamond boulder > stepBack
+ 	dirt butterfly > killSprite
  	dirt crab > transformTo stype=diamond
+ 	crab butterfly > killSprite
  	butterfly crab > transformTo stype=diamond scoreChange=1
- 	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
- 	diamond avatar > transformTo
- 	dirt butterfly > removeScore
- 	boulder dirt wall decreaseSpeedToAll boulder > stepBack
- 	crab butterfly > bounceForward geq=-199
- 	boulder crab > spawnBehind
- 	avatar boulder > attractGaze forceOrientation=sword
- 	enemy boulder > updateSpawnType value=-371
- 	wall EOS > killIfHasMore
+ 	sword butterfly > subtractHealthPoints
+ 	diamond wall > collectResource
+ 	avatar background > flipDirection
  TerminationSet
- 	SpriteCounter limit=0 win=False
- 	SpriteCounter stype=exitdoor limit=0 win=True
- 	SpriteCounterMore win=True limit=1235 
- 	MultiSpriteCounter win=True limit=702
+ 	StopCounter win=True limit=84
+ 	StopCounter win=False limit=523
+ 	MultiSpriteCounter win=False limit=191
