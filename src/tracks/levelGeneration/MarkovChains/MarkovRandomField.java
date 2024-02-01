@@ -152,7 +152,7 @@ public class MarkovRandomField {
 			for(int x = 0; x <levelArray[0].length; x++){
                 // update counts 
                 Character thisChar = Character.valueOf(levelArray[y][x]); 
-                
+                //System.out.println(getContext(x, y, levelArray));
         		countMap.get(getContext(x, y, levelArray))[tileToIndex.get(thisChar)] += 1; 
                 allCharacters.add(thisChar);
 			}
