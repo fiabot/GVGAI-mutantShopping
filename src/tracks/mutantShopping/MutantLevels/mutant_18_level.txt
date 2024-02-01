@@ -1,13 +1,4 @@
-wwwwwwwwwwwwwwwwwwwwwwwwww
-w..--c-..w..o......oooxo.w
-w..-.--....x....e.......xw
-w..oxxo....x............xw
-w.o......o.oo.....o-c.b-.w
-w.--b--...xxx.........o..w
-w.x.xo.w.....b.x......xo-w
-w......o............-..xxw
-w...o.x.x..x..o.--...o...w
-w..A..........x-b-....o-.w
-w...-o...oob.-.o--.......w
-w...xx....x...w......xx..w
-wwwwwwwwwwwwwwwwwwwwwwwwww
+w...w.
+.wxx..
+.x..Aw
+w...ww

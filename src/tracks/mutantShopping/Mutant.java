@@ -45,7 +45,7 @@ public class Mutant {
 			"pullWithIt", "bounceForward", "teleportToExit", "collectResource", "setSpeedForAll", "undoAll",
 			"reverseDirection", "changeResource" };
 
-	private String[] avatars = new String[] {"MovingAvatar", "HorizontalAvatar", "VerticalAvatar", "OnGoingAvatar", "OnGoingTurningAvatar", "OnGoingShootingAvatar", "MissileAvatar", "OrientedAvatar", "ShootAvatar", "FlakAvatar"}
+	private String[] avatars = new String[] {"MovingAvatar", "HorizontalAvatar", "VerticalAvatar", "OngoingAvatar", "OngoingTurningAvatar", "OngoingShootingAvatar", "MissileAvatar", "OrientedAvatar", "ShootAvatar", "FlakAvatar"};
 
     public static String[] interactionParams = new String[] {
         "scoreChange", "stype", "limit", "resource", "stype_other", "forceOrientation", "spawnPoint",
@@ -111,12 +111,13 @@ public class Mutant {
     }
 
     private void parseFiles(){
-        toPlay = new VGDLParser().parseGame(game);
-        description = new GameDescription(toPlay); 
-        analyzer = new GameAnalyzer(description); 
+        
         try {
+			toPlay = new VGDLParser().parseGame(game);
+        	description = new GameDescription(toPlay); 
+        	analyzer = new GameAnalyzer(description); 
             parseInteractions(game);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -167,6 +168,32 @@ public class Mutant {
             spriteMapping.put(data.name, data); 
         }
     }
+
+	public String[] getAvatarString(){
+		for(String sprite: sprites){
+			if (sprite.contains("Avatar")){
+				for(String type: avatars){
+					if(sprite.contains(type)){
+						return new String[] {sprite, type}; 
+					}
+				}
+			}
+		}
+
+		return new String[2]; 
+		
+	}
+
+	public void changeAvatar(){
+		String[] avatar = getAvatarString(); 
+		if (avatar[0] != null){
+			String newAvatarType = avatars[random.nextInt(avatars.length)]; 
+			String newAvatarString  = avatar[0].replace(avatar[1], newAvatarType); 
+			sprites.remove(avatar[0]); 
+			sprites.add(newAvatarString);
+		}
+	}
+
     public void mutateTermination(){
 		double mutationType = random.nextDouble();
 		// we do an insertion
@@ -709,13 +736,15 @@ public class Mutant {
    public void mutate_game(int amount){
     for(int i = 0; i < amount; i++)
 		{
-            
+            float roll = random.nextFloat(); 
             // add a interaction rule 
-            if(random.nextFloat() < 0.7){
+            if(roll < 0.50){
                 mutateInteraction();
-            }else{
+            }else if (roll < 0.85){
                 mutateTermination();
-            }
+            }else{
+				changeAvatar();
+			}
     
 
 		}

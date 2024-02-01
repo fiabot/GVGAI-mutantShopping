@@ -34,13 +34,22 @@ public class RunGame implements Runnable {
 
     @Override
     public void run() {
-        ArcadeMachine.runOneGame(game_file,level_file, visuals, agentNames,
-        actionFile, randomSeed, playerID, container, frame);
-        if(go){
-            run();
-        }else{
-            System.out.println("Ending game loop");
+        try{
+            ArcadeMachine.runOneGame(game_file,level_file, visuals, agentNames,
+            actionFile, randomSeed, playerID, container, frame);
+
+            if(go){
+                run();
+            }else{
+                System.out.println("Ending game loop");
+            }
+            
+            
+            
+        }catch (Exception e){
+            System.out.println("Couldn't play game:" + game_file); 
         }
+
         
     }
     

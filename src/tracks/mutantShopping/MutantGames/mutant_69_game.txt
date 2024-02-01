@@ -21,20 +21,20 @@ BasicGame square_size=32
     	avatar  > ShootAvatar   stype=sam img=oryx/spaceship1
 
     InteractionSet
-    	avatar  EOS  > stepBack
     	alien   EOS  > turnAround
-    	base bomb > killBoth
     	base sam > killBoth
     	base   alien > killSprite
     	avatar alien > killSprite scoreChange=-1
-    	bomb alienGreen > cloneSprite limit=-151
-    	EOS avatar > increaseSpeedToAll resource=sam
-    	alien  sam   > killSprite scoreChange=2 forceOrientation=portalSlow
+    	EOS avatar > increaseSpeedToAll 
     	avatar bomb > killSprite spawnPoint=portalFast
     	bomb base > align
     	avatar sam > attractGaze
+    	alienGreen background > flipDirection
+    	alien sam > killSprite scoreChange=2
+    	sam EOS > setSpeedForAll
+    	bomb alienBlue > bounceForward
+    	bomb alienGreen > collectResource limit=-151 
+    	bomb portalSlow > spawnBehind value=458
 
     TerminationSet
     	SpriteCounterMore stype1=portal limit=0 win=True
-    	SpriteCounter win=False limit=866
-    	MultiSpriteCounter stype1=avatar win=False limit=92

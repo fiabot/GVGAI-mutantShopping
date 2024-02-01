@@ -1,44 +1,39 @@
-BasicGame
-	SpriteSet
-		background > Immovable img=oryx/backBlack hidden=True
-		wall > Immovable autotiling=true img=oryx/dirtWall
-		sword > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/pickaxe
-		dirt > Immovable color=BROWN img=oryx/backLBrown
-		exitdoor > Door color=GREEN img=oryx/door2
-		diamond > Resource color=YELLOW limit=10 shrinkfactor=0.75 img=oryx/diamond3
-		boulder > Missile orientation=DOWN color=GRAY speed=0.2 img=oryx/mineral1
-		moving >
-			avatar  > ShootAvatar   stype=sword frameRate=8 img=oryx/spelunky
-			enemy > Chaser stype=avatar speed=0.1
-				crab > color=RED img=oryx/scorpion2
-				butterfly > color=PINK img=oryx/bat2
+BasicGame square_size=32
+    LevelMapping
+        . > background
+        0 > background base
+        1 > background portalSlow
+        2 > background portalFast
+        A > background avatar
 
-	LevelMapping
-		. > background dirt
-		e > background exitdoor
-		o > background boulder
-		x > background diamond
-		c > background crab
-		b > background butterfly
-		- > background
-		A > background avatar
+    SpriteSet
+    	background > Immovable img=oryx/space1 hidden=True
+    	base    > Immovable    color=WHITE img=oryx/planet
+    	missile > Missile
+    	    sam  > orientation=UP    color=BLUE singleton=True img=oryx/bullet1
+    	    bomb > orientation=DOWN  color=RED  speed=0.5 img=oryx/bullet2
+    	alien   > Bomber       stype=bomb   prob=0.01  cooldown=3 speed=0.8
+    	    alienGreen > img=oryx/alien3
+    	    alienBlue > img=oryx/alien1
+    	portal  > invisible=True hidden=True
+    	 portalSlow  > SpawnPoint   stype=alienBlue  cooldown=16   total=20 img=portal
+    	 portalFast  > SpawnPoint   stype=alienGreen  cooldown=12   total=20 img=portal
+    	avatar  > MovingAvatar   stype=sam img=oryx/spaceship1
 
- InteractionSet
- 	dirt avatar sword > killSprite
- 	avatar butterfly crab > killSprite
- 	dirt crab > transformTo stype=diamond
- 	butterfly crab > transformTo stype=diamond scoreChange=1
- 	boulder dirt wall decreaseSpeedToAll boulder > stepBack
- 	avatar boulder > attractGaze
- 	wall EOS > killIfHasMore
- 	avatar sword > transformToRandomChild
- 	sword exitdoor > spawnBehind value=11
- 	crab butterfly > addHealthPointsToMax scoreChange=61 
- 	diamond avatar > increaseSpeedToAll
- 	boulder exitdoor > cloneSprite scoreChange=863
- 	EOS wall > changeResource
- 	dirt butterfly > removeScore stype=wall
- 	EOS sword > removeScore limit=809
- TerminationSet
- 	SpriteCounterMore limit=0 win=False
- 	MultiSpriteCounter win=False limit=173
+    InteractionSet
+    	alien   EOS  > turnAround
+    	base sam > killBoth
+    	base   alien > killSprite
+    	avatar alien > killSprite scoreChange=-1
+    	bomb alienGreen > cloneSprite limit=-151
+    	EOS avatar > increaseSpeedToAll resource=sam
+    	avatar bomb > killSprite spawnPoint=portalFast
+    	bomb base > align
+    	avatar sam > attractGaze
+    	alienGreen background > flipDirection
+    	alien sam > killSprite scoreChange=2 
+    	avatar EOS > addHealthPointsToMax 
+    	sam EOS > setSpeedForAll
+
+    TerminationSet
+    	SpriteCounterMore stype1=portal limit=0 win=True

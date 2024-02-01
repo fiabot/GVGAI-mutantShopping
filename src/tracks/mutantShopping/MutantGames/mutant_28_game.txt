@@ -1,47 +1,35 @@
-BasicGame
-	SpriteSet
-		background > Immovable img=oryx/backBlack hidden=True
-		wall > Immovable autotiling=true img=oryx/dirtWall
-		sword > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/pickaxe
-		dirt > Immovable color=BROWN img=oryx/backLBrown
-		exitdoor > Door color=GREEN img=oryx/door2
-		diamond > Resource color=YELLOW limit=10 shrinkfactor=0.75 img=oryx/diamond3
-		boulder > Missile orientation=DOWN color=GRAY speed=0.2 img=oryx/mineral1
-		moving >
-			avatar  > ShootAvatar   stype=sword frameRate=8 img=oryx/spelunky
-			enemy > Chaser stype=avatar speed=0.1
-				crab > color=RED img=oryx/scorpion2
-				butterfly > color=PINK img=oryx/bat2
+#(Inspired by) Notsnake: http://www.puzzlescript.net/play.html?p=e2c1c8e99b3f9d9b6edd
 
-	LevelMapping
-		. > background dirt
-		e > background exitdoor
-		o > background boulder
-		x > background diamond
-		c > background crab
-		b > background butterfly
-		- > background
-		A > background avatar
+BasicGame key_handler=Pulse square_size=60
+    LevelMapping
+        A > avatar ground
+        . > ground
+        x > paint
+        w > wall
 
- InteractionSet
- 	dirt avatar sword > killSprite
- 	avatar butterfly crab > killSprite scoreChange=-1
- 	dirt crab > transformTo stype=diamond
- 	butterfly crab > transformTo stype=diamond scoreChange=1
- 	exitdoor avatar > killIfOtherHasMore resource=diamond limit=9
- 	diamond avatar > transformTo
- 	dirt butterfly > removeScore
- 	boulder dirt wall decreaseSpeedToAll boulder > stepBack
- 	crab butterfly > bounceForward geq=-199
- 	boulder crab > spawnBehind
- 	avatar boulder > attractGaze forceOrientation=sword
- 	enemy boulder > updateSpawnType value=-371
- 	wall EOS > killIfHasMore
- 	avatar sword > transformToRandomChild stype=background
- 	sword exitdoor > spawnBehind value=11
- 	EOS wall > pullWithIt
- 	butterfly EOS > bounceForward scoreChange=-986
- 	butterfly exitdoor > spawnIfHasLess leq=710
- TerminationSet
- 	SpriteCounter limit=0 win=False
- 	SpriteCounter win=False limit=732
+    SpriteSet
+    	ground > Immovable color=GRAY img=oryx/backGrey
+    	paint > Immovable color=DARKBLUE img=newset/paint2
+    	prepaint > Flicker limit=2 invisible=TRUE
+    	prepainting > Resource limit=2
+    	preground > Flicker limit=2 invisible=TRUE
+    	pregrounding > Resource limit=2
+    	wall > Immovable img=newset/floor5
+    	avatar > HorizontalAvatar shrinkfactor=0.8 img=newset/painter21
+
+    InteractionSet
+    	avatar EOS > stepBack
+    	prepaint ground > spawnIfHasMore resource=prepainting limit=2 stype=paint
+    	ground prepaint > killIfOtherHasMore resource=prepainting limit=2  scoreChange=1
+    	preground avatar > killSprite
+    	paint avatar > spawn stype=preground
+    	preground paint > spawnIfHasMore resource=pregrounding limit=2 stype=ground
+    	paint preground > killIfOtherHasMore limit=2
+    	prepaint wall > setSpeedForAll
+    	prepaint avatar > stepBack  forceOrientation=ground
+    	prepainting avatar > spawnBehind forceOrientation=prepainting
+
+    TerminationSet
+    	SpriteCounter limit=0 win=True
+    	MultiSpriteCounter win=False limit=320
+    	Timeout win=False limit=803
