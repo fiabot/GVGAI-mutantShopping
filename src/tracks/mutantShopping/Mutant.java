@@ -45,6 +45,8 @@ public class Mutant {
 			"pullWithIt", "bounceForward", "teleportToExit", "collectResource", "setSpeedForAll", "undoAll",
 			"reverseDirection", "changeResource" };
 
+	private String[] avatars = new String[] {"MovingAvatar", "HorizontalAvatar", "VerticalAvatar", "OnGoingAvatar", "OnGoingTurningAvatar", "OnGoingShootingAvatar", "MissileAvatar", "OrientedAvatar", "ShootAvatar", "FlakAvatar"}
+
     public static String[] interactionParams = new String[] {
         "scoreChange", "stype", "limit", "resource", "stype_other", "forceOrientation", "spawnPoint",
         "value", "geq", "leq"};
