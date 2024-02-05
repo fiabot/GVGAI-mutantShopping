@@ -1,4 +1,7 @@
 package tracks.levelGeneration.MarkovChains;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import tools.Utils;
 import tracks.ArcadeMachine;
 
@@ -23,7 +26,7 @@ public class Test {
         MarkovRandomField alienFeild = new MarkovRandomField(tiles); 
         alienFeild.train(new String[] {level1, level2, level3, level4, level5});
         LevelGenerator generator = new LevelGenerator(alienFeild); 
-        char[][] level = generator.generate(100); 
+        char[][] level = generator.generate(50); 
         return level; 
     }
 
@@ -67,7 +70,15 @@ public class Test {
         return level; 
     }
 
-    
+    public static String testLevel(String levelFilePath, String resultFilePath, char[][] level, int gameIdx) throws IOException{
+        LevelGenerator.saveLevel(levelFilePath, level);
+		//String gameName = games[gameIdx][1];
+        String game = games[gameIdx][0];
+        LevelTester tester = new LevelTester(levelFilePath, game); 
+        tester.printResults();
+        tester.saveResultsAsCsv(resultFilePath);
+        return tester.getCSVRow(); 
+    }
 
     public static void playLevel(String filePath, char[][] level, int gameIndex){
         LevelGenerator.saveLevel(filePath, level);
@@ -75,12 +86,18 @@ public class Test {
 		String gameName = games[gameIdx][1];
 		String game = games[gameIdx][0];
         String recordActionsFile = null;
+        //LevelTester tester = new LevelTester(filePath, game); 
+        //tester.printResults();
         ArcadeMachine.playOneGame(game, filePath, recordActionsFile, 42);
     }
     public static void main(String[] args) {
+        String folder = "src/tracks/levelGeneration/MarkovChains/InvadersTest3/";
+        ArrayList<String> results = new ArrayList<String>(); 
+        String header = "Do Nothing Steps, Advanced Win Rate, Advanced Score, One Step Score, Random Score"; 
+        results.add(header); 
 
         for(int i =0; i < 10; i ++){
-            char[][] level = painter(); 
+            char[][] level = spaceInvaders(); 
         for(int y = 0; y < level.length; y++){
 			for(int x = 0; x <level[0].length; x++){
                 System.out.print(level[y][x]); 
@@ -88,9 +105,20 @@ public class Test {
             System.out.print("\n"); 
         }
 
-        playLevel("src/tracks/levelGeneration/MarkovChains/painter_" + i, level, 70);
+            try{
+                results.add(testLevel(folder + "level_" + i +".txt", folder + "result_" + i +".csv", level, 0));
+            }catch (IOException e){
+                System.out.println("Failed to create level CSV"); 
+            }
         }
 		
+        try{
+            LevelTester.createCSVFile(folder + "results.csv", results);
+        }catch (IOException e){
+            System.out.println("Failed to create CSV"); 
+        }
+        
+    
 
     }
 }

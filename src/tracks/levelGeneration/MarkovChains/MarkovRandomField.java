@@ -118,7 +118,7 @@ public class MarkovRandomField {
     }
 
     public double getProbability(char[][] levelArray){
-        double prob = 1; 
+        double prob = 0; 
         for(int y = 0; y < levelArray.length; y++){
 			for(int x = 0; x <levelArray[0].length; x++){
                 // update probability 
@@ -126,7 +126,8 @@ public class MarkovRandomField {
                 if(thisProb == 0){
                     thisProb = 0.001f;
                 }
-        		prob *= thisProb; 
+        		prob += Math.log(thisProb); 
+                //System.out.println(thisProb + " " + Math.log(thisProb));
 			}
 		}
         return prob; 

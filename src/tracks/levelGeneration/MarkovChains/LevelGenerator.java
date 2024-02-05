@@ -75,19 +75,24 @@ public class LevelGenerator {
             board[y2][x2] = 1; 
 
              // get probabilty before 
-             double pre =  mrf.getProbability(level[y1][x1], mrf.getContext(x1, y1, level)) * mrf.getProbability(level[y2][x2], mrf.getContext(x2, y2, level)); 
+             //double pre =  mrf.getProbability(level[y1][x1], mrf.getContext(x1, y1, level)) * mrf.getProbability(level[y2][x2], mrf.getContext(x2, y2, level)); 
+             double pre = mrf.getProbability(level); 
 
             // swap positions 
             swap(x1, y1, x2,y2, level); 
             
             // get new probability 
-            double post =  mrf.getProbability(level[y1][x1], mrf.getContext(x1, y1, level)) * mrf.getProbability(level[y2][x2], mrf.getContext(x2, y2, level)); 
+            //double post =  mrf.getProbability(level[y1][x1], mrf.getContext(x1, y1, level)) * mrf.getProbability(level[y2][x2], mrf.getContext(x2, y2, level)); 
 
             //double acceptProb = Math.min(1, Math.pow(Math.E,  (Math.log(post) - Math.log(pre))));
-            double acceptProb = 0.1; 
+            /*double acceptProb = 0.1; 
             if (!(pre+ post == 0)){
                 acceptProb = post / (pre + post); 
-            }
+            } */
+
+            double post = mrf.getProbability(level); 
+            double acceptProb = Math.min(1, Math.pow(Math.E, post - pre)); 
+            //System.out.println(pre + " " + post + " " + acceptProb);
 
             boolean accept = random.nextDouble() < acceptProb; 
             if(!accept){
