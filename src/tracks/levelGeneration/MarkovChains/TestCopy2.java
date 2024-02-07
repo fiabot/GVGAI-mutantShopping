@@ -6,7 +6,7 @@ import tools.Utils;
 import tracks.ArcadeMachine;
 
 
-public class Test {
+public class TestCopy2 {
     public static String spGamesCollection =  "examples/all_games_sp.csv";
 	public static String[][] games = Utils.readGames(spGamesCollection);
 
@@ -132,17 +132,6 @@ public class Test {
         ArcadeMachine.playOneGame(game, filePath, recordActionsFile, 42);
     }
 
-    public static void playLevel(String filePath, int gameIndex){
-        
-        int gameIdx = gameIndex;
-		String gameName = games[gameIdx][1];
-		String game = games[gameIdx][0];
-        String recordActionsFile = null;
-        //LevelTester tester = new LevelTester(filePath, game); 
-        //tester.printResults();
-        ArcadeMachine.playOneGame(game, filePath, recordActionsFile, 42);
-    }
-
     public static void runTests(int[] trialSizes, int numberLevels, String folder, String game){
         for(int trial: trialSizes){
             
@@ -189,14 +178,14 @@ public class Test {
     }
     public static void main(String[] args) {
         String folder = "src/tracks/levelGeneration/MarkovChains/InvadersTest3/";
-        int[] trials = {100, 250, 500}; 
+        int[] trials = {50, 100, 250, 500}; 
         int numbLevels = 15; 
 
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/SpaceInvaders", "space");
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Rogue", "rogue");
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Painter", "paint");
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Maze", "maze");
-        //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Pokemon", "pokemon");
+        runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Pokemon", "pokemon");
         //ArrayList<String> results = new ArrayList<String>(); 
         //String header = "Do Nothing Steps, Advanced Win Rate, Advanced Score, One Step Score, Random Score"; 
         //results.add(header); 
