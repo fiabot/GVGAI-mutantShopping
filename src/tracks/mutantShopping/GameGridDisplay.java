@@ -34,11 +34,13 @@ public class GameGridDisplay extends JComponent {
             }
         });
 
-        ScrollPane scroll = new ScrollPane(); 
+        //ScrollPane scroll = new ScrollPane(); 
+        
 		panel = new JPanel(); 
-		scroll.add(panel);
-		panel.setLayout(new GridLayout(2,2, 10, 10)); 
-		container.add(scroll); 
+		//scroll.add(panel);
+		panel.setLayout(new GridLayout(3,3, 10, 10)); 
+        container.add(panel);
+		 
 
         views = new GamePlayView[games.length]; 
 
@@ -52,7 +54,7 @@ public class GameGridDisplay extends JComponent {
             views[i].playGame(); 
 
             try {
-                TimeUnit.MILLISECONDS.sleep(400);
+                TimeUnit.MILLISECONDS.sleep(300);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -77,7 +79,7 @@ public class GameGridDisplay extends JComponent {
         Mutant starting = new Mutant(game, level); 
         nextMutant ++; 
 
-        Mutant[] mutants = new Mutant[4]; 
+        Mutant[] mutants = new Mutant[games.length]; 
 
         for(int i =0; i < games.length; i++){
             Mutant mut = starting.Mutate(1); 
@@ -93,7 +95,7 @@ public class GameGridDisplay extends JComponent {
             views[i].playGame(); 
 
             try {
-                TimeUnit.MILLISECONDS.sleep(400);
+                TimeUnit.MILLISECONDS.sleep(300);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

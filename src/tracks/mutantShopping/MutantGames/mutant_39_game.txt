@@ -1,19 +1,19 @@
-BasicGame square_size=32
+BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	bullet1 > Missile img=oryx/bullet1 color=BLUE orientation=right
-    	avatar > FlakAvatar img=oryx/spaceship1 stype=bullet1
+    	enemy6613 > Chaser img=oryx/alien1 color=PURPLE stype=avatar
+    	avatar > MovingAvatar img=oryx/spaceship1
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
+    	2 > background enemy6613
 
     InteractionSet
     	avatar  EOS  > stepBack
-    	base EOS > removeScore
 
     TerminationSet
     	Timeout win=True limit=963

@@ -210,7 +210,7 @@ public class Mutant {
 
 	public void addNPC(){
 		System.out.println("Making NPCs");
-		String npc = spriteCreator.createNPC("enemy", "oryx/alien1");
+		String npc = spriteCreator.createNPC("enemy" + random.nextInt(10000),  "oryx/alien1");
 		sprites.add(npc); 
 		levelMapping.add(random.nextInt(9) + " > background " + npc.split(" ")[0]);
 	}

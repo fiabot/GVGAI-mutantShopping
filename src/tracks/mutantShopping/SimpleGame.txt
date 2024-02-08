@@ -1,4 +1,4 @@
-BasicGame square_size=32
+BasicGame square_size=25
     LevelMapping
         . > background
         0 > background base
@@ -8,7 +8,7 @@ BasicGame square_size=32
     SpriteSet
         background > Immovable img=oryx/space1 hidden=True
         base    > Immovable    color=WHITE img=oryx/planet
-        avatar  > MissileAvatar   stype=sam img=oryx/spaceship1
+        avatar  > MissileAvatar  img=oryx/spaceship1
 
     InteractionSet
         avatar  EOS  > stepBack

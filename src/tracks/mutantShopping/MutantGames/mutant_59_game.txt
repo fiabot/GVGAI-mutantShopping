@@ -1,11 +1,10 @@
-BasicGame square_size=32
+BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	bullet1 > Missile img=oryx/bullet1 color=RED orientation=down
-    	bullet2 > Missile img=oryx/bullet1 color=ORANGE orientation=up
-    	bullet3 > RandomMissile img=oryx/bullet1 color=ORANGE orientation=up
-    	avatar > MovingAvatar img=oryx/spaceship1
+    	bullet1 > RandomMissile img=oryx/bullet1 color=GREEN orientation=up
+    	bullet2 > RandomMissile img=oryx/bullet1 color=GREEN orientation=up
+    	avatar > FlakAvatar img=oryx/spaceship1 stype=bullet2
 
     LevelMapping
     	. > background
@@ -15,7 +14,6 @@ BasicGame square_size=32
 
     InteractionSet
     	avatar  EOS  > stepBack
-    	bullet1 background > undoAll
 
     TerminationSet
-    	Timeout win=True limit=963
+    	Timeout win=True limit=963 stype3=EOS

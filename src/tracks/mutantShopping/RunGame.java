@@ -48,6 +48,7 @@ public class RunGame implements Runnable {
             
         }catch (Exception e){
             System.out.println("Couldn't play game:" + game_file); 
+            e.printStackTrace();
         }
 
         

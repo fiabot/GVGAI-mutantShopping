@@ -1,17 +1,18 @@
-BasicGame square_size=32
+BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	enemy0.2935023060685804 > Chaser img=oryx/alien1 stype=avatar
-    	bullet1 > Missile img=oryx/bullet1 color=BLUE orientation=right
-    	avatar > OngoingAvatar img=oryx/spaceship1
+    	avatar > MovingAvatar img=oryx/spaceship1
+    	enemy > Chaser img=oryx/alien1 color=ORANGE stype=avatar
+    	enemy > RandomNPC img=oryx/alien1 color=ORANGE
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
-    	4 > background enemy0.2935023060685804
+    	7 > background enemy
+    	2 > background enemy
 
     InteractionSet
     	avatar  EOS  > stepBack

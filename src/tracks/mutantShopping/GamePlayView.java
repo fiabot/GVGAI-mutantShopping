@@ -33,18 +33,18 @@ public class GamePlayView{
         //panel.setSize(800, 500);
         JPanel gamePanel = new JPanel(); 
         //gamePanel.setSize(800, 500);
-        gamePanel.setBackground(Color.BLUE);
+        gamePanel.setBackground(Color.GRAY);
         JButton button = new JButton("Mutate");
         button.addActionListener(new MutateEvent(game, level, parent)); 
         JPanel helperPanel = new JPanel();
         //helperPanel.setSize(800, 50);
-        button.setSize(400, 50);
+        button.setSize(200, 50);
        
         helperPanel.add(button); 
         
 
         panel.add(gamePanel, BorderLayout.NORTH); 
-        panel.add(new Label(game + " " + level)); 
+        panel.add(new Label(game)); 
 
         panel.add(helperPanel, BorderLayout.SOUTH); 
         
@@ -59,7 +59,12 @@ public class GamePlayView{
     }
 
     public void playGame(){
-        thread.start();
+        try{
+            thread.start();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        
     }
 
     public void stopGame(){

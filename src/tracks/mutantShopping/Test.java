@@ -201,7 +201,7 @@ public class Test {
 
 	public static void simpleGame(){
 		JFrame frame = new JFrame("Mutant Shopping");
-		frame.setSize(2000, 1000);
+		frame.setSize(500, 800);
 		frame.setVisible(true);
 		int seed = 42; 
 
@@ -217,9 +217,9 @@ public class Test {
 		String sampleOLETSController = "tracks.singlePlayer.advanced.olets.Agent";
 		String game = "src/tracks/mutantShopping/SimpleGame.txt"; 
 		String level = "src/tracks/mutantShopping/SimpleLevel.txt"; 
-		String[] game_list = {game, game, game, game}; 
-		String[] levels = {level, level, level, level}; 
-		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleMCTSController, frame.getContentPane(), frame, seed);
+		String[] game_list = {game, game, game, game, game, game, game, game, game}; 
+		String[] levels = {level, level, level, level, level, level, level, level, level}; 
+		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleRandomController, frame.getContentPane(), frame, seed);
 
 	}
 

@@ -61,11 +61,11 @@ public class Logger {
      * after this is done to prepare for a new game
      */
     public void printMessages() {
-        System.out.println("*** Logged Messages ***");
+        /*System.out.println("*** Logged Messages ***");
         for (Message msg : messages) {
             System.out.println(msg.toString());
         }
-        System.out.println("*** Logged Messages End ***");
+        System.out.println("*** Logged Messages End ***");*/ 
     }
 
     /**

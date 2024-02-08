@@ -439,7 +439,7 @@ public abstract class Game {
 	private boolean isLeafNode(int itype) {
 		SpriteContent sc = (SpriteContent) classConst[itype];
 
-		return sc.subtypes.size() <= 1 || sc.subtypes.get(sc.subtypes.size() - 1) == itype;
+		return sc != null && ( sc.subtypes.size() <= 1 || sc.subtypes.get(sc.subtypes.size() - 1) == itype);
 	}
 
 	/**
@@ -519,6 +519,9 @@ public abstract class Game {
 	 * @return sprite type (avatar, resource, portal, npc, static, moving)
 	 */
 	private int getSpriteCategory(VGDLSprite sp) {
+		if (sp == null){
+			return Types.TYPE_STATIC;
+		}
 		if (sp.is_avatar)
 			return Types.TYPE_AVATAR;
 
@@ -581,12 +584,15 @@ public abstract class Game {
 				break;
 		}
 
-		ArrayList<String> dependentSprites = sprite.getDependentSprites();
-		for (String s : dependentSprites) {
-			ArrayList<String> expandedSprites = expandNonLeafNode(
-					VGDLRegistry.GetInstance().getRegisteredSpriteValue(s));
-			data.sprites.addAll(expandedSprites);
+		if (sprite!= null){
+			ArrayList<String> dependentSprites = sprite.getDependentSprites();
+			for (String s : dependentSprites) {
+				ArrayList<String> expandedSprites = expandNonLeafNode(
+						VGDLRegistry.GetInstance().getRegisteredSpriteValue(s));
+				data.sprites.addAll(expandedSprites);
+			}
 		}
+		
 
 		return data;
 	}
@@ -690,7 +696,10 @@ public abstract class Game {
 		if (parent1.size() > 0 && parent2.size() > 0) {
 			for (int p1 : parent1) {
 				for (int p2 : parent2) {
-					effects.addAll(getCollisionEffects(p1, p2));
+					if(getCollisionEffects(p1, p2) != null){
+						effects.addAll(getCollisionEffects(p1, p2));
+					}
+					
 				}
 			}
 		} else if (parent1.size() > 0) {
@@ -1307,7 +1316,7 @@ public abstract class Game {
 		int numAvatarSprites = 0;
 		while (true) {
 			idx--;
-			if (idx > 0) {
+			if (idx > 0 && spriteGroups[spriteOrder[idx]] != null) {
 				int spriteTypeId = spriteOrder[idx];
 				int num = spriteGroups[spriteTypeId].numSprites();
 				if (num > 0) {

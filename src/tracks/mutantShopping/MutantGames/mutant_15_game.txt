@@ -1,0 +1,20 @@
+BasicGame square_size=25
+    SpriteSet
+    	background > Immovable img=oryx/space1 hidden=True
+    	base    > Immovable    color=WHITE img=oryx/planet
+    	avatar  > MissileAvatar  img=oryx/spaceship1
+    	enemy6613 > Chaser img=oryx/alien1 color=PURPLE stype=avatar
+
+    LevelMapping
+    	. > background
+    	0 > background base
+    	A > background avatar
+    	w > background
+    	2 > background enemy6613
+
+    InteractionSet
+    	avatar  EOS  > stepBack
+    	base background > bounceForward geq=324
+
+    TerminationSet
+    	Timeout win=True limit=963
