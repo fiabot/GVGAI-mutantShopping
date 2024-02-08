@@ -68,8 +68,9 @@ public class Mutant {
     int interactionIndent; 
 	
     private ArrayList<String> interaction; 
-	private ArrayList<String> sprites; 
-	
+	protected ArrayList<String> sprites; 
+	protected ArrayList<String> levelMapping; 
+ 	
 	int spriteIndent; 
     String stableGame; //partof game description that remains constant 
 	/**
@@ -93,6 +94,7 @@ public class Mutant {
 
     public static int next = 0; 
     int id; 
+	SpriteCreator spriteCreator; 
 
 
     public Mutant(String game, String level){
@@ -102,6 +104,7 @@ public class Mutant {
         this.game = game; 
         this.level = level; 
 		this.random = new Random();
+		spriteCreator = new SpriteCreator(random, "bullet", "oryx/bullet1", this); 
 
         parseFiles();
         
@@ -111,6 +114,7 @@ public class Mutant {
     }
 
     private void parseFiles(){
+		
         
         try {
 			toPlay = new VGDLParser().parseGame(game);
@@ -119,6 +123,7 @@ public class Mutant {
             parseInteractions(game);
         } catch (Exception e) {
             // TODO Auto-generated catch block
+			System.out.println("Failed Parsing: " + game + " " + level);
             e.printStackTrace();
         }
         
@@ -187,11 +192,27 @@ public class Mutant {
 	public void changeAvatar(){
 		String[] avatar = getAvatarString(); 
 		if (avatar[0] != null){
-			String newAvatarType = avatars[random.nextInt(avatars.length)]; 
-			String newAvatarString  = avatar[0].replace(avatar[1], newAvatarType); 
 			sprites.remove(avatar[0]); 
-			sprites.add(newAvatarString);
+			String[] parts = avatar[0].split(" "); 
+			String img ="oryx/alien1"; 
+			for(String part : parts){
+				if(part.startsWith("img")){
+					String[] images = part.split("=");
+					img = images[1]; 
+				}
+			}
+			ArrayList<String> newSprites = spriteCreator.createAvator(parts[0], img);
+			for(String sprite: newSprites){
+				sprites.add(sprite);
+			}
 		}
+	}
+
+	public void addNPC(){
+		System.out.println("Making NPCs");
+		String npc = spriteCreator.createNPC("enemy", "oryx/alien1");
+		sprites.add(npc); 
+		levelMapping.add(random.nextInt(9) + " > background " + npc.split(" ")[0]);
 	}
 
     public void mutateTermination(){
@@ -440,10 +461,16 @@ public class Mutant {
     }
     public Mutant Mutate(int mutationAmount){
         Mutant copy = new Mutant(game, level); 
-        copy.mutate_level(mutationAmount);
-        copy.updateLevel(); 
-        copy.mutate_game(5);
-        copy.updateGame();
+		if(random.nextDouble() > 0.5){
+			copy.mutate_level(5);
+			copy.updateLevel();
+        	 
+		}else{
+			copy.mutate_game(mutationAmount);
+        	copy.updateGame();
+		}
+        
+		
         copy.parseFiles();
         return copy; 
     }
@@ -738,14 +765,16 @@ public class Mutant {
 		{
             float roll = random.nextFloat(); 
             // add a interaction rule 
-            if(roll < 0.50){
+            if(roll < 0.25){
                 mutateInteraction();
-            }else if (roll < 0.85){
+            }else if (roll < 0.50){
                 mutateTermination();
+			}else if (roll < 0.70){
+				addNPC();
             }else{
 				changeAvatar();
 			}
-    
+
 
 		}
    }
@@ -783,7 +812,7 @@ public class Mutant {
             
             
             // switch out a piece  
-            if( levelChars.contains(level_array[pointY][pointX]) && random.nextFloat() < 0.3){
+            if( levelChars.contains(level_array[pointY][pointX]) && random.nextFloat() < 0.5){
                 
                 // choose new piece 
                 Character c = levelChars.get(random.nextInt(0, levelChars.size())); 
@@ -907,16 +936,18 @@ public class Mutant {
         interaction = new ArrayList<String>();
         termination = new ArrayList<String>(); 
 		sprites = new ArrayList<String>();
+		levelMapping = new ArrayList<String>(); 
 
         boolean inTerminat = false; 
         boolean inInteration = false; 
 		boolean inSprites = false; 
+		boolean inMap = false; 
         String tabTemplate = "    ";
         int lastIndex = -1; 
     
         try {
             while((line = reader.readLine()) != null) {
-                if (inTerminat || inInteration ||inSprites){
+                if (inTerminat || inInteration ||inSprites || inMap){
                     line.replaceAll("\t", tabTemplate);
                     // remove comments starting with "#"
                     if (line.contains("#"))
@@ -940,14 +971,19 @@ public class Mutant {
                             }else if (inSprites){
                                 sprites.add(content); 
                         
+                            }else if (inMap){
+                                levelMapping.add(content); 
+                        
                             }
                             
                         }else if (lastIndex > index){ //de-indended 
                             inInteration = false; 
                             inTerminat = false; 
 							inSprites = false; 
+							inMap = false; 
                         }else{
 							if (lastIndex < index){
+								System.out.println(content);
 								String indent = new String(new char[index - lastIndex]).replace('\0', ' ');
 								content = indent + content; 
 							}
@@ -959,6 +995,9 @@ public class Mutant {
                                 
                             }else if (inSprites){
                                 sprites.add(content); 
+                        
+                            }else if (inMap){
+                                levelMapping.add(content); 
                         
                             }
                         }
@@ -991,7 +1030,15 @@ public class Mutant {
                     // figure out the indent of the line.
                     spriteIndent = line.indexOf(firstChar);
                 }
-                else if (!inTerminat && !inInteration && !inSprites){
+				else if(line.contains("LevelMapping")){
+                    inMap = true; 
+                    //String content = line.trim();
+                   
+                    //char firstChar = content.charAt(0);
+                    // figure out the indent of the line.
+                    ///spriteIndent = line.indexOf(firstChar);
+                }
+                else if (!inTerminat && !inInteration && !inSprites && !inMap){
                     stringBuilder.append(line);
                     stringBuilder.append(ls);
                 }
@@ -1007,8 +1054,8 @@ public class Mutant {
     private void updateGame(){
         String file = "src/tracks/mutantShopping/MutantGames/mutant_" + Integer.toString(id) + "_game.txt"; 
         String interactionSpace = new String(new char[interactionIndent]).replace('\0', ' ');
-        String terminationSpace = new String(new char[interactionIndent]).replace('\0', ' ');
-		String spriteSpace = new String(new char[interactionIndent]).replace('\0', ' ');
+        String terminationSpace = new String(new char[terminationIndent]).replace('\0', ' ');
+		String spriteSpace = new String(new char[spriteIndent]).replace('\0', ' ');
 
         try {
             FileWriter myWriter = new FileWriter(file);
@@ -1016,6 +1063,10 @@ public class Mutant {
             myWriter.write(stableGame);
 			myWriter.write(interactionSpace + "SpriteSet\n");
             for(String line: sprites){
+                myWriter.write(spriteSpace + "\t" + line + "\n"); 
+            }
+			myWriter.write("\n" +  interactionSpace + "LevelMapping\n");
+            for(String line: levelMapping){
                 myWriter.write(spriteSpace + "\t" + line + "\n"); 
             }
 			

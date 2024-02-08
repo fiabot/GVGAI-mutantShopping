@@ -44,7 +44,8 @@ public class GamePlayView{
         
 
         panel.add(gamePanel, BorderLayout.NORTH); 
-        panel.add(new Label(game)); 
+        panel.add(new Label(game + " " + level)); 
+
         panel.add(helperPanel, BorderLayout.SOUTH); 
         
 

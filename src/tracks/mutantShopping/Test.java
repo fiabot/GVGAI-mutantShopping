@@ -156,7 +156,7 @@ public class Test {
 		int seed = new Random().nextInt();
 
 		// Game 1 and level 1 to play
-		int gameIdx = 70;
+		int gameIdx = 0;
 		int level1Idx = 0; // level names from 0 to 4 (game_lvlN.txt).
 		String game1Name = games[gameIdx][1];
 		String game1 = games[gameIdx][0];
@@ -199,10 +199,34 @@ public class Test {
 	
 	}
 
+	public static void simpleGame(){
+		JFrame frame = new JFrame("Mutant Shopping");
+		frame.setSize(2000, 1000);
+		frame.setVisible(true);
+		int seed = 42; 
+
+		// Available tracks:
+		String sampleRandomController = "tracks.singlePlayer.simple.sampleRandom.Agent";
+		String doNothingController = "tracks.singlePlayer.simple.doNothing.Agent";
+		String sampleOneStepController = "tracks.singlePlayer.simple.sampleonesteplookahead.Agent";
+		String sampleFlatMCTSController = "tracks.singlePlayer.simple.greedyTreeSearch.Agent";
+
+		String sampleMCTSController = "tracks.singlePlayer.advanced.sampleMCTS.Agent";
+        String sampleRSController = "tracks.singlePlayer.advanced.sampleRS.Agent";
+        String sampleRHEAController = "tracks.singlePlayer.advanced.sampleRHEA.Agent";
+		String sampleOLETSController = "tracks.singlePlayer.advanced.olets.Agent";
+		String game = "src/tracks/mutantShopping/SimpleGame.txt"; 
+		String level = "src/tracks/mutantShopping/SimpleLevel.txt"; 
+		String[] game_list = {game, game, game, game}; 
+		String[] levels = {level, level, level, level}; 
+		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleMCTSController, frame.getContentPane(), frame, seed);
+
+	}
+
 
     public static void main(String[] args) {
 
-		testPlayView();
+		simpleGame();
 
 		// Available tracks:
 		/*String sampleRandomController = "tracks.singlePlayer.simple.sampleRandom.Agent";

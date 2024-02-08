@@ -1,0 +1,18 @@
+BasicGame square_size=32
+    LevelMapping
+        . > background
+        0 > background base
+        A > background avatar
+        w > background
+
+    SpriteSet
+        background > Immovable img=oryx/space1 hidden=True
+        base    > Immovable    color=WHITE img=oryx/planet
+        avatar  > MissileAvatar   stype=sam img=oryx/spaceship1
+
+    InteractionSet
+        avatar  EOS  > stepBack
+
+    TerminationSet
+        Timeout win=True limit=963
+

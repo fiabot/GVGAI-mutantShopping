@@ -1,40 +1,21 @@
 BasicGame square_size=32
-    LevelMapping
-        . > background
-        0 > background base
-        1 > background portalSlow
-        2 > background portalFast
-        A > background avatar
-
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	missile > Missile
-    	    sam  > orientation=UP    color=BLUE singleton=True img=oryx/bullet1
-    	    bomb > orientation=DOWN  color=RED  speed=0.5 img=oryx/bullet2
-    	alien   > Bomber       stype=bomb   prob=0.01  cooldown=3 speed=0.8
-    	    alienGreen > img=oryx/alien3
-    	    alienBlue > img=oryx/alien1
-    	portal  > invisible=True hidden=True
-    	 portalSlow  > SpawnPoint   stype=alienBlue  cooldown=16   total=20 img=portal
-    	 portalFast  > SpawnPoint   stype=alienGreen  cooldown=12   total=20 img=portal
-    	avatar  > HorizontalAvatar   stype=sam img=oryx/spaceship1
+    	enemy > Chaser img=oryx/alien1 color=RED stype=avatar
+    	avatar > OngoingAvatar img=oryx/spaceship1
+    	enemy > Fleeing img=oryx/alien1 color=PURPLE stype=avatar
+
+    LevelMapping
+    	. > background
+    	0 > background base
+    	A > background avatar
+    	w > background
+    	7 > background enemy
+    	3 > background enemy
 
     InteractionSet
-    	alien   EOS  > turnAround
-    	base sam > killBoth
-    	base   alien > killSprite
-    	avatar alien > killSprite scoreChange=-1
-    	bomb alienGreen > cloneSprite limit=-151
-    	EOS avatar > increaseSpeedToAll resource=sam
-    	avatar bomb > killSprite spawnPoint=portalFast
-    	bomb base > align
-    	avatar sam > attractGaze
-    	alien sam > killSprite scoreChange=2
-    	avatar EOS > addHealthPointsToMax
-    	sam EOS > setSpeedForAll
-    	alienGreen background > undoAll scoreChange=713
-    	base alienBlue > spawnIfHasMore
+    	avatar  EOS  > stepBack
 
     TerminationSet
-    	SpriteCounterMore limit=0 win=True 
+    	Timeout win=True limit=963 stype1=enemy

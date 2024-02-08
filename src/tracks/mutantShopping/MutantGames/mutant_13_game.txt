@@ -1,34 +1,18 @@
-#(Inspired by) Notsnake: http://www.puzzlescript.net/play.html?p=e2c1c8e99b3f9d9b6edd
-
-BasicGame key_handler=Pulse square_size=60
-    LevelMapping
-        A > avatar ground
-        . > ground
-        x > paint
-        w > wall
-
+BasicGame square_size=32
     SpriteSet
-    	ground > Immovable color=GRAY img=oryx/backGrey
-    	paint > Immovable color=DARKBLUE img=newset/paint2
-    	prepaint > Flicker limit=2 invisible=TRUE
-    	prepainting > Resource limit=2
-    	preground > Flicker limit=2 invisible=TRUE
-    	pregrounding > Resource limit=2
-    	wall > Immovable img=newset/floor5
-    	avatar > HorizontalAvatar shrinkfactor=0.8 img=newset/painter21
+    	background > Immovable img=oryx/space1 hidden=True
+    	base    > Immovable    color=WHITE img=oryx/planet
+    	bullet1 > RandomMissile img=oryx/bullet1 color=PURPLE orientation=down
+    	avatar > OngoingTurningAvatar img=oryx/spaceship1
+
+    LevelMapping
+    	. > background
+    	0 > background base
+    	A > background avatar
+    	w > background
 
     InteractionSet
-    	avatar EOS > stepBack
-    	ground avatar > spawn stype=prepaint
-    	prepaint ground > spawnIfHasMore resource=prepainting limit=2 stype=paint
-    	ground prepaint > killIfOtherHasMore resource=prepainting limit=2  scoreChange=1
-    	preground avatar > killSprite
-    	paint avatar > spawn stype=preground
-    	preground paint > spawnIfHasMore resource=pregrounding limit=2 stype=ground
-    	paint preground > killIfOtherHasMore limit=2 
-    	prepaint avatar > addHealthPointsToMax
+    	avatar  EOS  > stepBack
 
     TerminationSet
-    	SpriteCounter limit=0 win=True
-    	StopCounter win=True limit=166
-    	MultiSpriteCounter win=False limit=320
+    	Timeout win=True limit=963

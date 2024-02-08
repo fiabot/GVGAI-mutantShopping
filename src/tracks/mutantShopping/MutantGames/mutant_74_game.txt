@@ -1,0 +1,24 @@
+BasicGame square_size=32
+    SpriteSet
+    	background > Immovable img=oryx/space1 hidden=True
+    	base    > Immovable    color=WHITE img=oryx/planet
+    	bullet1 > Missile img=oryx/bullet1 color=BLUE orientation=right
+    	avatar > FlakAvatar img=oryx/spaceship1 stype=bullet1
+    	enemy > Fleeing img=oryx/alien1 stype=bullet1
+    	enemy > RandomNPC img=oryx/alien1
+
+    LevelMapping
+    	. > background
+    	0 > background base
+    	A > background avatar
+    	w > background
+    	3 > background enemy
+    	8 > background enemy
+
+    InteractionSet
+    	avatar  EOS  > stepBack
+    	base EOS > removeScore
+
+    TerminationSet
+    	Timeout win=True limit=963
+    	MultiSpriteCounter win=True limit=448

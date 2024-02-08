@@ -80,7 +80,7 @@ public class GameGridDisplay extends JComponent {
         Mutant[] mutants = new Mutant[4]; 
 
         for(int i =0; i < games.length; i++){
-            Mutant mut = starting.Mutate(10); 
+            Mutant mut = starting.Mutate(1); 
             nextMutant ++; 
             mutants[i] = mut; 
             GamePlayView view = new GamePlayView(mut.game, mut.level, panel, this); 
