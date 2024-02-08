@@ -3,18 +3,17 @@ BasicGame square_size=25
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
     	avatar  > MissileAvatar  img=oryx/spaceship1
-    	enemy6613 > Chaser img=oryx/alien1 color=PURPLE stype=avatar
+    	enemy4490 > RandAltChaser img=oryx/alien1 color=ORANGE stype1= stype2=base prob=0.25067348073212403
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
-    	2 > background enemy6613
+    	4 > background enemy4490
 
     InteractionSet
-    	avatar  EOS  > stepBack
-    	base background > bounceForward geq=324
+    	avatar EOS > undoAll 
 
     TerminationSet
     	Timeout win=True limit=963

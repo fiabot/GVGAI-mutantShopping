@@ -2,9 +2,7 @@ BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	bullet1 > RandomMissile img=oryx/bullet1 color=RED orientation=right
-    	bullet2 > RandomMissile img=oryx/bullet1 color=YELLOW orientation=right
-    	avatar > ShootAvatar img=oryx/spaceship1 stype=bullet2
+    	avatar > OngoingShootingAvatar img=oryx/spaceship1
 
     LevelMapping
     	. > background
@@ -13,7 +11,9 @@ BasicGame square_size=25
     	w > background
 
     InteractionSet
-    	avatar  EOS  > stepBack
+    	base background > reverseDirection
+    	wall EOS > turnAround
 
     TerminationSet
-    	Timeout win=True limit=963
+    	StopCounter win=True limit=949
+    	SpriteCounter win=True limit=5

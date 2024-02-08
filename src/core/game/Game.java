@@ -474,7 +474,7 @@ public abstract class Game {
 
 		while (!queue.isEmpty()) {
 			int current = queue.remove(0);
-			if (visited[current]) {
+			if (current == -1 || visited[current]) {
 				continue;
 			}
 

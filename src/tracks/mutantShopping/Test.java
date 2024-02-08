@@ -223,10 +223,37 @@ public class Test {
 
 	}
 
+	public static void singleGame(){
+		JFrame frame = new JFrame("Mutant Shopping");
+		frame.setSize(500, 800);
+		frame.setVisible(true);
+		int seed = 42; 
+
+		// Available tracks:
+		String sampleRandomController = "tracks.singlePlayer.simple.sampleRandom.Agent";
+		String doNothingController = "tracks.singlePlayer.simple.doNothing.Agent";
+		String sampleOneStepController = "tracks.singlePlayer.simple.sampleonesteplookahead.Agent";
+		String sampleFlatMCTSController = "tracks.singlePlayer.simple.greedyTreeSearch.Agent";
+
+		String sampleMCTSController = "tracks.singlePlayer.advanced.sampleMCTS.Agent";
+        String sampleRSController = "tracks.singlePlayer.advanced.sampleRS.Agent";
+        String sampleRHEAController = "tracks.singlePlayer.advanced.sampleRHEA.Agent";
+		String sampleOLETSController = "tracks.singlePlayer.advanced.olets.Agent";
+		String game = "src/tracks/mutantShopping/SimpleGame.txt"; 
+		String level = "src/tracks/mutantShopping/SimpleLevel.txt"; 
+		//String[] game_list = {game, game, game, game, game, game, game, game, game}; 
+		//String[] levels = {level, level, level, level, level, level, level, level, level}; 
+		SingleMutation grid = new SingleMutation(game, level, sampleRandomController, frame.getContentPane(), frame, seed);
+
+	}
+
+
+
+
 
     public static void main(String[] args) {
 
-		simpleGame();
+		singleGame();
 
 		// Available tracks:
 		/*String sampleRandomController = "tracks.singlePlayer.simple.sampleRandom.Agent";

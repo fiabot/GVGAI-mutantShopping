@@ -39,6 +39,27 @@ public class RunGame implements Runnable {
             actionFile, randomSeed, playerID, container, frame);
 
             if(go){
+                //run();
+            }else{
+                System.out.println("Ending game loop");
+            }
+            
+            
+            
+        }catch (Exception e){
+            System.out.println("Couldn't play game:" + game_file); 
+            e.printStackTrace();
+        }
+
+        
+    }
+
+    public void start() {
+        try{
+            ArcadeMachine.runOneGame(game_file,level_file, visuals, agentNames,
+            actionFile, randomSeed, playerID, container, frame);
+
+            if(go){
                 run();
             }else{
                 System.out.println("Ending game loop");
@@ -56,5 +77,6 @@ public class RunGame implements Runnable {
     
     public void end(){
         go = false; 
+        
     }
 }
