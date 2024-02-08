@@ -188,13 +188,14 @@ public class Test {
             }
     }
     public static void main(String[] args) {
-        String folder = "src/tracks/levelGeneration/MarkovChains/InvadersTest3/";
+        String folder = "src/tracks/levelGeneration/MarkovChains/Maze/trial_500level_2.txt";
         int[] trials = {100, 250, 500}; 
         int numbLevels = 15; 
+        playLevel(folder, 58);
 
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/SpaceInvaders", "space");
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Rogue", "rogue");
-        //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Painter", "paint");
+        //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Painter", "paint");0
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Maze", "maze");
         //runTests(trials, numbLevels, "src/tracks/levelGeneration/MarkovChains/Pokemon", "pokemon");
         //ArrayList<String> results = new ArrayList<String>(); 
