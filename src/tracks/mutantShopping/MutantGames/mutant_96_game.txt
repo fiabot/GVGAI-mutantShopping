@@ -2,16 +2,22 @@ BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	avatar  > MissileAvatar  img=oryx/spaceship1
+    	avatar > MovingAvatar img=oryx/spaceship1
+    	enemy1801 > Fleeing img=oryx/alien1 color=GREEN stype=avatar
+    	enemy3927 > RandomNPC img=oryx/alien1 color=BLACK
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
+    	7 > background enemy1801
+    	3 > background enemy3927
 
     InteractionSet
-    	avatar EOS > flipDirection
+    	avatar  EOS  > stepBack
+    	base wall > transformTo limit=-837
 
     TerminationSet
-    	Timeout win=True limit=963
+    	Timeout win=True limit=300
+    	SpriteCounterMore stype2=wall win=True limit=334

@@ -202,8 +202,8 @@ public class ArcadeMachine {
      */
     public static double[] runOneGame(String game_file, String level_file, boolean visuals, String agentNames,
 	    String actionFile, int randomSeed, int playerID, Container container, JFrame frame) {
-		//VGDLFactory.GetInstance().init(); // This always first thing to do.
-		//VGDLRegistry.GetInstance().init();
+		VGDLFactory.GetInstance().init(); // This always first thing to do.
+		VGDLRegistry.GetInstance().init();
 
 		if (VERBOSE)
 			System.out.println(" ** Playing game " + game_file + ", level " + level_file + " **");

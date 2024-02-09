@@ -219,7 +219,7 @@ public class Test {
 		String level = "src/tracks/mutantShopping/SimpleLevel.txt"; 
 		String[] game_list = {game, game, game, game, game, game, game, game, game}; 
 		String[] levels = {level, level, level, level, level, level, level, level, level}; 
-		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleRandomController, frame.getContentPane(), frame, seed);
+		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleRHEAController, frame.getContentPane(), frame, seed);
 
 	}
 

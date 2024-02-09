@@ -2,18 +2,18 @@ BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	bullet1 > RandomMissile img=oryx/bullet1 color=GREEN orientation=up
-    	bullet2 > RandomMissile img=oryx/bullet1 color=GREEN orientation=up
-    	avatar > FlakAvatar img=oryx/spaceship1 stype=bullet2
+    	avatar > OngoingTurningAvatar img=oryx/spaceship1
+    	enemy167 > AlternateChaser img=oryx/alien1 color=ORANGE stype1=> stype2=background
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
+    	7 > background enemy167
 
     InteractionSet
     	avatar  EOS  > stepBack
 
     TerminationSet
-    	Timeout win=True limit=963
+    	StopCounter win=True limit=300

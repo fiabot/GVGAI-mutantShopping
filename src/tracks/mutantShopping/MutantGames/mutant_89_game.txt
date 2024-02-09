@@ -1,0 +1,19 @@
+BasicGame square_size=25
+    SpriteSet
+    	background > Immovable img=oryx/space1 hidden=True
+    	base    > Immovable    color=WHITE img=oryx/planet
+    	avatar > OrientedAvatar img=oryx/spaceship1
+
+    LevelMapping
+    	. > background
+    	0 > background base
+    	A > background avatar
+    	w > background
+
+    InteractionSet
+    	avatar  EOS  > stepBack
+    	base wall > transformTo limit=-837
+
+    TerminationSet
+    	Timeout win=True limit=300
+    	SpriteCounterMore stype2=wall win=True limit=334

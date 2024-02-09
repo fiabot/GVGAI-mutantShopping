@@ -2,7 +2,7 @@ BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	avatar  > MissileAvatar  img=oryx/spaceship1
+    	avatar > OngoingTurningAvatar img=oryx/spaceship1
 
     LevelMapping
     	. > background
@@ -12,7 +12,7 @@ BasicGame square_size=25
 
     InteractionSet
     	avatar  EOS  > stepBack
-    	wall background > killSprite
 
     TerminationSet
-    	StopCounter win=True limit=776 
+    	StopCounter win=True limit=300
+    	SpriteCounter stype2=base win=True limit=349

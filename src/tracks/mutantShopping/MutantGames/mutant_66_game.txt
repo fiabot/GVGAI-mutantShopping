@@ -1,39 +1,23 @@
-BasicGame square_size=32
-    LevelMapping
-        . > background
-        0 > background base
-        1 > background portalSlow
-        2 > background portalFast
-        A > background avatar
-
+BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	missile > Missile
-    	    sam  > orientation=UP    color=BLUE singleton=True img=oryx/bullet1
-    	    bomb > orientation=DOWN  color=RED  speed=0.5 img=oryx/bullet2
-    	alien   > Bomber       stype=bomb   prob=0.01  cooldown=3 speed=0.8
-    	    alienGreen > img=oryx/alien3
-    	    alienBlue > img=oryx/alien1
-    	portal  > invisible=True hidden=True
-    	 portalSlow  > SpawnPoint   stype=alienBlue  cooldown=16   total=20 img=portal
-    	 portalFast  > SpawnPoint   stype=alienGreen  cooldown=12   total=20 img=portal
-    	avatar  > OngoingTurningAvatar   stype=sam img=oryx/spaceship1
+    	bullet1 > Missile img=oryx/bullet1 color=PURPLE orientation=right
+    	enemy187 > RandAltChaser img=oryx/alien1 color=YELLOW stype1=> stype2=bullet1 prob=0.1481178622559668
+    	bullet2 > Missile img=oryx/bullet1 color=RED orientation=none
+    	avatar > ShootAvatar img=oryx/spaceship1 stype=bullet2
+    	enemy8877 > Fleeing img=oryx/alien1 color=ORANGE stype=bullet2
+
+    LevelMapping
+    	. > background
+    	0 > background base
+    	A > background avatar
+    	w > background
+    	4 > background enemy187
+    	7 > background enemy8877
 
     InteractionSet
-    	alien   EOS  > turnAround
-    	base sam > killBoth
-    	base   alien > killSprite
-    	avatar alien > killSprite scoreChange=-1
-    	bomb alienGreen > cloneSprite limit=-151
-    	EOS avatar > increaseSpeedToAll resource=sam
-    	avatar bomb > killSprite spawnPoint=portalFast
-    	bomb base > align
-    	avatar sam > attractGaze
-    	alienGreen background > flipDirection
-    	avatar EOS > addHealthPointsToMax
-    	sam EOS > setSpeedForAll
-    	alien sam > killSprite scoreChange=2 
+    	avatar  EOS  > stepBack
 
     TerminationSet
-    	SpriteCounterMore stype1=portal limit=0 win=True
+    	Timeout win=True limit=500

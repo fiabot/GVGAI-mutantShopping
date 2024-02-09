@@ -22,6 +22,7 @@ public class GamePlayView{
     GameGridDisplay parent; 
     String game; 
     String level; 
+    boolean play = true; 
 
     public GamePlayView(String game, String level, Container container, GameGridDisplay parent){
         this.game = game; 
@@ -53,22 +54,33 @@ public class GamePlayView{
         String recordActionsFile = null;
 
 
-        runnable = new RunGame(game, level, true, parent.getAgent(), recordActionsFile, parent.seed, 0, gamePanel, parent.getFrame()); 
+        runnable = new RunGame(game, level, true, parent.getAgent(), recordActionsFile, parent.seed, 0, gamePanel, parent.getFrame(), this); 
         thread = new Thread(runnable); 
 
     }
 
     public void playGame(){
-        try{
-            thread.start();
-        }catch (Exception e){
-            System.out.println(e);
+        if(play){
+            System.out.println("Threads:" + Thread.activeCount());
+            try{
+                thread.start();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
+       
         
     }
 
+    public void restart(){
+        thread.interrupt();
+        thread = new Thread(runnable); 
+        
+        playGame();
+    }
+
     public void stopGame(){
-        runnable.end();
+        play = false; 
     }
 
     class MutateEvent implements ActionListener{

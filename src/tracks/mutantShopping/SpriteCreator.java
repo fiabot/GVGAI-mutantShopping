@@ -9,8 +9,9 @@ public class SpriteCreator {
 	private static String[] avatars = new String[] {"MovingAvatar", "HorizontalAvatar", "VerticalAvatar", "OngoingAvatar", "OngoingTurningAvatar", "OngoingShootingAvatar", "MissileAvatar", "OrientedAvatar", "ShootAvatar", "FlakAvatar"};
     private static String[] npcs = new String[] {"RandomNPC", "Chaser", "Fleeing", "AlternateChaser", "RandAltChaser" }; 
     private static String[] ammos = new String[] {"Missile", "RandomMissile"}; 
-    private static String[] colors = new String[] {"BLUE", "GREEN", "YELLOW", "RED", "PURPLE", "ORANGE"}; 
-    private static String[] orientations = new String[] {"up", "down", "left", "right", "none"}; 
+    private static String[] colors = new String[] {"GREEN","BLUE", "RED" , "GRAY", "WHITE", "BROWN" , "BLACK" , "ORANGE" , "YELLOW" , "PINK" , "GOLD" , 
+                    "LIGHTRED" , "LIGHTORANGE" , "LIGHTBLUE" , "LIGHTGREEN" , "LIGHTYELLOW" , "LIGHTGRAY" , "DARKGRAY" , "DARKBLUE" }; 
+    private static String[] orientations = new String[] {"UP", "DOWN", "LEFT", "RIGHT", "NONE"}; 
     Random random; 
     String ammoName; 
     String ammoImg; 
