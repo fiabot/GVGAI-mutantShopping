@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import core.content.TerminationContent;
 import core.game.Game;
 import core.game.GameDescription.TerminationData;
+import core.vgdl.VGDLFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,10 +22,10 @@ public class Timeout extends Termination
 
     public Timeout(){}
 
-    public Timeout(TerminationContent cnt)
+    public Timeout(TerminationContent cnt, VGDLFactory factory)
     {
         //Parse the arguments.
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

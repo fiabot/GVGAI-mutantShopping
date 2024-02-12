@@ -21,9 +21,11 @@ import tools.Utils;
 public class TeleportToExit extends Effect
 {
 
+    VGDLFactory factory; 
     public TeleportToExit(InteractionContent cnt, VGDLFactory factory)
     {
         this.parseParameters(cnt, factory);
+        this.factory = factory;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class TeleportToExit extends Effect
 	    return;
 	}
 	
-        int destinationId = VGDLFactory.GetInstance().requestFieldValueInt(sprite2, "itype");
+        int destinationId = factory.requestFieldValueInt(sprite2, "itype");
         Collection<VGDLSprite> sprites = null;
         if(destinationId != -1){
             sprites = game.getSprites(destinationId);

@@ -199,11 +199,11 @@ public class VGDLFactory
      * Returns the unique instance of this class.
      * @return the factory that creates the game and the sprite objects.
      */
-    public static VGDLFactory GetInstance()
+    /*public static VGDLFactory GetInstance()
     {
         return MyWrapper.INSTANCE;
         
-    }
+    }*/ 
 
     /**
      * Creates a game, receiving a GameContent object
@@ -345,8 +345,8 @@ public class VGDLFactory
         try{
             Class terminationClass = registeredTerminations.get(content.identifier);
             Constructor terminationConstructor = terminationClass.getConstructor
-                    (new Class[] {TerminationContent.class});
-            Termination ter = (Termination) terminationConstructor.newInstance(new Object[]{content});
+                    (new Class[] {TerminationContent.class, VGDLFactory.class});
+            Termination ter = (Termination) terminationConstructor.newInstance(new Object[]{content, this});
             return ter;
 
         }catch (NoSuchMethodException e)

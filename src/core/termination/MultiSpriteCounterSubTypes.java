@@ -1,5 +1,6 @@
 package core.termination;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.content.TerminationContent;
 import core.game.Game;
@@ -22,10 +23,10 @@ public class MultiSpriteCounterSubTypes extends Termination
 
     public MultiSpriteCounterSubTypes(){}
 
-    public MultiSpriteCounterSubTypes(TerminationContent cnt) throws Exception
+    public MultiSpriteCounterSubTypes(TerminationContent cnt, VGDLFactory factory) throws Exception
     {
         //Parse the arguments.
-        this.parseParameters(cnt);
+        this.parseParameters(cnt,factory);
         if(stype1 != null){
             itype1 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype1);
             if(itype1 == -1){

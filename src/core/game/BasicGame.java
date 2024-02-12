@@ -216,7 +216,7 @@ public class BasicGame extends Game {
 	protected void parseParameters(GameContent content) {
 		super.parseParameters(content);
 
-		VGDLFactory factory = VGDLFactory.GetInstance();
+		VGDLFactory factory = super.getFactory();
 		Class refClass = VGDLFactory.registeredGames.get(content.referenceClass);
 		// System.out.println("refClass" + refClass.toString());
 		if (!this.getClass().equals(refClass)) {
