@@ -25,18 +25,18 @@ public class SpawnIfCounterSubTypes extends Effect {
     public int subTypesNum=-1; // number of subtypes
     public int limit; //number of total sprites
 
-    public SpawnIfCounterSubTypes(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public SpawnIfCounterSubTypes(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         this.parseParameters(cnt, factory);
-        eitype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(estype);
+        eitype = registry.getRegisteredSpriteValue(estype);
         if(eitype == -1){
             throw new Exception("Undefined sprite " + estype);
         }
-        citype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypeCount);
+        citype = registry.getRegisteredSpriteValue(stypeCount);
         if(citype == -1){
             throw new Exception("Undefined sprite " + stypeCount);
         }
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

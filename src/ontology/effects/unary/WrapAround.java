@@ -1,6 +1,7 @@
 package ontology.effects.unary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -19,7 +20,7 @@ public class WrapAround extends Effect {
 
     public double offset;
 
-    public WrapAround(InteractionContent cnt, VGDLFactory factory)
+    public WrapAround(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
     }

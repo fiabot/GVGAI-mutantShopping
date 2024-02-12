@@ -22,10 +22,13 @@ public class Portal extends SpriteProducer
     public String stype;
     public int itype;
 
+    VGDLRegistry registry;
+
     public Portal(){}
 
-    public Portal(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public Portal(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
@@ -47,7 +50,7 @@ public class Portal extends SpriteProducer
     public void postProcess()
     {
         super.postProcess();
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
     }
 
     public VGDLSprite copy()
@@ -62,6 +65,7 @@ public class Portal extends SpriteProducer
         Portal targetSprite = (Portal) target;
         targetSprite.stype = this.stype;
         targetSprite.itype = this.itype;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
     

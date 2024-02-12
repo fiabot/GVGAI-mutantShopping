@@ -22,13 +22,13 @@ public class ChangeResource extends Effect
     public int value;
     public boolean killResource;
 
-    public ChangeResource(InteractionContent cnt, VGDLFactory factory)
+    public ChangeResource(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         value=1;
         resourceId = -1;
         killResource = false;
         this.parseParameters(cnt, factory);
-        resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
+        resourceId = registry.getRegisteredSpriteValue(resource);
         is_kill_effect = killResource;
     }
 

@@ -106,6 +106,7 @@ public class ForwardModel extends Game
      */
     public ForwardModel(Game a_gameState, int playerID)
     {
+        super(a_gameState.registry); 
         this.playerID = playerID;
 
         //All static elements of the game are assigned from the game we create the copy from.

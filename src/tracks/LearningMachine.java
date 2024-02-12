@@ -34,8 +34,8 @@ public class LearningMachine {
      */
     public static double[] runOneGame(String game_file, String level_file, boolean visuals,
                                       String[] cmd, String actionFile, int randomSeed) throws IOException {
-        VGDLFactory.GetInstance().init(); //This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); //This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
         CompetitionParameters.IS_LEARNING = true;
 
         System.out.println(" ** Playing game " + game_file + ", level " + level_file + " **");
@@ -60,8 +60,8 @@ public class LearningMachine {
      */
     public static void runMultipleGames(String game_file, String[] level_files,
                                         String cmd[], String[] actionFiles, boolean visuals) throws IOException {
-        VGDLFactory.GetInstance().init(); //This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); //This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
         CompetitionParameters.IS_LEARNING = true;
         //Create the player.
         LearningPlayer player = LearningMachine.createPlayer(cmd);
@@ -124,8 +124,8 @@ public class LearningMachine {
     public static StatSummary performance;
     public static void runGames(String game_file, String[] level_files, int level_times,
                                 LearningPlayer player, String[] actionFiles, boolean visual) throws IOException {
-        VGDLFactory.GetInstance().init(); //This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); //This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
         CompetitionParameters.IS_LEARNING = true;
         boolean recordActions = false;
         if (actionFiles != null) {

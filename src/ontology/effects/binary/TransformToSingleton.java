@@ -39,13 +39,13 @@ public class TransformToSingleton extends Effect {
     public int itype_other;    // type the sprites of type stype are transormed back to
 
 
-    public TransformToSingleton(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public TransformToSingleton(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         takeOrientation = false;
         is_kill_effect = true;
         this.parseParameters(cnt, factory) ;
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
-        itype_other = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype_other);
+        itype =  registry.getRegisteredSpriteValue(stype);
+        itype_other = registry.getRegisteredSpriteValue(stype_other);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

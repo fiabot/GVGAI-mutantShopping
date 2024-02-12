@@ -1,6 +1,7 @@
 package ontology.effects.unary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -18,7 +19,7 @@ import tools.Vector2d;
  */
 public class CloneSprite extends Effect {
 
-    public CloneSprite(InteractionContent cnt, VGDLFactory factory)
+    public CloneSprite(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
     }

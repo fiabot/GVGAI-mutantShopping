@@ -29,7 +29,7 @@ public class SubtractHealthPoints extends Effect
     public String scoreChangeIfKilled;
     private String defScoreChange;
 
-    public SubtractHealthPoints(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public SubtractHealthPoints(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         is_kill_effect = true;
         limit = 0;
@@ -37,7 +37,7 @@ public class SubtractHealthPoints extends Effect
         scoreChangeIfKilled = "0";
         this.parseParameters(cnt, factory);
         if (!Objects.equals(stype, "")){
-            itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            itype = registry.getRegisteredSpriteValue(stype);
             if(itype == -1){
         	throw new Exception("Undefined sprite " + stype);
             }

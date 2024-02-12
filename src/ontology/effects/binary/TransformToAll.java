@@ -26,10 +26,10 @@ public class TransformToAll extends TransformTo {
     public String stypeTo;
     public int itypeTo;
 
-    public TransformToAll(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public TransformToAll(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         super(cnt, factory);
-        itypeTo = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypeTo);
+        itypeTo = registry.getRegisteredSpriteValue(stypeTo);
         if(itypeTo == -1){
             throw new Exception("Undefined sprite " + stypeTo);
         }

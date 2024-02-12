@@ -1,6 +1,7 @@
 package ontology.effects.binary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -21,7 +22,7 @@ public class Align extends Effect
 {
     public boolean orient = true;
 
-    public Align(InteractionContent cnt, VGDLFactory factory)
+    public Align(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
         setStochastic();

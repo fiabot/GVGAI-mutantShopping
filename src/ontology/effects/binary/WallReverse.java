@@ -5,6 +5,7 @@ import core.game.Game;
 import core.logging.Logger;
 import core.logging.Message;
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import ontology.effects.Effect;
 import tools.Direction;
@@ -28,7 +29,7 @@ public class WallReverse extends Effect
     private int lastGameTime;
     private ArrayList<VGDLSprite> spritesThisCycle;
 
-    public WallReverse(InteractionContent cnt, VGDLFactory factory)
+    public WallReverse(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         super.inBatch = true;
         lastGameTime = -1;

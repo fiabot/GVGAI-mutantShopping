@@ -2,14 +2,17 @@ BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	bullet1 > RandomMissile img=oryx/bullet1 color=LIGHTYELLOW orientation=UP
-    	avatar > FlakAvatar img=oryx/spaceship1 stype=bullet1
+    	avatar  > MissileAvatar  img=oryx/spaceship1
+    	enemy1245 > RandAltChaser img=oryx/alien1 color=YELLOW stype1= stype2=background prob=0.6331323562955491
+    	enemy2793 > RandAltChaser img=oryx/alien1 color=LIGHTORANGE stype1= stype2=enemy1245 prob=0.4529872077542739
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
+    	1 > background enemy1245
+    	8 > background enemy2793
 
     InteractionSet
     	avatar  EOS  > stepBack

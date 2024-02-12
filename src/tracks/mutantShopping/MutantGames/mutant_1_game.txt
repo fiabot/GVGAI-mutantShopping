@@ -2,7 +2,7 @@ BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	avatar > OrientedAvatar img=oryx/spaceship1
+    	avatar  > MissileAvatar  img=oryx/spaceship1
 
     LevelMapping
     	. > background

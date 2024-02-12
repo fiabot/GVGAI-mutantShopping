@@ -45,8 +45,9 @@ public class BasicGame extends Game {
 	 * @param content
 	 *            Contains parameters for the game.
 	 */
-	public BasicGame(GameContent content) {
-		super();
+	public BasicGame(GameContent content, VGDLRegistry registry) {
+		super(registry);
+		
 
 		// Add here whatever mappings are common for all BasicGames.
 		charMapping.put('w', new ArrayList<String>());
@@ -78,7 +79,7 @@ public class BasicGame extends Game {
 
 		if (obs != null) {
 			doPathf = true;
-			int obsArray[] = VGDLRegistry.GetInstance().explode(obs);
+			int obsArray[] = super.getRegistry().explode(obs);
 			for (Integer it : obsArray)
 				obstacles.add(it);
 		}
@@ -228,6 +229,8 @@ public class BasicGame extends Game {
 		factory.parseParameters(content, this);
 	}
 
+	
+
 	@Override
 	public boolean isGameOver() {
 		return false;
@@ -242,7 +245,7 @@ public class BasicGame extends Game {
 	 *            position where the sprite will be placed
 	 */
 	public VGDLSprite addSpriteIn(String key, Vector2d position) {
-		int itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(key);
+		int itype = super.getRegistry().getRegisteredSpriteValue(key);
 		return addSprite(itype, position);
 	}
 

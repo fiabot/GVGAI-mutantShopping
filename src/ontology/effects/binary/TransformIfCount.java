@@ -30,16 +30,16 @@ public class TransformIfCount extends TransformTo {
     public int geq;
     public int leq;
 
-    public TransformIfCount(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public TransformIfCount(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         super(cnt, factory);
         geq=0;
         leq=Game.getMaxSprites();
         this.parseParameters(cnt, factory);
-        itypeCount = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypeCount);
+        itypeCount = registry.getRegisteredSpriteValue(stypeCount);
 
         if(estype != null)
-            eitype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(estype);
+            eitype = registry.getRegisteredSpriteValue(estype);
     }
 
     @Override

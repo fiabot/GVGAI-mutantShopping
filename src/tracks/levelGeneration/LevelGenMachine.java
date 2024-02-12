@@ -38,8 +38,8 @@ public class LevelGenMachine
      * @param levelFile file to save the generated level in it
      */
     public static boolean generateOneLevel(String gameFile, String levelGenerator, String levelFile) {
-        VGDLFactory.GetInstance().init(); // This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); // This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
 
         System.out.println(
                 " ** Generating a level for " + gameFile + ", using level generator " + levelGenerator + " **");
@@ -91,7 +91,7 @@ public class LevelGenMachine
      * @param levelFile array of level files to save the generated levels
      */
     public static void generateLevels(String gameFile, String levelGenerator, String[] levelFile) {
-        VGDLFactory.GetInstance().init(); // This always first thing to do.
+        //VGDLFactory.GetInstance().init(); // This always first thing to do.
         VGDLRegistry.GetInstance().init();
 
         // First, we create the game to be played..
@@ -170,8 +170,8 @@ public class LevelGenMachine
      */
     public static double runOneGeneratedLevel(String gameFile, boolean visuals, String agentName, String actionFile,
                                               String levelFile, int randomSeed, boolean isHuman) {
-        VGDLFactory.GetInstance().init(); // This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); // This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
 
         System.out.println(" ** Playing game " + gameFile + ", using generate level file " + levelFile + " **");
 
@@ -238,8 +238,8 @@ public class LevelGenMachine
     public static void playGeneratedLevels(String gameFile, String[] actionFile, String[] levelFile, boolean isHuman) {
         String agentName = "tracks.singlePlayer.tools.human.Agent";
 
-        VGDLFactory.GetInstance().init(); // This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); // This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
 
         boolean recordActions = false;
         if (actionFile != null) {

@@ -20,11 +20,11 @@ public class SpawnLeft extends Effect {
     public int itype;
     public boolean stepBack;
 
-    public SpawnLeft(InteractionContent cnt, VGDLFactory factory)
+    public SpawnLeft(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         stepBack = false;
         this.parseParameters(cnt, factory);
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
     }
 
     @Override

@@ -75,8 +75,8 @@ public class RuleGenMachine
 	 */
 	public static double[] runOneGame(String original_game, String generated_game, String level_file, boolean visuals, String agentNames,
 									  String actionFile, int randomSeed, int playerID) {
-		VGDLFactory.GetInstance().init(); // This always first thing to do.
-		VGDLRegistry.GetInstance().init();
+		//VGDLFactory.GetInstance().init(); // This always first thing to do.
+		//VGDLRegistry.GetInstance().init();
 
 		if (CompetitionParameters.OS_WIN)
 		{
@@ -181,8 +181,8 @@ public class RuleGenMachine
 	 * @return			true if everything worked fine, false otherwise
 	 */
 	public static boolean generateRules(String gameFile, String levelFile, String ruleGenerator, String modifiedFile, int randomSeed) {
-		VGDLFactory.GetInstance().init();
-		VGDLRegistry.GetInstance().init();
+		//VGDLFactory.GetInstance().init();
+		//VGDLRegistry.GetInstance().init();
 
 		// First, we create the game to be played..
 		Game toPlay = new VGDLParser().parseGame(gameFile);

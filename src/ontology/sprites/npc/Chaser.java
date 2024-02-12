@@ -32,10 +32,13 @@ public class Chaser extends RandomNPC
     ArrayList<VGDLSprite> targets;
     ArrayList<Direction> actions;
 
+    VGDLRegistry registry; 
+
     public Chaser(){}
 
-    public Chaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public Chaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
@@ -59,7 +62,7 @@ public class Chaser extends RandomNPC
     {
         super.postProcess();
         //Define actions here.
-        itype =  VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype =  this.registry.getRegisteredSpriteValue(stype);
     }
 
     public void update(Game game)
@@ -161,6 +164,7 @@ public class Chaser extends RandomNPC
         targetSprite.maxDistance = this.maxDistance;
         targetSprite.targets = new ArrayList<VGDLSprite>();
         targetSprite.actions = new ArrayList<Direction>();
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
     

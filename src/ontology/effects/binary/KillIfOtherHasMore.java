@@ -23,13 +23,13 @@ public class KillIfOtherHasMore extends Effect
     public int limit;
     public boolean subtract;
 
-    public KillIfOtherHasMore(InteractionContent cnt, VGDLFactory factory)
+    public KillIfOtherHasMore(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         is_kill_effect = true;
         resourceId = -1;
         subtract = false;
         this.parseParameters(cnt, factory);
-        resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
+        resourceId = registry.getRegisteredSpriteValue(resource);
     }
 
     @Override

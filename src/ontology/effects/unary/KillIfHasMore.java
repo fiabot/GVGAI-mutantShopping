@@ -22,12 +22,12 @@ public class KillIfHasMore extends Effect
     public int resourceId;
     public int limit;
 
-    public KillIfHasMore(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public KillIfHasMore(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         is_kill_effect = true;
         resourceId = -1;
         this.parseParameters(cnt, factory);
-        resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
+        resourceId = registry.getRegisteredSpriteValue(resource);
         if(resourceId == -1){
             throw new Exception("Undefined sprite " + resource);
         }

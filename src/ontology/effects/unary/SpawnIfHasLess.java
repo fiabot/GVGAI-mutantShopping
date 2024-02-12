@@ -22,15 +22,15 @@ public class SpawnIfHasLess extends Effect {
     public String stype;
     public int itype;
 
-    public SpawnIfHasLess(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public SpawnIfHasLess(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         resourceId = -1;
         this.parseParameters(cnt, factory);
-        resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
+        resourceId = registry.getRegisteredSpriteValue(resource);
         if(resourceId == -1){
             throw new Exception("Undefined sprite " + resource);
         }
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

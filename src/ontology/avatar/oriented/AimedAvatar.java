@@ -24,10 +24,15 @@ public class AimedAvatar extends ShootAvatar
 
     public double angle_diff = 0.15;
 
+    VGDLRegistry registry;
+
     public AimedAvatar(){}
 
-    public AimedAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public AimedAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        super.registry = registry;
+        this.registry = registry;
+    
         //Init the sprite
         this.init(position, size, factory);
 
@@ -62,12 +67,12 @@ public class AimedAvatar extends ShootAvatar
         itype = new int[stypes.length];
 
         for (int i = 0; i < itype.length; i++)
-            itype[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypes[i]);
+            itype[i] = registry.getRegisteredSpriteValue(stypes[i]);
         if(ammo != null) {
             ammos = ammo.split(",");
             ammoId = new int[ammos.length];
             for (int i = 0; i < ammos.length; i++) {
-                ammoId[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(ammos[i]);
+                ammoId[i] = registry.getRegisteredSpriteValue(ammos[i]);
             }
         }
     }
@@ -132,6 +137,7 @@ public class AimedAvatar extends ShootAvatar
     {
         AimedAvatar targetSprite = (AimedAvatar) target;
         targetSprite.angle_diff = this.angle_diff;
+        targetSprite.registry = this.registry;
 
         super.copyTo(targetSprite);
     }

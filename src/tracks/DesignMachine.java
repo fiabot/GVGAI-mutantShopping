@@ -33,8 +33,8 @@ public class DesignMachine {
      */
     public DesignMachine(String game_file)
     {
-        VGDLFactory.GetInstance().init(); // This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLFactory.GetInstance().init(); // This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
 
         // First, we create the game to be played..
         toPlay = (GameSpace) (new VGDLParser().parseGame(game_file));

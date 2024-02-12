@@ -79,19 +79,20 @@ public class VGDLParser {
 	public Game parseGame(String gamedesc_file) {
 		String[] desc_lines = new IO().readFile(gamedesc_file);
 		if (desc_lines != null) {
-			Node rootNode = indentTreeParser(desc_lines);
+			VGDLRegistry registry  = new VGDLRegistry(); 
+			Node rootNode = indentTreeParser(desc_lines, registry);
 
 			// Parse here game and arguments of the first line
 			VGDLFactory factory = new VGDLFactory();
-			game = factory.createGame((GameContent) rootNode.content);
+			game = factory.createGame((GameContent) rootNode.content, registry);
 			game.initMulti();
 
 			// Parse the parameter nodes first, if any.
-			parseParameterNodes(rootNode, factory);
+			parseParameterNodes(rootNode, factory, registry);
 
 			// Parse the nodes.
 			try {
-				parseNodes(rootNode, factory);
+				parseNodes(rootNode, factory, registry);
 			} catch (Exception e) {
 			    logger.addMessage(new Message(Message.ERROR, "[PARSE ERROR] " + e.toString()));
 			}
@@ -110,17 +111,18 @@ public class VGDLParser {
 	public Game parseGameWithParameters(String gamedesc_file, HashMap<String, ParameterContent> parameters) {
 		String[] desc_lines = new IO().readFile(gamedesc_file);
 		if (desc_lines != null) {
-			Node rootNode = indentTreeParser(desc_lines);
+			VGDLRegistry registry  = new VGDLRegistry(); 
+			Node rootNode = indentTreeParser(desc_lines, registry);
 
 			// Parse here game and arguments of the first line
 			VGDLFactory factory = new VGDLFactory(); 
-			game = factory.createGame((GameContent) rootNode.content);
+			game = factory.createGame((GameContent) rootNode.content, registry);
 			game.initMulti();
 			game.setParameters(parameters);
 
 			// Parse the normal nodes, but not the parameters.
 			try {
-				parseNodes(rootNode, factory);
+				parseNodes(rootNode, factory, game.getRegistry());
 			} catch (Exception e) {
 			    logger.addMessage(new Message(Message.ERROR, "[PARSE ERROR] " + e.toString()));
 			}
@@ -135,20 +137,20 @@ public class VGDLParser {
 	 * @param rootNode
 	 *            the root VGDL node.
 	 */
-	private void parseParameterNodes(Node rootNode, VGDLFactory factory) {
+	private void parseParameterNodes(Node rootNode, VGDLFactory factory, VGDLRegistry registry) {
 		// We parse the parameter set first:
 		for (Node n : rootNode.children) {
 			if (n.content.identifier.equals("ParameterSet")) {
 				parseParameterSet(n.children);
 				if (n.content.identifier.equals("SpriteSet")) {
 					try {
-						parseSpriteSet(n.children);
+						parseSpriteSet(n.children, registry);
 					} catch (Exception e) {
 						logger.addMessage(new Message(Message.ERROR, "Sprite Set Error: " + e.toString()));
 					}
 				} else if (n.content.identifier.equals("InteractionSet")) {
 					try {
-						parseInteractionSet(n.children, factory);
+						parseInteractionSet(n.children, factory, registry);
 					} catch (Exception e) {
 						logger.addMessage(new Message(Message.ERROR, "Interaction Set Error: " + e.getMessage()));
 					}
@@ -176,13 +178,13 @@ public class VGDLParser {
 	 * @param rootNode
 	 *            the root VGDL node.
 	 */
-	private void parseNodes(Node rootNode, VGDLFactory factory) throws Exception {
+	private void parseNodes(Node rootNode, VGDLFactory factory, VGDLRegistry registry) throws Exception {
 		// Parse here the normal blocks of VGDL.
 		for (Node n : rootNode.children) {
 			if (n.content.identifier.equals("SpriteSet")) {
-				parseSpriteSet(n.children);
+				parseSpriteSet(n.children, registry);
 			} else if (n.content.identifier.equals("InteractionSet")) {
-				parseInteractionSet(n.children, factory);
+				parseInteractionSet(n.children, factory, registry);
 			} else if (n.content.identifier.equals("LevelMapping")) {
 				parseLevelMapping(n.children);
 			} else if (n.content.identifier.equals("TerminationSet")) {
@@ -219,9 +221,9 @@ public class VGDLParser {
 			msprites.add(template + value.trim());
 		}
 
-		Node spriteNode = indentTreeParser(msprites.toArray(new String[msprites.size()]));
+		Node spriteNode = indentTreeParser(msprites.toArray(new String[msprites.size()]), game.getRegistry());
 		try {
-			parseSpriteSet(spriteNode.children);
+			parseSpriteSet(spriteNode.children, game.getRegistry());
 		} catch (Exception e) {
 			logger.addMessage(new Message(1, "[PARSE ERROR]"));
 		}
@@ -252,10 +254,10 @@ public class VGDLParser {
 			mterm[i + 1] = "    " + terminations[i];
 		}
 
-		Node rulesNode = indentTreeParser(mrules);
-		Node terNode = indentTreeParser(mterm);
+		Node rulesNode = indentTreeParser(mrules, game.getRegistry());
+		Node terNode = indentTreeParser(mterm, game.getRegistry());
 		try {
-			parseInteractionSet(rulesNode.children, game.getFactory());
+			parseInteractionSet(rulesNode.children, game.getFactory(), game.getRegistry());
 			parseTerminationSet(terNode.children);
 		} catch (Exception e) {
 			logger.addMessage(new Message(1, "[PARSE ERROR]"));
@@ -269,7 +271,7 @@ public class VGDLParser {
 	 *            array with the lines read from the game description file.
 	 * @return the root of the final game tree
 	 */
-	public Node indentTreeParser(String[] lines) {
+	public Node indentTreeParser(String[] lines, VGDLRegistry registry) {
 		// By default, let's make tab as four spaces
 		String tabTemplate = "    ";
 		Node last = null;
@@ -295,7 +297,7 @@ public class VGDLParser {
 				// figure out the indent of the line.
 				int indent = line.indexOf(firstChar);
 				try{
-				    last = new Node(content, indent, last, currentSet, lineNumber);
+				    last = new Node(content, indent, last, currentSet, lineNumber, registry);
 				}
 				catch(Exception e){
 				    Logger.getInstance().addMessage(new Message(Message.ERROR, "[PARSE ERROR]" + e.getMessage() + " Line: " + lineNumber + ":" + line.trim()));
@@ -334,12 +336,12 @@ public class VGDLParser {
 	 * @param elements
 	 *            children of the root node of the game description sprite set.
 	 */
-	private void parseSpriteSet(ArrayList<Node> elements) {
+	private void parseSpriteSet(ArrayList<Node> elements, VGDLRegistry registry) {
 		// We need these 2 here:
-		spriteOrderTmp.add(VGDLRegistry.GetInstance().getRegisteredSpriteValue("wall"));
-		spriteOrderTmp.add(VGDLRegistry.GetInstance().getRegisteredSpriteValue("avatar"));
+		spriteOrderTmp.add(registry.getRegisteredSpriteValue("wall"));
+		spriteOrderTmp.add(registry.getRegisteredSpriteValue("avatar"));
 
-		_parseSprites(elements, null, new HashMap<String, String>(), new ArrayList<String>());
+		_parseSprites(elements, null, new HashMap<String, String>(), new ArrayList<String>(), registry);
 
 		// Set the order of sprites.
 		game.initSprites(spriteOrderTmp, singletonTmp, constructors);
@@ -350,7 +352,7 @@ public class VGDLParser {
 	 * @param elements		current sprite set tree
 	 * @param parentclass	previous parent in the tree (root have null parent)
 	 */
-	private void modifySpriteOrder(ArrayList<Node> elements, String parentclass) {
+	private void modifySpriteOrder(ArrayList<Node> elements, String parentclass,VGDLRegistry registry) {
 		String prevParentClass = parentclass;
 		for (Node el : elements) {
 			SpriteContent sc = (SpriteContent) el.content;
@@ -358,7 +360,7 @@ public class VGDLParser {
 				return;
 
 			// Register this entry.
-			Integer intId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(sc.identifier);
+			Integer intId = registry.getRegisteredSpriteValue(sc.identifier);
 
 			// Get the class of the object
 			String spriteClassName = sc.referenceClass;
@@ -380,7 +382,7 @@ public class VGDLParser {
 				if (spriteClassName != null)
 					parentclass = spriteClassName;
 
-				modifySpriteOrder(el.children, parentclass);
+				modifySpriteOrder(el.children, parentclass, registry);
 			}
 		}
 	}
@@ -392,7 +394,7 @@ public class VGDLParser {
 	 */
 	public void modifyTheSpriteRender(Game currentGame, ArrayList<Node> elements){
 		this.game = currentGame;
-		this.modifySpriteOrder(elements, null);
+		this.modifySpriteOrder(elements, null, game.getRegistry());
 
 		this.game.changeSpriteOrder(this.spriteOrderTmp);
 	}
@@ -413,7 +415,7 @@ public class VGDLParser {
 	 */
 	@SuppressWarnings("unchecked")
 	private void _parseSprites(ArrayList<Node> elements, String parentclass, HashMap<String, String> parentargs,
-							   ArrayList<String> parenttypes) {
+							   ArrayList<String> parenttypes, VGDLRegistry registry) {
 		HashMap<String, String> args = (HashMap<String, String>) parentargs.clone();
 		ArrayList<String> types = (ArrayList<String>) parenttypes.clone();
 		String prevParentClass = parentclass;
@@ -427,7 +429,7 @@ public class VGDLParser {
 			types.add(identifier);
 
 			// Register this entry.
-			Integer intId = VGDLRegistry.GetInstance().registerSprite(identifier);
+			Integer intId = registry.registerSprite(identifier);
 			constructors.put(intId, sc); // Ad the constructor for these
 			// objects.
 
@@ -480,7 +482,7 @@ public class VGDLParser {
 				if (spriteClassName != null)
 					parentclass = spriteClassName;
 
-				_parseSprites(el.children, parentclass, args, types);
+				_parseSprites(el.children, parentclass, args, types, registry);
 				args = (HashMap<String, String>) parentargs.clone();
 				types = (ArrayList<String>) parenttypes.clone();
 				parentclass = prevParentClass;
@@ -508,7 +510,7 @@ public class VGDLParser {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	private void parseInteractionSet(ArrayList<Node> elements, VGDLFactory factory) throws Exception {
+	private void parseInteractionSet(ArrayList<Node> elements, VGDLFactory factory, VGDLRegistry registry) throws Exception {
 		for (Node n : elements) {
 			InteractionContent ic = (InteractionContent) n.content;
 			ic.lineNumber = n.lineNumber;
@@ -518,12 +520,12 @@ public class VGDLParser {
 
 				// Get the identifiers of the first sprite taking part in the
 				// effect.
-				int obj1 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(ic.object1);
+				int obj1 = registry.getRegisteredSpriteValue(ic.object1);
 
 				// The second identifier comes from a list of sprites. We go one
 				// by one.
 				for (String obj2Str : ic.object2) {
-					int obj2 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(obj2Str);
+					int obj2 = registry.getRegisteredSpriteValue(obj2Str);
 
 					if (obj1 != -1 && obj2 != -1) {
 						Pair newPair = new Pair(obj1, obj2);

@@ -33,11 +33,11 @@ public class TransformTo extends Effect {
     public boolean killSecond = false;
     public boolean forceOrientation = false;
 
-    public TransformTo(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public TransformTo(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         is_kill_effect = true;
         this.parseParameters(cnt, factory);
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

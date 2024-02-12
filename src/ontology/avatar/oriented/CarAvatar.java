@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import core.content.SpriteContent;
 import core.game.Game;
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import ontology.Types;
 import tools.Direction;
@@ -26,7 +27,7 @@ public class CarAvatar extends OrientedAvatar
 
     public CarAvatar(){}
 
-    public CarAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public CarAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         //Init the sprite
         this.init(position, size, factory);

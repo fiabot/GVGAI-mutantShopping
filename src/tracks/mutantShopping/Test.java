@@ -217,8 +217,8 @@ public class Test {
 		String sampleOLETSController = "tracks.singlePlayer.advanced.olets.Agent";
 		String game = "src/tracks/mutantShopping/SimpleGame.txt"; 
 		String level = "src/tracks/mutantShopping/SimpleLevel.txt"; 
-		String[] game_list = {game, game, game, game, game, game, game, game, game}; 
-		String[] levels = {level, level, level, level, level, level, level, level, level}; 
+		String[] game_list = {game, game, game, game}; 
+		String[] levels = {level, level, level, level}; 
 		GameGridDisplay grid = new GameGridDisplay(game_list, levels, sampleRHEAController, frame.getContentPane(), frame, seed);
 
 	}

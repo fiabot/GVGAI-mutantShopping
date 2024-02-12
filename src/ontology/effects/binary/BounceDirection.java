@@ -1,6 +1,7 @@
 package ontology.effects.binary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -23,7 +24,7 @@ public class BounceDirection extends Effect
     public double maxBounceAngleDeg;
     private double maxBounceAngleRad;
 
-    public BounceDirection(InteractionContent cnt, VGDLFactory factory)
+    public BounceDirection(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         maxBounceAngleDeg = 60; //Default value
         this.parseParameters(cnt, factory);

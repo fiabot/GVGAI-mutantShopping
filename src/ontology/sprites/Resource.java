@@ -22,11 +22,13 @@ public class Resource extends Passive
     public int limit;
     public int resource_type;
     public String resource_name;
+    VGDLRegistry registry; 
 
     public Resource(){}
 
-    public Resource(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public Resource(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
@@ -44,7 +46,7 @@ public class Resource extends Passive
     public void postProcess()
     {
         super.postProcess();
-        resource_type = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource_name);
+        resource_type = registry.getRegisteredSpriteValue(resource_name);
     }
 
     protected void loadDefaults()
@@ -71,6 +73,7 @@ public class Resource extends Passive
         targetSprite.value = this.value;
         targetSprite.resource_type = this.resource_type;
         targetSprite.resource_name = this.resource_name;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
 

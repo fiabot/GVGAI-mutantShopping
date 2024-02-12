@@ -26,10 +26,10 @@ public class ShieldFrom extends Effect {
     public long iftype;
 
 
-    public ShieldFrom(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public ShieldFrom(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         this.parseParameters(cnt, factory);
-        istype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        istype = registry.getRegisteredSpriteValue(stype);
         if(istype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

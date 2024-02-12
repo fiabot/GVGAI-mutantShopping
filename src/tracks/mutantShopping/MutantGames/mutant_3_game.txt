@@ -3,17 +3,16 @@ BasicGame square_size=25
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
     	avatar  > MissileAvatar  img=oryx/spaceship1
-    	enemy4961 > RandomNPC img=oryx/alien1 color=DARKBLUE
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
-    	0 > background enemy4961
 
     InteractionSet
     	avatar  EOS  > stepBack
+    	background base > align value=-120
 
     TerminationSet
     	Timeout win=True limit=300

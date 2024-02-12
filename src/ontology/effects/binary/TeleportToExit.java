@@ -3,6 +3,7 @@ package ontology.effects.binary;
 import java.util.Collection;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -22,7 +23,7 @@ public class TeleportToExit extends Effect
 {
 
     VGDLFactory factory; 
-    public TeleportToExit(InteractionContent cnt, VGDLFactory factory)
+    public TeleportToExit(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
         this.factory = factory;

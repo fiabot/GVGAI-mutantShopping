@@ -322,8 +322,8 @@ public class GameDescription {
 	 *         empty array is returned
 	 */
 	public ArrayList<GameDescription.InteractionData> getInteraction(String stype1, String stype2) {
-		int itype1 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype1);
-		int itype2 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype2);
+		int itype1 = currentGame.getRegistry().getRegisteredSpriteValue(stype1);
+		int itype2 = currentGame.getRegistry().getRegisteredSpriteValue(stype2);
 
 		return currentGame.getInteractionData(itype1, itype2);
 	}

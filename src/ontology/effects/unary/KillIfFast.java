@@ -1,6 +1,7 @@
 package ontology.effects.unary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -20,7 +21,7 @@ public class KillIfFast extends Effect
 {
 	public double limspeed;
 
-    public KillIfFast(InteractionContent cnt, VGDLFactory factory)
+    public KillIfFast(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         is_kill_effect = true;
 		limspeed = 1.0;

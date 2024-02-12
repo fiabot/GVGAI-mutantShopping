@@ -1185,6 +1185,7 @@ public abstract class VGDLSprite {
         toSprite.max_speed = this.max_speed;
         toSprite.img = this.img;
         toSprite.orientedImg = this.orientedImg;
+        toSprite.factory = this.factory;
 
         toSprite.itypes = new ArrayList<Integer>();
         for(Integer it : this.itypes)

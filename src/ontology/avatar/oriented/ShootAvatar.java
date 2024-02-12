@@ -35,11 +35,13 @@ public class ShootAvatar extends OrientedAvatar
     public String stype;
     public String[] stypes;
     public int[] itype;
+    VGDLRegistry registry; 
 
     public ShootAvatar(){}
 
-    public ShootAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
-    {
+    public ShootAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
+    {   
+        this.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
@@ -137,12 +139,12 @@ public class ShootAvatar extends OrientedAvatar
         itype = new int[stypes.length];
 
         for (int i = 0; i < itype.length; i++)
-            itype[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypes[i]);
+            itype[i] = registry.getRegisteredSpriteValue(stypes[i]);
         if(ammo != null) {
             ammos = ammo.split(",");
             ammoId = new int[ammos.length];
             for (int i = 0; i < ammos.length; i++) {
-                ammoId[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(ammos[i]);
+                ammoId[i] = registry.getRegisteredSpriteValue(ammos[i]);
             }
         }
     }
@@ -163,6 +165,7 @@ public class ShootAvatar extends OrientedAvatar
         targetSprite.ammo = this.ammo;
         targetSprite.ammoId= this.ammoId.clone();
         targetSprite.ammos = this.ammos.clone();
+        targetSprite.registry = this.registry;
 
         super.copyTo(targetSprite);
     }

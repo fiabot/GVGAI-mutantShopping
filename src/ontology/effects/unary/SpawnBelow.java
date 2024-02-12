@@ -20,11 +20,11 @@ public class SpawnBelow extends Effect {
     public int itype;
     public boolean stepBack;
 
-    public SpawnBelow(InteractionContent cnt, VGDLFactory factory)
+    public SpawnBelow(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         stepBack = false;
         this.parseParameters(cnt, factory);
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
     }
 
     @Override

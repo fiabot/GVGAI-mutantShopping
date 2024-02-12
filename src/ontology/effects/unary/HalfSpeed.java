@@ -1,6 +1,7 @@
 package ontology.effects.unary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -17,7 +18,7 @@ import ontology.effects.Effect;
  */
 public class HalfSpeed extends Effect {
 
-    public HalfSpeed(InteractionContent cnt, VGDLFactory factory)
+    public HalfSpeed(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
     }

@@ -17,14 +17,14 @@ public class UpdateSpawnType extends Effect {
     public String spawnPoint; //stype string of spawn point
     public int itype, ispawn;
 
-    public UpdateSpawnType(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public UpdateSpawnType(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         this.parseParameters(cnt, factory);
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }
-        ispawn = VGDLRegistry.GetInstance().getRegisteredSpriteValue(spawnPoint);
+        ispawn = registry.getRegisteredSpriteValue(spawnPoint);
         if(ispawn == -1){
             throw new Exception("Undefined sprite " + spawnPoint);
         }

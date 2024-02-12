@@ -31,11 +31,15 @@ public class FlakAvatar extends HorizontalAvatar
     public int minAmmo; //-1 if not used. minimum amount of ammo needed for shooting.
     public int ammoCost; //1 if not used. amount of ammo to subtract after shooting once.
 
+    VGDLRegistry registry;
+
 
     public FlakAvatar(){}
 
-    public FlakAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public FlakAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        super.registry = registry;
+        this.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
@@ -69,9 +73,9 @@ public class FlakAvatar extends HorizontalAvatar
 
         super.postProcess();
 
-        itype =  VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype =  registry.getRegisteredSpriteValue(stype);
         if(ammo != null)
-            ammoId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(ammo);
+            ammoId = registry.getRegisteredSpriteValue(ammo);
     }
 
     /**
@@ -135,6 +139,7 @@ public class FlakAvatar extends HorizontalAvatar
         targetSprite.ammoId= this.ammoId;
         targetSprite.ammoCost = this.ammoCost;
         targetSprite.minAmmo= this.minAmmo;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
     

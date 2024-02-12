@@ -3,6 +3,7 @@ package ontology.sprites.npc;
 import java.awt.Dimension;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import tools.Vector2d;
@@ -18,8 +19,9 @@ public class Fleeing extends Chaser
 {
     public Fleeing(){}
 
-    public Fleeing(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public Fleeing(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        super.registry = registry; 
         //Init the sprite
         this.init(position, size, factory);
 
@@ -46,6 +48,7 @@ public class Fleeing extends Chaser
     public void copyTo(VGDLSprite target)
     {
         Fleeing targetSprite = (Fleeing) target;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
 }

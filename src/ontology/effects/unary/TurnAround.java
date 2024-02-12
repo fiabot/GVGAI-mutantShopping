@@ -1,6 +1,7 @@
 package ontology.effects.unary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -18,7 +19,7 @@ import ontology.effects.Effect;
  */
 public class TurnAround extends Effect
 {
-    public TurnAround(InteractionContent cnt, VGDLFactory factory)
+    public TurnAround(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
     }

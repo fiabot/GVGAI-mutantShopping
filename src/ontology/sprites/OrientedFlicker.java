@@ -3,6 +3,7 @@ package ontology.sprites;
 import java.awt.Dimension;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -19,7 +20,7 @@ public class OrientedFlicker extends Flicker{
 
     public OrientedFlicker(){}
 
-    public OrientedFlicker(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public OrientedFlicker(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         //Init the sprite
         this.init(position, size, factory);

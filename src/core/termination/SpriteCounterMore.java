@@ -21,11 +21,11 @@ public class SpriteCounterMore extends Termination
 
     public SpriteCounterMore(){}
 
-    public SpriteCounterMore(TerminationContent cnt, VGDLFactory factory) throws Exception
+    public SpriteCounterMore(TerminationContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         //Parse the arguments.
         this.parseParameters(cnt, factory);
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             String[] className = this.getClass().getName().split("\\.");
             throw new Exception("[" + className[className.length - 1] + "] Undefined sprite " + stype);

@@ -20,11 +20,11 @@ public class RemoveScore extends Effect {
     public String stype = "";
     public int itype = -1;
 
-    public RemoveScore(InteractionContent cnt, VGDLFactory factory)
+    public RemoveScore(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         this.parseParameters(cnt, factory);
         if (!Objects.equals(stype, "")) {
-            itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            itype = registry.getRegisteredSpriteValue(stype);
         }
     }
 

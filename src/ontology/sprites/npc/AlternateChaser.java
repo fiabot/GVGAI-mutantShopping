@@ -34,10 +34,13 @@ public class AlternateChaser extends RandomNPC
     ArrayList<VGDLSprite> targets;
     ArrayList<Direction> actions;
 
+    VGDLRegistry registry; 
+
     public AlternateChaser(){}
 
-    public AlternateChaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
+    public AlternateChaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
@@ -66,11 +69,11 @@ public class AlternateChaser extends RandomNPC
         itype2 = new int[stypes2.length];
 
         for (int i = 0; i<stypes1.length; i++) {
-            itype1[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypes1[i]);
+            itype1[i] = registry.getRegisteredSpriteValue(stypes1[i]);
         }
 
         for (int i = 0; i<stypes2.length; i++) {
-            itype2[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypes2[i]);
+            itype2[i] = registry.getRegisteredSpriteValue(stypes2[i]);
         }
 
     }
@@ -200,6 +203,7 @@ public class AlternateChaser extends RandomNPC
         targetSprite.itype2 = this.itype2.clone();
         targetSprite.targets = new ArrayList<VGDLSprite>();
         targetSprite.actions = new ArrayList<Direction>();
+        targetSprite.registry = this,registry;
         super.copyTo(targetSprite);
     }
 

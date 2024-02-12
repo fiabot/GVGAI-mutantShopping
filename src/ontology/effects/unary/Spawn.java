@@ -19,10 +19,10 @@ public class Spawn extends Effect {
     public String stype;
     public int itype;
 
-    public Spawn(InteractionContent cnt,VGDLFactory factory) throws Exception
+    public Spawn(InteractionContent cnt,VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         this.parseParameters(cnt, factory);
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

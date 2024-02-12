@@ -3,6 +3,7 @@ package ontology.effects.binary;
 import java.util.ArrayList;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -25,7 +26,7 @@ public class WallStop extends Effect
     private int lastGameTime;
     private ArrayList<VGDLSprite> spritesThisCycle;
 
-    public WallStop(InteractionContent cnt, VGDLFactory factory)
+    public WallStop(InteractionContent cnt, VGDLFactory factory,VGDLRegistry registry)
     {
         lastGameTime = -1;
         spritesThisCycle = new ArrayList<VGDLSprite>();

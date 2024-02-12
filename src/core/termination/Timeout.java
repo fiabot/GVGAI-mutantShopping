@@ -6,6 +6,7 @@ import core.content.TerminationContent;
 import core.game.Game;
 import core.game.GameDescription.TerminationData;
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +23,7 @@ public class Timeout extends Termination
 
     public Timeout(){}
 
-    public Timeout(TerminationContent cnt, VGDLFactory factory)
+    public Timeout(TerminationContent cnt, VGDLFactory factory,  VGDLRegistry registry)
     {
         //Parse the arguments.
         this.parseParameters(cnt, factory);

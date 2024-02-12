@@ -1,6 +1,7 @@
 package ontology.effects.unary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -20,7 +21,7 @@ import tools.Utils;
  */
 public class FlipDirection extends Effect
 {
-    public FlipDirection(InteractionContent cnt, VGDLFactory factory)
+    public FlipDirection(InteractionContent cnt, VGDLFactory factory,VGDLRegistry registry)
     {
         is_stochastic = true;
         this.parseParameters(cnt, factory);

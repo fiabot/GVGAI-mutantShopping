@@ -24,13 +24,13 @@ public class CollectResourceIfHeld extends Effect
     public int heldResourceId;
     public int value;
 
-    public CollectResourceIfHeld(InteractionContent cnt, VGDLFactory factory)
+    public CollectResourceIfHeld(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         value = 1;
         killResource = true;
         this.parseParameters(cnt, factory);
         is_kill_effect = killResource;
-        heldResourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(heldResource);
+        heldResourceId = registry.getRegisteredSpriteValue(heldResource);
 
     }
 

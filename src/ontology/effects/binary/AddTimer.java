@@ -1,6 +1,7 @@
 package ontology.effects.binary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -26,8 +27,9 @@ public class AddTimer extends TimeEffect
 
     public AddTimer() {}
 
-    public AddTimer(InteractionContent cnt, VGDLFactory factory) throws Exception
+    public AddTimer(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
+        
         this.parseParameters(cnt, factory);
         this.factory = factory;
 
