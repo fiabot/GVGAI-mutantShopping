@@ -1,5 +1,7 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -20,10 +22,10 @@ public class CollectResource extends Effect
 
     public boolean killResource;
 
-    public CollectResource(InteractionContent cnt)
+    public CollectResource(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         killResource = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         is_kill_effect = killResource;
     }
 

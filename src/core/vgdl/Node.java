@@ -42,6 +42,8 @@ public class Node
      */
     public int lineNumber;
 
+    VGDLRegistry registry; 
+
     /**
      * Constructor of the node.
      * @param contentLine string with the node information
@@ -49,8 +51,9 @@ public class Node
      * @param parent indicates the parent of the new node, if any.
      * @throws Exception 
      */
-    public Node(String contentLine, int indent, Node parent, int set) throws Exception
+    public Node(String contentLine, int indent, Node parent, int set, VGDLRegistry registry) throws Exception
     {
+        this.registry = registry;
         children = new ArrayList<Node>();
         this.content = createContent(contentLine, set);
         this.indent = indent;
@@ -58,9 +61,12 @@ public class Node
             this.parent = null;
         else
             parent.insert(this);
+        
+
     }
 
-    public Node(String contentLine, int indent, Node parent, int set, int lineNumber) throws Exception {
+    public Node(String contentLine, int indent, Node parent, int set, int lineNumber, VGDLRegistry registry) throws Exception {
+        this.registry = registry;
         children = new ArrayList<Node>();
         this.content = createContent(contentLine, set);
         this.indent = indent;
@@ -86,7 +92,7 @@ public class Node
                 return new GameContent(line);
 
             case Types.VGDL_SPRITE_SET:
-                return new SpriteContent(line);
+                return new SpriteContent(line, this.registry);
             //
             case Types.VGDL_INTERACTION_SET:
                 return new InteractionContent(line);

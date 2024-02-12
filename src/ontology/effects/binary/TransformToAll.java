@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -25,10 +26,10 @@ public class TransformToAll extends TransformTo {
     public String stypeTo;
     public int itypeTo;
 
-    public TransformToAll(InteractionContent cnt) throws Exception
+    public TransformToAll(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
-        super(cnt);
-        itypeTo = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypeTo);
+        super(cnt, factory);
+        itypeTo = registry.getRegisteredSpriteValue(stypeTo);
         if(itypeTo == -1){
             throw new Exception("Undefined sprite " + stypeTo);
         }

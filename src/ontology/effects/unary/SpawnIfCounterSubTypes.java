@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -24,18 +25,18 @@ public class SpawnIfCounterSubTypes extends Effect {
     public int subTypesNum=-1; // number of subtypes
     public int limit; //number of total sprites
 
-    public SpawnIfCounterSubTypes(InteractionContent cnt) throws Exception
+    public SpawnIfCounterSubTypes(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
-        this.parseParameters(cnt);
-        eitype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(estype);
+        this.parseParameters(cnt, factory);
+        eitype = registry.getRegisteredSpriteValue(estype);
         if(eitype == -1){
             throw new Exception("Undefined sprite " + estype);
         }
-        citype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypeCount);
+        citype = registry.getRegisteredSpriteValue(stypeCount);
         if(citype == -1){
             throw new Exception("Undefined sprite " + stypeCount);
         }
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);
         }

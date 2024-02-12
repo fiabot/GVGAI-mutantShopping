@@ -9,6 +9,7 @@ BasicGame square_size=20
     	0 > background base
     	A > background avatar
     	w > background
+    	1 > background enemy1245
 
     InteractionSet
     	avatar  EOS  > stepBack
@@ -16,3 +17,4 @@ BasicGame square_size=20
 
     TerminationSet
     	Timeout win=True limit=300
+    	Timeout win=False limit=1173

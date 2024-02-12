@@ -16,7 +16,7 @@ BasicGame square_size=20
     	5 > background enemy5705
 
     InteractionSet
-    	avatar  EOS  > stepBack
+    	avatar  EOS  > stepBack resource=wall
 
     TerminationSet
     	Timeout win=True limit=300

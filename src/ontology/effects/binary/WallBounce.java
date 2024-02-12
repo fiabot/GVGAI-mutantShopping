@@ -1,5 +1,7 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -24,10 +26,10 @@ import java.util.Comparator;
  */
 public class WallBounce extends Effect
 {
-    public WallBounce(InteractionContent cnt)
+    public WallBounce(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         super.inBatch = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

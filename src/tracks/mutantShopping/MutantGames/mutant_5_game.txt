@@ -17,3 +17,7 @@ BasicGame square_size=20
 
     TerminationSet
     	Timeout win=True limit=300
+<<<<<<< HEAD
+    	SpriteCounter win=False limit=510
+=======
+>>>>>>> grid-view

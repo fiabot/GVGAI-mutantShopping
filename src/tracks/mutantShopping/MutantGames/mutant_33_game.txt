@@ -1,4 +1,3 @@
-BasicGame square_size=20
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
@@ -9,9 +8,11 @@ BasicGame square_size=20
     	0 > background base
     	A > background avatar
     	w > background
+    	3 > background enemy5284
+    	3 > background enemy7877
 
     InteractionSet
-    	avatar  EOS  > stepBack
+    	avatar EOS > killAll 
 
     TerminationSet
     	Timeout win=True limit=300

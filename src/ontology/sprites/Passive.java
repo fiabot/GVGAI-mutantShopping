@@ -2,6 +2,8 @@ package ontology.sprites;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import ontology.Types;
@@ -18,10 +20,10 @@ public class Passive extends VGDLSprite
 {
     public Passive(){}
 
-    public Passive(Vector2d position, Dimension size, SpriteContent cnt)
+    public Passive(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

@@ -3,6 +3,8 @@ package ontology.avatar;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.competition.CompetitionParameters;
 import core.content.SpriteContent;
@@ -43,9 +45,9 @@ public class MovingAvatar extends VGDLSprite {
     public MovingAvatar() {
     }
 
-    public MovingAvatar(Vector2d position, Dimension size, SpriteContent cnt) {
+    public MovingAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry) {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

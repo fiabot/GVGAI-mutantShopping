@@ -3,6 +3,7 @@ package ontology.sprites.producer;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -21,12 +22,15 @@ public class Portal extends SpriteProducer
     public String stype;
     public int itype;
 
+    VGDLRegistry registry;
+
     public Portal(){}
 
-    public Portal(Vector2d position, Dimension size, SpriteContent cnt)
+    public Portal(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -46,7 +50,7 @@ public class Portal extends SpriteProducer
     public void postProcess()
     {
         super.postProcess();
-        itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+        itype = registry.getRegisteredSpriteValue(stype);
     }
 
     public VGDLSprite copy()
@@ -61,6 +65,7 @@ public class Portal extends SpriteProducer
         Portal targetSprite = (Portal) target;
         targetSprite.stype = this.stype;
         targetSprite.itype = this.itype;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
     

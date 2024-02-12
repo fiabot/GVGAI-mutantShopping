@@ -4,6 +4,8 @@ import java.awt.Dimension;
 
 import core.content.SpriteContent;
 import core.game.Game;
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import ontology.Types;
 import tools.Direction;
@@ -24,10 +26,10 @@ public class LanderAvatar extends OrientedAvatar
 
     public LanderAvatar(){}
 
-    public LanderAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public LanderAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

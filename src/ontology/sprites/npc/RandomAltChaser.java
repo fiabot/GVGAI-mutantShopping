@@ -2,6 +2,8 @@ package ontology.sprites.npc;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -19,10 +21,11 @@ public class RandomAltChaser extends AlternateChaser{
 
     public RandomAltChaser(){}
 
-    public RandomAltChaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomAltChaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        super.registry = registry;
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

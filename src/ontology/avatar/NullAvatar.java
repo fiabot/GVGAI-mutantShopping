@@ -1,5 +1,7 @@
 package ontology.avatar;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -20,10 +22,10 @@ public class NullAvatar extends HorizontalAvatar
 {
     public NullAvatar(){}
 
-    public NullAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public NullAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

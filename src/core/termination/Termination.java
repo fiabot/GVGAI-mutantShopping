@@ -20,9 +20,9 @@ public abstract class Termination {
     public boolean count_score = false;
     public static boolean canEnd = true;
 
-    public void parseParameters(TerminationContent content)
+    public void parseParameters(TerminationContent content, VGDLFactory factory)
     {
-        VGDLFactory.GetInstance().parseParameters(content, this);
+        factory.parseParameters(content, this);
     }
 
     public abstract boolean isDone(Game game);

@@ -3,7 +3,10 @@ package ontology.effects.binary;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
+import core.vgdl.VGDLViewer;
 import core.content.InteractionContent;
 import core.game.Game;
 import core.logging.Logger;
@@ -30,12 +33,12 @@ public class PullWithIt extends Effect
 
     public boolean pixelPerfect;
 
-    public PullWithIt(InteractionContent cnt)
+    public PullWithIt(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         pixelPerfect = false;
         lastGameTime = -1;
         spritesThisCycle = new ArrayList<VGDLSprite>();
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

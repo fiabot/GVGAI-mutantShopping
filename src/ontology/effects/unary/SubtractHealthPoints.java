@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -28,15 +29,15 @@ public class SubtractHealthPoints extends Effect
     public String scoreChangeIfKilled;
     private String defScoreChange;
 
-    public SubtractHealthPoints(InteractionContent cnt) throws Exception
+    public SubtractHealthPoints(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         is_kill_effect = true;
         limit = 0;
         value = 1;
         scoreChangeIfKilled = "0";
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         if (!Objects.equals(stype, "")){
-            itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            itype = registry.getRegisteredSpriteValue(stype);
             if(itype == -1){
         	throw new Exception("Undefined sprite " + stype);
             }

@@ -152,7 +152,7 @@ public class VGDLFactory
     /**
      * Default private constructor of this singleton.
      */
-    private VGDLFactory(){
+    public VGDLFactory(){
         init();
     }
 
@@ -199,24 +199,54 @@ public class VGDLFactory
      * Returns the unique instance of this class.
      * @return the factory that creates the game and the sprite objects.
      */
-    public static VGDLFactory GetInstance()
+    /*public static VGDLFactory GetInstance()
     {
         return MyWrapper.INSTANCE;
         
-    }
+    }*/ 
 
     /**
      * Creates a game, receiving a GameContent object
      * @param content potential parameters for the class.
      * @return The game just created.
      */
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")
     public Game createGame(GameContent content)
     {
         try{
             Class gameClass = registeredGames.get(content.referenceClass);
             Constructor gameConstructor = gameClass.getConstructor(new Class[] {GameContent.class});
-            return (Game) gameConstructor.newInstance(new Object[]{content});
+            Game game =  (Game) gameConstructor.newInstance(new Object[]{content});
+            game.setFactory(this);
+            return game; 
+
+        }catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            System.out.println("Error creating game of class " + content.referenceClass);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Error creating game of class " + content.referenceClass);
+        }
+
+        return null;
+    }*/ 
+
+       /**
+     * Creates a game, receiving a GameContent object
+     * @param content potential parameters for the class.
+     * @return The game just created.
+     */
+    @SuppressWarnings("unchecked")
+    public Game createGame(GameContent content, VGDLRegistry registry)
+    {
+        try{
+            Class gameClass = registeredGames.get(content.referenceClass);
+            Constructor gameConstructor = gameClass.getConstructor(new Class[] {GameContent.class, VGDLRegistry.class});
+            Game game =  (Game) gameConstructor.newInstance(new Object[]{content, registry});
+            game.setFactory(this);
+            return game; 
 
         }catch (NoSuchMethodException e)
         {
@@ -248,20 +278,25 @@ public class VGDLFactory
         try{
             Class spriteClass = registeredSprites.get(content.referenceClass);
             Constructor spriteConstructor = spriteClass.getConstructor
-                    (new Class[] {Vector2d.class, Dimension.class, SpriteContent.class});
-            return (VGDLSprite) spriteConstructor.newInstance(new Object[]{position, dim, content});
+                    (new Class[] {Vector2d.class, Dimension.class, SpriteContent.class, VGDLFactory.class, VGDLRegistry.class});
+            return (VGDLSprite) spriteConstructor.newInstance(new Object[]{position, dim, content, this, game.getRegistry()});
 
         }catch (NoSuchMethodException e)
         {
-            e.printStackTrace();
             System.out.println("Error creating sprite " + content.identifier + " of class " + content.referenceClass);
+            e.printStackTrace();
+            
         }
         catch (NullPointerException e){
+            System.out.println("Error creating sprite " + content.identifier + " of class " + content.referenceClass);
+            e.printStackTrace();
+            
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             System.out.println("Error creating sprite " + content.identifier + " of class " + content.referenceClass);
+            e.printStackTrace();
+            
         }
 
         return null;
@@ -298,12 +333,12 @@ public class VGDLFactory
         try{
             Class effectClass = registeredEffects.get(content.function);
             Constructor effectConstructor = effectClass.getConstructor
-                    (new Class[] {InteractionContent.class});
-            Effect ef = (Effect) effectConstructor.newInstance(new Object[]{content});
+                    (new Class[] {InteractionContent.class, VGDLFactory.class, VGDLRegistry.class});
+            Effect ef = (Effect) effectConstructor.newInstance(new Object[]{content, this, game.getRegistry()});
 
             if( content.object1.equalsIgnoreCase("TIME") ||
                 content.object2[0].equalsIgnoreCase("TIME"))
-                return new TimeEffect(content, ef);
+                return new TimeEffect(content, ef, this, game.getRegistry());
 
             return ef;
 
@@ -343,8 +378,8 @@ public class VGDLFactory
         try{
             Class terminationClass = registeredTerminations.get(content.identifier);
             Constructor terminationConstructor = terminationClass.getConstructor
-                    (new Class[] {TerminationContent.class});
-            Termination ter = (Termination) terminationConstructor.newInstance(new Object[]{content});
+                    (new Class[] {TerminationContent.class, VGDLFactory.class, VGDLRegistry.class});
+            Termination ter = (Termination) terminationConstructor.newInstance(new Object[]{content, this, game.getRegistry()});
             return ter;
 
         }catch (NoSuchMethodException e)

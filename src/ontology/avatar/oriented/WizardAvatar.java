@@ -1,5 +1,6 @@
 package ontology.avatar.oriented;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -33,13 +34,15 @@ public class WizardAvatar extends MovingAvatar
     public Direction facing_dir;
 
     public int last_block_time;
+    VGDLRegistry registry; 
 
     public WizardAvatar(){}
 
-    public WizardAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public WizardAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry; 
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -135,7 +138,7 @@ public class WizardAvatar extends MovingAvatar
         itype = new int[stypes.length];
 
         for (int i = 0; i < itype.length; i++)
-            itype[i] = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypes[i]);
+            itype[i] = registry.getRegisteredSpriteValue(stypes[i]);
 
         super.postProcess();
     }
@@ -172,6 +175,7 @@ public class WizardAvatar extends MovingAvatar
         targetSprite.itype = this.itype.clone();
         targetSprite.facing_dir = new Direction(this.facing_dir.x(), this.facing_dir.y());
         targetSprite.last_block_time = this.last_block_time;
+        targetSprite.registry = registry;
         super.copyTo(targetSprite);
     }
 

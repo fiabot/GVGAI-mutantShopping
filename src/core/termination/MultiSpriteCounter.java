@@ -2,6 +2,7 @@ package core.termination;
 
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.content.TerminationContent;
 import core.game.Game;
@@ -22,26 +23,26 @@ public class MultiSpriteCounter extends Termination
 
     public MultiSpriteCounter(){}
 
-    public MultiSpriteCounter(TerminationContent cnt) throws Exception
+    public MultiSpriteCounter(TerminationContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
         //Parse the arguments.
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         if(stype1 != null) {
-            itype1 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype1);
+            itype1 = registry.getRegisteredSpriteValue(stype1);
             if(itype1 == -1){
         	String[] className = this.getClass().getName().split("\\.");
         	throw new Exception("[" + className[className.length - 1] + "]Undefined sprite " + stype1);
             }
         }
         if(stype2 != null) {
-            itype2 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype2);
+            itype2 = registry.getRegisteredSpriteValue(stype2);
             if(itype2 == -1){
         	String[] className = this.getClass().getName().split("\\.");
         	throw new Exception("[" + className[className.length - 1] + "]Undefined sprite " + stype2);
             }
         }
         if(stype3 != null) {
-            itype3 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype3);
+            itype3 =  registry.getRegisteredSpriteValue(stype3);
             if(itype3 == -1){
         	String[] className = this.getClass().getName().split("\\.");
         	throw new Exception("[" + className[className.length - 1] + "]Undefined sprite " + stype3);

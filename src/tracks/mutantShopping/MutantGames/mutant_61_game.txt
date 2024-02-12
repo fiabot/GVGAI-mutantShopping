@@ -35,4 +35,8 @@ BasicGame square_size=32
     	alien  sam   > killSprite scoreChange=2
 
     TerminationSet
+<<<<<<< HEAD
+    	Timeout win=True limit=300
+=======
     	SpriteCounterMore stype1=portal stype2=alien limit=0 win=True
+>>>>>>> grid-view

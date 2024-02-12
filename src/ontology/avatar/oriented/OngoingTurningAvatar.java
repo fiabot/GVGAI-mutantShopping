@@ -1,5 +1,6 @@
 package ontology.avatar.oriented;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -23,13 +24,15 @@ public class OngoingTurningAvatar extends OrientedAvatar
 
     public String spawnBehind;
     private int spawnId;
+    VGDLRegistry registry; 
 
     public OngoingTurningAvatar(){}
 
-    public OngoingTurningAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public OngoingTurningAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry; 
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -50,7 +53,7 @@ public class OngoingTurningAvatar extends OrientedAvatar
     {
         super.postProcess();
         if(spawnBehind != null)
-            spawnId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(spawnBehind);
+            spawnId = registry.getRegisteredSpriteValue(spawnBehind);
     }
 
 
@@ -98,6 +101,7 @@ public class OngoingTurningAvatar extends OrientedAvatar
     public void copyTo(VGDLSprite target)
     {
         OngoingTurningAvatar targetSprite = (OngoingTurningAvatar) target;
+        targetSprite.registry = registry;
         super.copyTo(targetSprite);
     }
 }

@@ -17,3 +17,4 @@ BasicGame square_size=20
 
     TerminationSet
     	Timeout win=True limit=300
+    	SpriteCounterMore stype1=background win=True limit=982

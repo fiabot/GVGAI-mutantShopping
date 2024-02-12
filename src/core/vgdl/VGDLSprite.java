@@ -318,6 +318,8 @@ public abstract class VGDLSprite {
      */
     public Dimension size;
 
+    public VGDLFactory factory; 
+
     /**
      * Is the sprite on ground?
      */
@@ -338,7 +340,8 @@ public abstract class VGDLSprite {
      * @param position position of the sprite
      * @param size dimensions of the sprite on the screen.
      */
-    protected void init(Vector2d position, Dimension size) {
+    protected void init(Vector2d position, Dimension size, VGDLFactory factory) {
+        this.factory = factory; 
         this.setRect(position, size);
         this.lastrect = new Rectangle(rect);
         physicstype = Types.GRID;
@@ -421,7 +424,7 @@ public abstract class VGDLSprite {
      */
     public void parseParameters(SpriteContent content) {
 
-        VGDLFactory factory = VGDLFactory.GetInstance();
+        //VGDLFactory factory = VGDLFactory.GetInstance();
         factory.parseParameters(content,this);
         
         determinePhysics(physicstype, size);
@@ -1182,6 +1185,7 @@ public abstract class VGDLSprite {
         toSprite.max_speed = this.max_speed;
         toSprite.img = this.img;
         toSprite.orientedImg = this.orientedImg;
+        toSprite.factory = this.factory;
 
         toSprite.itypes = new ArrayList<Integer>();
         for(Integer it : this.itypes)

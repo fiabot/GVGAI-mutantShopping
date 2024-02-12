@@ -70,6 +70,8 @@ public abstract class Effect{
      */
     public boolean inBatch = false;
 
+    VGDLFactory factory; 
+
     /**
      * Collision for batches
      */
@@ -215,11 +217,12 @@ public abstract class Effect{
             is_stochastic = true;
     }
 
-    public void parseParameters(InteractionContent content) {
+    public void parseParameters(InteractionContent content, VGDLFactory factory) {
 
         enabled=true;
         //parameters from the object.
-        VGDLFactory.GetInstance().parseParameters(content, this);
+        this.factory = factory; 
+        factory.parseParameters(content, this);
         hashCode = content.hashCode;
     }
 

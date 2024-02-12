@@ -26,19 +26,19 @@ public class VGDLRegistry
      * Maps strings to int. Strings are VGDL identifiers for SPRITE TYPES,
      * while integers are their unique int identifier counterparts.
      */
-    private TreeMap<String, Integer> sprite_mapping;
+    public TreeMap<String, Integer> sprite_mapping;
 
     /**
      * Private constructor.
      */
-    private VGDLRegistry(){
+    public VGDLRegistry(){
         init();
     }
 
     /**
      * Initializes the registry of sprites for games.
      */
-    public void init()
+    private void init()
     {
         sprite_mapping = new TreeMap<String, Integer>();
         System.out.println("Making new Map");
@@ -80,6 +80,7 @@ public class VGDLRegistry
      */
     public int getRegisteredSpriteValue(String key)
     {
+        //System.out.println("Sprit Mapping:" + sprite_mapping.keySet());
         if(sprite_mapping.containsKey(key))
             return sprite_mapping.get(key);
         return -1;

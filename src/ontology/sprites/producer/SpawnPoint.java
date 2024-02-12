@@ -3,6 +3,7 @@ package ontology.sprites.producer;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -29,12 +30,15 @@ public class SpawnPoint extends SpriteProducer
 
     private int start;
 
+    VGDLRegistry registry;
+
     public SpawnPoint(){}
 
-    public SpawnPoint(Vector2d position, Dimension size, SpriteContent cnt)
+    public SpawnPoint(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -61,8 +65,9 @@ public class SpawnPoint extends SpriteProducer
         super.postProcess();
         is_stochastic = (prob > 0 && prob < 1);
         counter = 0;
+        
         if(stype != null) //Could be, if we're using different stype variants in subclasses.
-            itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            itype = registry.getRegisteredSpriteValue(stype);
     }
 
     public void update(Game game)
@@ -121,6 +126,7 @@ public class SpawnPoint extends SpriteProducer
         targetSprite.itype = this.itype;
         targetSprite.spawnorientation = this.spawnorientation.copy();
         targetSprite.start = this.start;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
 

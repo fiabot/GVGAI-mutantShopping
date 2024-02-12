@@ -2,6 +2,8 @@ package ontology.sprites;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -23,10 +25,10 @@ public class Flicker extends VGDLSprite
 
     public Flicker(){}
 
-    public Flicker(Vector2d position, Dimension size, SpriteContent cnt)
+    public Flicker(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory,VGDLRegistry registry)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

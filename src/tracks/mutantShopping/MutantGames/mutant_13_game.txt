@@ -24,14 +24,6 @@ BasicGame square_size=32
 
     InteractionSet
     	avatar  EOS  > stepBack
-    	alien   EOS  > turnAround
-    	missile EOS  > killSprite
-    	base bomb > killBoth
-    	base sam > killBoth scoreChange=1
-    	base   alien > killSprite
-    	avatar alien > killSprite scoreChange=-1
-    	avatar bomb  > killSprite scoreChange=-1
-    	alien  sam   > killSprite scoreChange=2
 
     TerminationSet
     	SpriteCounter      stype=avatar               limit=0 win=False

@@ -1,5 +1,7 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -23,10 +25,10 @@ public class StepBack extends Effect
 {
     public boolean pixelPerfect;
 
-    public StepBack(InteractionContent cnt)
+    public StepBack(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
         pixelPerfect = false;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

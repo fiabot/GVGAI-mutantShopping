@@ -2,6 +2,7 @@ BasicGame square_size=64
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
+    	avatar  > MissileAvatar  img=oryx/spaceship1
     	bullet1 > RandomMissile img=oryx/arrows2.png color=LIGHTYELLOW orientation=NONE
     	avatar > ShootAvatar img=oryx/bat2.png stype=bullet1
 

@@ -3,6 +3,7 @@ package ontology.effects.unary;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -27,10 +28,10 @@ public class UndoAll extends Effect
     //List of IDs of the sprites not affected by UndoAll. ArrayList for efficiency.
     private ArrayList<Integer> notItypes;
 
-    public UndoAll(InteractionContent cnt)
+    public UndoAll(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
-        this.parseParameters(cnt);
-        int notItypesArray[] = VGDLRegistry.GetInstance().explode(notStype);
+        this.parseParameters(cnt, factory);
+        int notItypesArray[] = registry.explode(notStype);
         notItypes = new ArrayList<>();
         for(Integer it : notItypesArray)
             notItypes.add(it);

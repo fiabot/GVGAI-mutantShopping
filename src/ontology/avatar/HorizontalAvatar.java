@@ -2,6 +2,8 @@ package ontology.avatar;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -17,12 +19,14 @@ import tools.Vector2d;
  */
 public class HorizontalAvatar extends MovingAvatar
 {
+    VGDLRegistry registry;
     public HorizontalAvatar(){}
 
-    public HorizontalAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public HorizontalAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry;
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -59,6 +63,7 @@ public class HorizontalAvatar extends MovingAvatar
     public void copyTo(VGDLSprite target)
     {
         HorizontalAvatar targetSprite = (HorizontalAvatar) target;
+        targetSprite.registry = registry;
         super.copyTo(targetSprite);
     }
 }

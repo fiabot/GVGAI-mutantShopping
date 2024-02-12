@@ -11,7 +11,7 @@ BasicGame square_size=20
     	w > background
 
     InteractionSet
-    	avatar  EOS  > stepBack
+    	avatar EOS > killAll 
 
     TerminationSet
     	Timeout win=True limit=300

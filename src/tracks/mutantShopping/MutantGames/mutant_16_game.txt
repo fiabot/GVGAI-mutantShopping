@@ -9,9 +9,12 @@ BasicGame square_size=20
     	0 > background base
     	A > background avatar
     	w > background
+    	1 > background enemy1245
 
     InteractionSet
     	avatar  EOS  > stepBack
 
     TerminationSet
     	Timeout win=True limit=300
+    	SpriteCounterMore stype2=wall win=True limit=334
+    	SpriteCounterMore win=True limit=691

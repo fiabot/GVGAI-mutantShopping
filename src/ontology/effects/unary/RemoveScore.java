@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -19,11 +20,11 @@ public class RemoveScore extends Effect {
     public String stype = "";
     public int itype = -1;
 
-    public RemoveScore(InteractionContent cnt)
+    public RemoveScore(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         if (!Objects.equals(stype, "")) {
-            itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            itype = registry.getRegisteredSpriteValue(stype);
         }
     }
 

@@ -33,13 +33,16 @@ public class SpriteContent extends Content
      */
     public ArrayList<Integer> subtypes;
 
+    VGDLRegistry registry; 
+
 
     /**
      * Default constructor.
      */
-    public SpriteContent(){
+    public SpriteContent(VGDLRegistry registry){
         itypes = new ArrayList<Integer>();
         subtypes = new ArrayList<Integer>();
+        this.registry = registry;
     }
 
     /**
@@ -47,14 +50,16 @@ public class SpriteContent extends Content
      * @param id object identifier.
      * @param refClass class this object is mapped to.
      */
-    public SpriteContent(String id, String refClass)
+    public SpriteContent(String id, String refClass, VGDLRegistry registry)
     {
+        this.registry = registry;
         this.line = null;
         this.referenceClass = refClass;
         this.identifier = id;
         parameters = new HashMap<String, String>();
         itypes = new ArrayList<Integer>();
         subtypes = new ArrayList<Integer>();
+         
     }
 
     /**
@@ -62,8 +67,9 @@ public class SpriteContent extends Content
      * @param line String with the contents in VGDL format, to be mapped to the
      *             data structures of this class.
      */
-    public SpriteContent(String line)
+    public SpriteContent(String line, VGDLRegistry registry)
     {
+        this.registry = registry; 
         this.referenceClass = null;
         this.line = line;
         parameters = new HashMap<String, String>();
@@ -104,7 +110,7 @@ public class SpriteContent extends Content
 
         for(String stype : types)
         {
-            int itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            int itype = registry.getRegisteredSpriteValue(stype);
             this.itypes.add(itype);
         }
     }

@@ -1,5 +1,6 @@
 package ontology.sprites.producer;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -15,12 +16,16 @@ public class BomberRandomMissile extends SpawnPoint
     public String stypeMissile;
     private ArrayList<Integer> itypesMissile;
 
+    VGDLRegistry registry; 
+
     public BomberRandomMissile(){}
 
-    public BomberRandomMissile(Vector2d position, Dimension size, SpriteContent cnt)
+    public BomberRandomMissile(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        this.registry = registry; 
+        super.registry = registry;
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -28,7 +33,7 @@ public class BomberRandomMissile extends SpawnPoint
         //Parse the arguments.
         this.parseParameters(cnt);
 
-        int notItypesArray[] = VGDLRegistry.GetInstance().explode(stypeMissile);
+        int notItypesArray[] = registry.explode(stypeMissile);
         itypesMissile = new ArrayList<>();
         for(Integer it : notItypesArray)
             itypesMissile.add(it);
@@ -76,7 +81,7 @@ public class BomberRandomMissile extends SpawnPoint
     public void copyTo(VGDLSprite target)
     {
         BomberRandomMissile targetSprite = (BomberRandomMissile) target;
-
+        targetSprite.registry = registry;
         targetSprite.itypesMissile = new ArrayList<>();
         for(Integer it : this.itypesMissile)
             targetSprite.itypesMissile.add(it);

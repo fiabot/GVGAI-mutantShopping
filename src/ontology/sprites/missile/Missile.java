@@ -2,6 +2,8 @@ package ontology.sprites.missile;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import tools.Vector2d;
@@ -17,9 +19,9 @@ public class Missile extends VGDLSprite
 {
     public Missile(){}
 
-    public Missile(Vector2d position, Dimension size, SpriteContent cnt)
+    public Missile(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

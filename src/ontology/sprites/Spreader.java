@@ -1,8 +1,10 @@
 package ontology.sprites;
 
 import java.awt.Dimension;
+import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -25,12 +27,16 @@ public class Spreader extends Flicker
 
     public int itype;
 
+    VGDLRegistry registry; 
+
     public Spreader(){}
 
-    public Spreader(Vector2d position, Dimension size, SpriteContent cnt)
+    public Spreader(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+
+        this.registry = registry; 
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -50,7 +56,7 @@ public class Spreader extends Flicker
         super.postProcess();
         itype = -1;
         if(stype != null)
-            itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
+            itype = registry.getRegisteredSpriteValue(stype);
     }
 
     public void update(Game game)
@@ -84,6 +90,7 @@ public class Spreader extends Flicker
         Spreader targetSprite = (Spreader) target;
         targetSprite.spreadprob = this.spreadprob;
         targetSprite.stype = this.stype;
+        targetSprite.registry = registry;
         ((Spreader) target).itype = this.itype;
         super.copyTo(targetSprite);
     }

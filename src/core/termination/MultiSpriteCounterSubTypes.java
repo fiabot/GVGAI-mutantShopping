@@ -1,5 +1,6 @@
 package core.termination;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.content.TerminationContent;
 import core.game.Game;
@@ -22,12 +23,12 @@ public class MultiSpriteCounterSubTypes extends Termination
 
     public MultiSpriteCounterSubTypes(){}
 
-    public MultiSpriteCounterSubTypes(TerminationContent cnt) throws Exception
+    public MultiSpriteCounterSubTypes(TerminationContent cnt, VGDLFactory factory,  VGDLRegistry registry) throws Exception
     {
         //Parse the arguments.
-        this.parseParameters(cnt);
+        this.parseParameters(cnt,factory);
         if(stype1 != null){
-            itype1 = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype1);
+            itype1 = registry.getRegisteredSpriteValue(stype1);
             if(itype1 == -1){
         	String[] className = this.getClass().getName().split("\\.");
         	throw new Exception("[" + className[className.length - 1] + "] Undefined sprite " + stype1);

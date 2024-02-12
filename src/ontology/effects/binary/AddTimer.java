@@ -1,6 +1,7 @@
 package ontology.effects.binary;
 
 import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -22,18 +23,22 @@ public class AddTimer extends TimeEffect
     //Effect to be execuced in a number of time steps.
     public Effect timerDelegate;
 
+    VGDLFactory factory; 
+
     public AddTimer() {}
 
-    public AddTimer(InteractionContent cnt) throws Exception
+    public AddTimer(InteractionContent cnt, VGDLFactory factory, VGDLRegistry registry) throws Exception
     {
-        this.parseParameters(cnt);
+        
+        this.parseParameters(cnt, factory);
+        this.factory = factory;
 
         //We need to build the interaction content for the delegated effect.
         InteractionContent icDelegate = new InteractionContent(cnt.line);
         icDelegate.function = ftype;
 
         //Create the new effect with the function specified in "ftype" (no paramterizations allowed yet).
-        timerDelegate = VGDLFactory.GetInstance().createEffect(null, icDelegate);
+        timerDelegate = this.factory.createEffect(null, icDelegate);
     }
 
     @Override

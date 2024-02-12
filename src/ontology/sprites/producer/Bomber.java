@@ -2,6 +2,8 @@ package ontology.sprites.producer;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import ontology.Types;
@@ -18,10 +20,13 @@ public class Bomber extends SpawnPoint
 {
     public Bomber(){}
 
-    public Bomber(Vector2d position, Dimension size, SpriteContent cnt)
+
+
+    public Bomber(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        super.registry = registry;
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();
@@ -39,7 +44,7 @@ public class Bomber extends SpawnPoint
         orientation = Types.DRIGHT.copy();
         is_npc = true;
     }
-
+    
 
     public VGDLSprite copy()
     {
