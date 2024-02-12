@@ -1,19 +1,21 @@
-BasicGame square_size=25
+BasicGame square_size=20
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	enemy1245 > RandAltChaser img=oryx/alien1 color=YELLOW stype1= stype2=background prob=0.6331323562955491
-    	avatar > OngoingTurningAvatar img=oryx/spaceship1
+    	avatar > OngoingAvatar img=oryx/bat1.png
+    	enemy3071 > RandAltChaser img=oryx/bear3.png color=LIGHTBLUE stype1=> stype2=background prob=0.289037807574824
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
-    	1 > background enemy1245
+    	4 > background enemy3071
 
     InteractionSet
     	avatar  EOS  > stepBack
+    	wall EOS > addHealthPointsToMax
 
     TerminationSet
-    	Timeout win=True limit=300
+    	SpriteCounterMore win=True limit=300
+    	SpriteCounter win=False limit=477

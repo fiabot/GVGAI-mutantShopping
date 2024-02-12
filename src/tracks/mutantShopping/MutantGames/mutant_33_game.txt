@@ -1,10 +1,7 @@
-BasicGame square_size=25
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	avatar > OngoingAvatar img=oryx/spaceship1
-    	enemy5284 > RandAltChaser img=oryx/alien1 color=ORANGE stype1=> stype2=base prob=0.37519847695401487
-    	enemy7877 > Fleeing img=oryx/alien1 color=BLACK stype=background
+    	avatar > MissileAvatar img=oryx/angel1_0.png
 
     LevelMapping
     	. > background

@@ -1,10 +1,13 @@
-BasicGame square_size=25
+BasicGame square_size=20
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
     	avatar  > MissileAvatar  img=oryx/spaceship1
+<<<<<<< HEAD
     	enemy1245 > RandAltChaser img=oryx/alien1 color=YELLOW stype1= stype2=background prob=0.6331323562955491
     	enemy2793 > RandAltChaser img=oryx/alien1 color=LIGHTORANGE stype1= stype2=enemy1245 prob=0.4529872077542739
+=======
+>>>>>>> grid-view
 
     LevelMapping
     	. > background
@@ -15,7 +18,7 @@ BasicGame square_size=25
     	8 > background enemy2793
 
     InteractionSet
-    	avatar  EOS  > stepBack
+    	avatar EOS > align 
 
     TerminationSet
     	Timeout win=True limit=300

@@ -34,12 +34,12 @@ public class GameGridDisplay extends JComponent {
             }
         });
 
-        //ScrollPane scroll = new ScrollPane(); 
+        ScrollPane scroll = new ScrollPane(); 
         
 		panel = new JPanel(); 
-		//scroll.add(panel);
+		scroll.add(panel);
 		panel.setLayout(new GridLayout(3,3, 10, 10)); 
-        container.add(panel);
+        container.add(scroll);
 		 
 
         views = new GamePlayView[games.length]; 

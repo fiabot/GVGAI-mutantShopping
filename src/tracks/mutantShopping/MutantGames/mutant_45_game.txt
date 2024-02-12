@@ -3,18 +3,16 @@ BasicGame square_size=25
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
     	avatar > OngoingTurningAvatar img=oryx/spaceship1
-    	enemy1442 > Chaser img=oryx/alien1 color=BROWN stype=avatar
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
-    	3 > background enemy1442
 
     InteractionSet
     	avatar  EOS  > stepBack
 
     TerminationSet
     	Timeout win=True limit=300
-    	StopCounter stype2=background win=True limit=388
+    	SpriteCounterMore win=False limit=256
