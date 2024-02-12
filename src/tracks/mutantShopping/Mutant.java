@@ -232,7 +232,7 @@ public class Mutant {
 				// add either a number or a sprite to the parameter
 				double roll1 = random.nextDouble();
 				// insert a sprite
-				if(roll1 <0.5) {
+				if(roll1 <1) {
 					String nSprite = usefulSprites.get(random.nextInt(usefulSprites.size()));
 					nParam += nSprite;
 				}

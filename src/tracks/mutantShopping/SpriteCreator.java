@@ -12,6 +12,10 @@ public class SpriteCreator {
     private static String[] colors = new String[] {"GREEN","BLUE", "RED" , "GRAY", "WHITE", "BROWN" , "BLACK" , "ORANGE" , "YELLOW" , "PINK" , "GOLD" , 
                     "LIGHTRED" , "LIGHTORANGE" , "LIGHTBLUE" , "LIGHTGREEN" , "LIGHTYELLOW" , "LIGHTGRAY" , "DARKGRAY" , "DARKBLUE" }; 
     private static String[] orientations = new String[] {"UP", "DOWN", "LEFT", "RIGHT", "NONE"}; 
+
+    private static String[] characterImages = new String[] {"oryx/alien1.png", "oryx/alien2.png",  "oryx/alien3.png", "oryx/angel1_0.png",  "oryx/angel1_1.png",  "oryx/archer1.png",  "oryx/bat1.png",  "oryx/bat2.png", "oryx/bear1.png",  "oryx/bear2.png", "oryx/bear3.png",  "oryx/bee1.png",  "oryx/bee2.png",  "oryx/bird1.png",  "oryx/bird2.png", "oryx/bird3.png",  "oryx/cyclop1.png",  "oryx/cyclop2.png",  "oryx/devil1_0.png",  "oryx/devil1_1.png",  "oryx/devil1.png"}; 
+    private static String[] ammoImages = new String[] {"oryx/arrows1.png", "oryx/arrows2.png", "oryx/bullet1.png", "oryx/bullet2.png", "oryx/feather1.png", "oryx/feather2.png", "oryx/fire1.png", "oryx/orb1.png", "oryx/orb2.png", "oryx/orb3.png", "oryx/slime1.png", "oryx/slime2.png", "oryx/sparkle1.png", "oryx/sparkle2.png", "oryx/sparkle3.png"}; 
+    
     Random random; 
     String ammoName; 
     String ammoImg; 
@@ -28,7 +32,7 @@ public class SpriteCreator {
         ammoCount += 1; 
         String newType = ammos[random.nextInt(ammos.length)]; 
         String color = colors[random.nextInt(colors.length)]; 
-        String amo =  ammoName + ammoCount + " > " + newType + " img=" + ammoImg + " color=" + color; 
+        String amo =  ammoName + ammoCount + " > " + newType + " img=" + ammoImages[random.nextInt(ammoImages.length)]+ " color=" + color; 
         
         amo += " orientation=" + orientations[random.nextInt(orientations.length)]; 
         
@@ -40,7 +44,7 @@ public class SpriteCreator {
     public ArrayList<String> createAvator(String name, String image){
         ArrayList<String> returnList = new ArrayList<String>(); 
         String newAvatarType = avatars[random.nextInt(avatars.length)]; 
-        String avatar = name + " > " + newAvatarType + " img=" + image; 
+        String avatar = name + " > " + newAvatarType + " img=" + characterImages[random.nextInt(characterImages.length)]; 
         
 
         if (newAvatarType == "ShootAvatar" || newAvatarType == "FlakAvatar"){
@@ -81,7 +85,7 @@ public class SpriteCreator {
     public String createNPC(String name, String image){
         ArrayList<String> returnList = new ArrayList<String>(); 
         String newNPCType = npcs[random.nextInt(npcs.length)]; 
-        String NPC = name + " > " +  newNPCType + " img=" + image; 
+        String NPC = name + " > " +  newNPCType + " img=" + characterImages[random.nextInt(characterImages.length)]; 
         String color = colors[random.nextInt(colors.length)]; 
         NPC += " color=" + color; 
 

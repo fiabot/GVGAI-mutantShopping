@@ -1,20 +1,17 @@
-BasicGame square_size=25
+BasicGame square_size=20
     SpriteSet
     	background > Immovable img=oryx/space1 hidden=True
     	base    > Immovable    color=WHITE img=oryx/planet
-    	avatar  > MissileAvatar  img=oryx/spaceship1
-    	enemy6738 > Chaser img=oryx/alien1 color=PINK stype=avatar
+    	avatar > HorizontalAvatar img=oryx/alien3.png
 
     LevelMapping
     	. > background
     	0 > background base
     	A > background avatar
     	w > background
-    	2 > background enemy6738
 
     InteractionSet
-    	avatar  EOS  > stepBack
+    	avatar  EOS  > stepBack spawnPoint=wall
 
     TerminationSet
-    	Timeout win=True limit=300
-    	SpriteCounterMore stype2=wall win=True limit=334
+    	SpriteCounterMore win=True limit=300
