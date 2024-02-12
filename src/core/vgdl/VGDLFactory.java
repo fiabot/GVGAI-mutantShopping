@@ -152,7 +152,7 @@ public class VGDLFactory
     /**
      * Default private constructor of this singleton.
      */
-    private VGDLFactory(){
+    public VGDLFactory(){
         init();
     }
 
@@ -216,7 +216,9 @@ public class VGDLFactory
         try{
             Class gameClass = registeredGames.get(content.referenceClass);
             Constructor gameConstructor = gameClass.getConstructor(new Class[] {GameContent.class});
-            return (Game) gameConstructor.newInstance(new Object[]{content});
+            Game game =  (Game) gameConstructor.newInstance(new Object[]{content});
+            game.setFactory(this);
+            return game; 
 
         }catch (NoSuchMethodException e)
         {
@@ -248,8 +250,8 @@ public class VGDLFactory
         try{
             Class spriteClass = registeredSprites.get(content.referenceClass);
             Constructor spriteConstructor = spriteClass.getConstructor
-                    (new Class[] {Vector2d.class, Dimension.class, SpriteContent.class});
-            return (VGDLSprite) spriteConstructor.newInstance(new Object[]{position, dim, content});
+                    (new Class[] {Vector2d.class, Dimension.class, SpriteContent.class, VGDLFactory.class});
+            return (VGDLSprite) spriteConstructor.newInstance(new Object[]{position, dim, content, this});
 
         }catch (NoSuchMethodException e)
         {
@@ -298,12 +300,12 @@ public class VGDLFactory
         try{
             Class effectClass = registeredEffects.get(content.function);
             Constructor effectConstructor = effectClass.getConstructor
-                    (new Class[] {InteractionContent.class});
-            Effect ef = (Effect) effectConstructor.newInstance(new Object[]{content});
+                    (new Class[] {InteractionContent.class, VGDLFactory.class});
+            Effect ef = (Effect) effectConstructor.newInstance(new Object[]{content, this});
 
             if( content.object1.equalsIgnoreCase("TIME") ||
                 content.object2[0].equalsIgnoreCase("TIME"))
-                return new TimeEffect(content, ef);
+                return new TimeEffect(content, ef, this);
 
             return ef;
 

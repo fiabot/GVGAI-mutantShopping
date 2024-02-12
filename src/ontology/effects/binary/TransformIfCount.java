@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -29,12 +30,12 @@ public class TransformIfCount extends TransformTo {
     public int geq;
     public int leq;
 
-    public TransformIfCount(InteractionContent cnt) throws Exception
+    public TransformIfCount(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
-        super(cnt);
+        super(cnt, factory);
         geq=0;
         leq=Game.getMaxSprites();
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         itypeCount = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stypeCount);
 
         if(estype != null)

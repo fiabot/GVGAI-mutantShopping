@@ -1,5 +1,6 @@
 package ontology.sprites.producer;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -29,10 +30,10 @@ public class SpawnPointMultiSprite extends SpriteProducer
 
     public SpawnPointMultiSprite(){}
 
-    public SpawnPointMultiSprite(Vector2d position, Dimension size, SpriteContent cnt)
+    public SpawnPointMultiSprite(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

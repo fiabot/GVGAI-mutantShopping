@@ -2,6 +2,7 @@ package ontology.sprites.npc;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -28,10 +29,10 @@ public class RandomNPC extends VGDLSprite
 
     public RandomNPC(){}
 
-    public RandomNPC(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomNPC(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

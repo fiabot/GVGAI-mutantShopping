@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -21,11 +22,11 @@ public class KillIfHasMore extends Effect
     public int resourceId;
     public int limit;
 
-    public KillIfHasMore(InteractionContent cnt) throws Exception
+    public KillIfHasMore(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
         is_kill_effect = true;
         resourceId = -1;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
         if(resourceId == -1){
             throw new Exception("Undefined sprite " + resource);

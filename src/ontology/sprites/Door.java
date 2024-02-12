@@ -2,6 +2,7 @@ package ontology.sprites;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import tools.Vector2d;
@@ -13,10 +14,10 @@ public class Door extends Immovable
 {
     public Door() {}
 
-    public Door(Vector2d position, Dimension size, SpriteContent cnt)
+    public Door(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

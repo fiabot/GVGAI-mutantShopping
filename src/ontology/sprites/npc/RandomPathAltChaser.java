@@ -1,5 +1,6 @@
 package ontology.sprites.npc;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -19,10 +20,10 @@ public class RandomPathAltChaser extends PathAltChaser{
 
     public RandomPathAltChaser(){}
 
-    public RandomPathAltChaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomPathAltChaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory )
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

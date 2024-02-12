@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -17,10 +18,10 @@ import ontology.effects.Effect;
 public class KillIfFromAbove extends Effect
 {
 
-    public KillIfFromAbove(InteractionContent cnt)
+    public KillIfFromAbove(InteractionContent cnt, VGDLFactory factory)
     {
         is_kill_effect = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

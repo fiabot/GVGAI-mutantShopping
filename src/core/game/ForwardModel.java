@@ -144,7 +144,10 @@ public class ForwardModel extends Game
              * identify player in case of avatar sprites (index used as
              * playerID in the avatars array).
              */
-            Iterator<VGDLSprite> spriteIt = a_gameState.spriteGroups[i].getSpriteIterator();
+            Iterator<VGDLSprite> spriteIt = null;
+            if(a_gameState.spriteGroups[i] != null){
+               spriteIt = a_gameState.spriteGroups[i].getSpriteIterator();
+            } 
             if(spriteIt != null) while(spriteIt.hasNext())
             {
                 VGDLSprite sp = spriteIt.next();

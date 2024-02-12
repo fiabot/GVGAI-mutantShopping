@@ -4,6 +4,7 @@ import core.content.InteractionContent;
 import core.game.Game;
 import core.logging.Logger;
 import core.logging.Message;
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import ontology.effects.Effect;
@@ -19,10 +20,10 @@ public class SpawnRight extends Effect {
     public int itype;
     public boolean stepBack;
 
-    public SpawnRight(InteractionContent cnt)
+    public SpawnRight(InteractionContent cnt, VGDLFactory factory)
     {
         stepBack = false;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
     }
 

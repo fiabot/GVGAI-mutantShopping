@@ -1,5 +1,6 @@
 package ontology.avatar.oriented;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -22,12 +23,12 @@ public class ShootOnlyAvatar extends ShootAvatar
 {
     public ShootOnlyAvatar(){}
 
-    public ShootOnlyAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public ShootOnlyAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         MAX_WEAPONS = 5;
 
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

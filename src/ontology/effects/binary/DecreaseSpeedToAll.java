@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -22,10 +23,10 @@ public class DecreaseSpeedToAll extends Effect
     public int itype;
     public double value=0.1;
 
-    public DecreaseSpeedToAll(InteractionContent cnt) throws Exception
+    public DecreaseSpeedToAll(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
         is_stochastic = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);

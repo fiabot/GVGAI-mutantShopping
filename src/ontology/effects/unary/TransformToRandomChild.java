@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
  */
 public class TransformToRandomChild extends TransformTo {
 
-    public TransformToRandomChild(InteractionContent cnt) throws Exception
+    public TransformToRandomChild(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
-        super(cnt);
+        super(cnt, factory);
         itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);

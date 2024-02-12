@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -23,11 +24,11 @@ public class CollectResourceIfHeld extends Effect
     public int heldResourceId;
     public int value;
 
-    public CollectResourceIfHeld(InteractionContent cnt)
+    public CollectResourceIfHeld(InteractionContent cnt, VGDLFactory factory)
     {
         value = 1;
         killResource = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         is_kill_effect = killResource;
         heldResourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(heldResource);
 

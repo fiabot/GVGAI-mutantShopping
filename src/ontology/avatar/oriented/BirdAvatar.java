@@ -2,6 +2,7 @@ package ontology.avatar.oriented;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import core.game.Game;
@@ -22,10 +23,10 @@ public class BirdAvatar extends OrientedAvatar
 	
     public BirdAvatar(){}
 
-    public BirdAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public BirdAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

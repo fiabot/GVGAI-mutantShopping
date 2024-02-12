@@ -82,15 +82,16 @@ public class VGDLParser {
 			Node rootNode = indentTreeParser(desc_lines);
 
 			// Parse here game and arguments of the first line
-			game = VGDLFactory.GetInstance().createGame((GameContent) rootNode.content);
+			VGDLFactory factory = new VGDLFactory();
+			game = factory.createGame((GameContent) rootNode.content);
 			game.initMulti();
 
 			// Parse the parameter nodes first, if any.
-			parseParameterNodes(rootNode);
+			parseParameterNodes(rootNode, factory);
 
 			// Parse the nodes.
 			try {
-				parseNodes(rootNode);
+				parseNodes(rootNode, factory);
 			} catch (Exception e) {
 			    logger.addMessage(new Message(Message.ERROR, "[PARSE ERROR] " + e.toString()));
 			}
@@ -112,13 +113,14 @@ public class VGDLParser {
 			Node rootNode = indentTreeParser(desc_lines);
 
 			// Parse here game and arguments of the first line
-			game = VGDLFactory.GetInstance().createGame((GameContent) rootNode.content);
+			VGDLFactory factory = new VGDLFactory(); 
+			game = factory.createGame((GameContent) rootNode.content);
 			game.initMulti();
 			game.setParameters(parameters);
 
 			// Parse the normal nodes, but not the parameters.
 			try {
-				parseNodes(rootNode);
+				parseNodes(rootNode, factory);
 			} catch (Exception e) {
 			    logger.addMessage(new Message(Message.ERROR, "[PARSE ERROR] " + e.toString()));
 			}
@@ -133,7 +135,7 @@ public class VGDLParser {
 	 * @param rootNode
 	 *            the root VGDL node.
 	 */
-	private void parseParameterNodes(Node rootNode) {
+	private void parseParameterNodes(Node rootNode, VGDLFactory factory) {
 		// We parse the parameter set first:
 		for (Node n : rootNode.children) {
 			if (n.content.identifier.equals("ParameterSet")) {
@@ -146,7 +148,7 @@ public class VGDLParser {
 					}
 				} else if (n.content.identifier.equals("InteractionSet")) {
 					try {
-						parseInteractionSet(n.children);
+						parseInteractionSet(n.children, factory);
 					} catch (Exception e) {
 						logger.addMessage(new Message(Message.ERROR, "Interaction Set Error: " + e.getMessage()));
 					}
@@ -174,13 +176,13 @@ public class VGDLParser {
 	 * @param rootNode
 	 *            the root VGDL node.
 	 */
-	private void parseNodes(Node rootNode) throws Exception {
+	private void parseNodes(Node rootNode, VGDLFactory factory) throws Exception {
 		// Parse here the normal blocks of VGDL.
 		for (Node n : rootNode.children) {
 			if (n.content.identifier.equals("SpriteSet")) {
 				parseSpriteSet(n.children);
 			} else if (n.content.identifier.equals("InteractionSet")) {
-				parseInteractionSet(n.children);
+				parseInteractionSet(n.children, factory);
 			} else if (n.content.identifier.equals("LevelMapping")) {
 				parseLevelMapping(n.children);
 			} else if (n.content.identifier.equals("TerminationSet")) {
@@ -253,7 +255,7 @@ public class VGDLParser {
 		Node rulesNode = indentTreeParser(mrules);
 		Node terNode = indentTreeParser(mterm);
 		try {
-			parseInteractionSet(rulesNode.children);
+			parseInteractionSet(rulesNode.children, game.getFactory());
 			parseTerminationSet(terNode.children);
 		} catch (Exception e) {
 			logger.addMessage(new Message(1, "[PARSE ERROR]"));
@@ -506,13 +508,13 @@ public class VGDLParser {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	private void parseInteractionSet(ArrayList<Node> elements) throws Exception {
+	private void parseInteractionSet(ArrayList<Node> elements, VGDLFactory factory) throws Exception {
 		for (Node n : elements) {
 			InteractionContent ic = (InteractionContent) n.content;
 			ic.lineNumber = n.lineNumber;
 			if (ic.is_definition) // === contains ">"
 			{
-				Effect ef = VGDLFactory.GetInstance().createEffect(game, ic);
+				Effect ef = factory.createEffect(game, ic);
 
 				// Get the identifiers of the first sprite taking part in the
 				// effect.
@@ -616,7 +618,7 @@ public class VGDLParser {
 	private void parseTerminationSet(ArrayList<Node> elements) throws Exception {
 		for (Node n : elements) {
 			TerminationContent tc = (TerminationContent) n.content;
-			Termination ter = VGDLFactory.GetInstance().createTermination(game, tc);
+			Termination ter = game.getFactory().createTermination(game, tc);
 			game.getTerminations().add(ter);
 		}
 

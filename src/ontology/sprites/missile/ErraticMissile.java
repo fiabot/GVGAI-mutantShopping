@@ -2,6 +2,7 @@ package ontology.sprites.missile;
 
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
 import tools.Vector2d;
@@ -17,10 +18,10 @@ public class ErraticMissile extends Missile
 {
     public ErraticMissile(){}
 
-    public ErraticMissile(Vector2d position, Dimension size, SpriteContent cnt)
+    public ErraticMissile(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

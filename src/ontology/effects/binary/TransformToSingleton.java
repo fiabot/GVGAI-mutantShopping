@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -38,11 +39,11 @@ public class TransformToSingleton extends Effect {
     public int itype_other;    // type the sprites of type stype are transormed back to
 
 
-    public TransformToSingleton(InteractionContent cnt) throws Exception
+    public TransformToSingleton(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
         takeOrientation = false;
         is_kill_effect = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory) ;
         itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
         itype_other = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype_other);
         if(itype == -1){

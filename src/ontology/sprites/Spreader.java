@@ -3,6 +3,7 @@ package ontology.sprites;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -27,10 +28,10 @@ public class Spreader extends Flicker
 
     public Spreader(){}
 
-    public Spreader(Vector2d position, Dimension size, SpriteContent cnt)
+    public Spreader(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

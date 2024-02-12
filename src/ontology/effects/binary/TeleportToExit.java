@@ -21,9 +21,9 @@ import tools.Utils;
 public class TeleportToExit extends Effect
 {
 
-    public TeleportToExit(InteractionContent cnt)
+    public TeleportToExit(InteractionContent cnt, VGDLFactory factory)
     {
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

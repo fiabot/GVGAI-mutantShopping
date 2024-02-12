@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -33,10 +34,10 @@ public class Chaser extends RandomNPC
 
     public Chaser(){}
 
-    public Chaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public Chaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

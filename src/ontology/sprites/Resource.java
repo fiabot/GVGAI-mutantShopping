@@ -3,6 +3,7 @@ package ontology.sprites;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -24,10 +25,10 @@ public class Resource extends Passive
 
     public Resource(){}
 
-    public Resource(Vector2d position, Dimension size, SpriteContent cnt)
+    public Resource(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

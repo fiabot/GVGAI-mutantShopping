@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -16,9 +17,9 @@ public class UpdateSpawnType extends Effect {
     public String spawnPoint; //stype string of spawn point
     public int itype, ispawn;
 
-    public UpdateSpawnType(InteractionContent cnt) throws Exception
+    public UpdateSpawnType(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);

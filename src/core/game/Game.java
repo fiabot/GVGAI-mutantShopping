@@ -255,11 +255,15 @@ public abstract class Game {
 
 	public static KeyHandler ki;
 
+	VGDLFactory factory; 
+
 	/**
 	 * Default constructor.
 	 */
 	public Game() {
+
 		// data structures to hold the game definition.
+		factory = new VGDLFactory();
 		definedEffects = new ArrayList<Pair<Integer, Integer>>();
 		definedEOSEffects = new ArrayList<Integer>();
 		charMapping = new HashMap<Character, ArrayList<String>>();
@@ -273,8 +277,43 @@ public abstract class Game {
 		disqualified = false;
 		num_sprites = 0;
 		nextSpriteID = 0;
+		
 
 		loadDefaultConstr();
+	}
+
+	/**
+	 * Default constructor.
+	 */
+	public Game(VGDLFactory factory) {
+
+		// data structures to hold the game definition.
+		this.factory = factory;
+		definedEffects = new ArrayList<Pair<Integer, Integer>>();
+		definedEOSEffects = new ArrayList<Integer>();
+		charMapping = new HashMap<Character, ArrayList<String>>();
+		terminations = new ArrayList<Termination>();
+		historicEvents = new TreeSet<Event>();
+		timeEffects = new TreeSet<TimeEffect>();
+
+		// Game attributes:
+		size = new Dimension();
+		is_stochastic = false;
+		disqualified = false;
+		num_sprites = 0;
+		nextSpriteID = 0;
+		
+
+		loadDefaultConstr();
+	}
+
+
+	public VGDLFactory getFactory(){
+		return factory; 
+	}
+
+	public void setFactory(VGDLFactory factory){
+		this.factory = factory;
 	}
 
 	/**
@@ -376,7 +415,7 @@ public abstract class Game {
 			// type.
 			String refClass = entry.getValue().referenceClass;
 			if (refClass != null && refClass.equals("Resource")) {
-				VGDLSprite resourceTest = VGDLFactory.GetInstance().createSprite(this, entry.getValue(),
+				VGDLSprite resourceTest = factory.createSprite(this, entry.getValue(),
 						new Vector2d(0, 0), new Dimension(1, 1));
 				resources.add((Resource) resourceTest);
 			}
@@ -565,7 +604,7 @@ public abstract class Game {
 		    }
 		}
 
-		VGDLSprite sprite = VGDLFactory.GetInstance().createSprite(this, sc, new Vector2d(), new Dimension(1, 1));
+		VGDLSprite sprite = factory.createSprite(this, sc, new Vector2d(), new Dimension(1, 1));
 		switch (getSpriteCategory(sprite)) {
 			case Types.TYPE_NPC:
 				data.isNPC = true;
@@ -623,7 +662,7 @@ public abstract class Game {
 	public VGDLSprite getTempAvatar(SpriteData sprite) {
 		avatarId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(sprite.name);
 		if (((SpriteContent) classConst[avatarId]).referenceClass != null) {
-			VGDLSprite result = VGDLFactory.GetInstance().createSprite(this, (SpriteContent) classConst[avatarId],
+			VGDLSprite result = factory.createSprite(this, (SpriteContent) classConst[avatarId],
 					new Vector2d(), new Dimension(1, 1));
 			if (result != null) {
 				return result;
@@ -786,7 +825,7 @@ public abstract class Game {
 	 *            list of parameter-value pairs.
 	 */
 	protected void parseParameters(GameContent content) {
-		VGDLFactory factory = VGDLFactory.GetInstance();
+		//VGDLFactory factory = new VGDLFactory();
 		Class refClass = VGDLFactory.registeredGames.get(content.referenceClass);
 		// System.out.inn("refClass" + refClass.toString());
 		if (!this.getClass().equals(refClass)) {
@@ -818,11 +857,16 @@ public abstract class Game {
 	 */
 	protected void addSprite(VGDLSprite sprite, int itype) {
 		sprite.spriteID = nextSpriteID;
-		spriteGroups[itype].addSprite(nextSpriteID++, sprite);
-		num_sprites++;
+		if (spriteGroups[itype] != null) {
 
-		if (sprite.is_stochastic)
-			this.is_stochastic = true;
+			spriteGroups[itype].addSprite(nextSpriteID++, sprite);
+			num_sprites++;
+
+			if (sprite.is_stochastic)
+				this.is_stochastic = true;
+
+			}
+		
 	}
 
 	/**
@@ -1825,7 +1869,7 @@ public abstract class Game {
 			if (templateSprites[itype] == null) // don't have a template yet, so
 			// need to create one
 			{
-				newSprite = VGDLFactory.GetInstance().createSprite(this, content, position, spriteDim);
+				newSprite = factory.createSprite(this, content, position, spriteDim);
 
 				// Assign its types and add it to the collection of sprites.
 				newSprite.itypes = (ArrayList<Integer>) content.itypes.clone();

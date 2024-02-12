@@ -2,6 +2,7 @@ package ontology.effects.unary;
 
 import java.util.ArrayList;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -21,10 +22,10 @@ public class SpawnIfHasLess extends Effect {
     public String stype;
     public int itype;
 
-    public SpawnIfHasLess(InteractionContent cnt) throws Exception
+    public SpawnIfHasLess(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
         resourceId = -1;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
         if(resourceId == -1){
             throw new Exception("Undefined sprite " + resource);

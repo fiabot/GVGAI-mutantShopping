@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -19,9 +20,9 @@ import tools.Vector2d;
 public class BounceForward extends Effect
 {
 
-    public BounceForward(InteractionContent cnt)
+    public BounceForward(InteractionContent cnt, VGDLFactory factory)
     {
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ontology.sprites.npc;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -32,10 +33,10 @@ public class PathChaser extends RandomNPC
 
     public PathChaser(){}
 
-    public PathChaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public PathChaser(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

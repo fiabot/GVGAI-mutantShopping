@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -20,10 +21,10 @@ import tools.Vector2d;
 public class KillIfFrontal extends Effect
 {
 
-    public KillIfFrontal(InteractionContent cnt)
+    public KillIfFrontal(InteractionContent cnt, VGDLFactory factory)
     {
         is_kill_effect = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

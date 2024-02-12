@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -22,12 +23,12 @@ public class KillIfOtherHasMore extends Effect
     public int limit;
     public boolean subtract;
 
-    public KillIfOtherHasMore(InteractionContent cnt)
+    public KillIfOtherHasMore(InteractionContent cnt, VGDLFactory factory)
     {
         is_kill_effect = true;
         resourceId = -1;
         subtract = false;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
     }
 

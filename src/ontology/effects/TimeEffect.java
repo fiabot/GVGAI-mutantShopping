@@ -1,5 +1,6 @@
 package ontology.effects;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -53,8 +54,8 @@ public class TimeEffect extends Effect implements Comparable<TimeEffect> {
     public TimeEffect() {
     }
 
-    public TimeEffect(InteractionContent ic, Effect delegate) {
-        this.parseParameters(ic);
+    public TimeEffect(InteractionContent ic, Effect delegate, VGDLFactory factory) {
+        this.parseParameters(ic, factory);
         this.delegate = delegate;
 
         if (ic.object1.equalsIgnoreCase("TIME")) //Depends on where TIME is in the effect.

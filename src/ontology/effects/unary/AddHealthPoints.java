@@ -1,5 +1,6 @@
 package ontology.effects.unary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -19,10 +20,10 @@ public class AddHealthPoints extends Effect
     public int value; //healthpoints added from sprite1
     public boolean killSecond = false;
 
-    public AddHealthPoints(InteractionContent cnt)
+    public AddHealthPoints(InteractionContent cnt, VGDLFactory factory)
     {
         value = 1;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.SpriteContent;
@@ -37,10 +38,10 @@ public class ShootAvatar extends OrientedAvatar
 
     public ShootAvatar(){}
 
-    public ShootAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public ShootAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

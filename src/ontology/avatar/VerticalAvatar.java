@@ -2,6 +2,7 @@ package ontology.avatar;
 
 import core.content.SpriteContent;
 import core.game.Game;
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import ontology.Types;
 import tools.Vector2d;
@@ -19,10 +20,10 @@ public class VerticalAvatar extends MovingAvatar
 {
     public VerticalAvatar(){}
 
-    public VerticalAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public VerticalAvatar(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory)
     {
         //Init the sprite
-        this.init(position, size);
+        this.init(position, size, factory);
 
         //Specific class default parameter values.
         loadDefaults();

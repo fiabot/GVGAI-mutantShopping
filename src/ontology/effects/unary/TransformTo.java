@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -32,10 +33,10 @@ public class TransformTo extends Effect {
     public boolean killSecond = false;
     public boolean forceOrientation = false;
 
-    public TransformTo(InteractionContent cnt) throws Exception
+    public TransformTo(InteractionContent cnt, VGDLFactory factory) throws Exception
     {
         is_kill_effect = true;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         itype = VGDLRegistry.GetInstance().getRegisteredSpriteValue(stype);
         if(itype == -1){
             throw new Exception("Undefined sprite " + stype);

@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
 import core.game.Game;
@@ -20,9 +21,9 @@ public class AttractGaze extends Effect
 {
     public boolean align = false;
 
-    public AttractGaze(InteractionContent cnt)
+    public AttractGaze(InteractionContent cnt, VGDLFactory factory)
     {
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         setStochastic();
     }
 

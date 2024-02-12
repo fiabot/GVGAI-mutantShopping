@@ -1,5 +1,6 @@
 package ontology.effects.binary;
 
+import core.vgdl.VGDLFactory;
 import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import core.content.InteractionContent;
@@ -21,12 +22,12 @@ public class ChangeResource extends Effect
     public int value;
     public boolean killResource;
 
-    public ChangeResource(InteractionContent cnt)
+    public ChangeResource(InteractionContent cnt, VGDLFactory factory)
     {
         value=1;
         resourceId = -1;
         killResource = false;
-        this.parseParameters(cnt);
+        this.parseParameters(cnt, factory);
         resourceId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(resource);
         is_kill_effect = killResource;
     }
