@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import javax.print.attribute.HashAttributeSet;
 import javax.swing.Spring;
+import javax.swing.plaf.basic.BasicBorders.RolloverButtonBorder;
 
 import core.game.Game;
 import core.game.GameDescription;
@@ -29,13 +30,16 @@ import tracks.levelGeneration.geneticLevelGenerator.Chromosome.SpritePointData;
 
 public class Mutant {
 
-    String game; 
-    String level; 
+    String gameString; 
+    String levelString; 
+
+	String game; 
+	String level; 
 
     /**
 	 * current level described by the chromosome
 	 */
-	private char[][] level_array;
+	protected char[][] level_array;
 
     private String[] interactions = new String[] { "killSprite", "killAll", "killIfHasMore", "killIfHasLess",
 			"killIfFromAbove", "killIfOtherHasMore", "spawnBehind", "stepBack", "spawnIfHasMore", "spawnIfHasLess",
@@ -61,6 +65,8 @@ public class Mutant {
     public static final int NUMERICAL_VALUE_PARAM = 2000;
 
     public static final int TERMINATION_LIMIT_PARAM = 1000;
+
+	private static String[] characters = {"a", "b", "c", "d", "e","f", "g", "h","i","j", "k", "l", "m", "n", "o","p" ,"q", "r", "s", "t" , "u", "v", "w", "x", "y", "z", "0", "1", "2","3","4","5","6","7", "8", "9"}; 
         
 
     private ArrayList<String> termination; 
@@ -107,10 +113,41 @@ public class Mutant {
 		spriteCreator = new SpriteCreator(random, "bullet", "oryx/bullet1", this); 
 
         parseFiles();
-        
-       
-       
+
 		
+    }
+
+	public Mutant(String game, String level, boolean asFiles){
+        id = next; 
+        next++; 
+		if(asFiles){
+			this.gameString = getFileAsString(game);
+			this.levelString = getFileAsString(level);
+		}
+        this.game = game; 
+        this.level = level; 
+		this.random = new Random();
+		spriteCreator = new SpriteCreator(random, "bullet", "oryx/bullet1", this); 
+
+        parseFiles();
+
+		
+    }
+
+	public String getFileAsString(String file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append("<br>");
+            stringBuilder.append(line);
+        }
+        // delete the last new line separator
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        reader.close();
+
+        String content = stringBuilder.toString();
+        return content;
     }
 
     private void parseFiles(){
@@ -118,13 +155,14 @@ public class Mutant {
         
         try {
 			toPlay = new VGDLParser().parseGame(game);
+		
         	description = new GameDescription(toPlay); 
         	analyzer = new GameAnalyzer(description); 
             parseInteractions(game);
         } catch (Exception e) {
             // TODO Auto-generated catch block
 			System.out.println("Failed Parsing: " + game + " " + level);
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         
     
@@ -135,13 +173,15 @@ public class Mutant {
             this.usefulSprites = new ArrayList<String>();
             this.random = new Random();
             String[][] currentLevel = sl.getCurrentLevel();
+			toPlay.buildLevel(level, random.nextInt());
+			
 
 
            
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
          // Just get the useful sprites from the current level
@@ -158,6 +198,8 @@ public class Mutant {
 		}
 
 		buildSpriteMapping();
+
+       
     }
 
 
@@ -201,7 +243,7 @@ public class Mutant {
 					img = images[1]; 
 				}
 			}
-			ArrayList<String> newSprites = spriteCreator.createAvator(parts[0], img);
+			ArrayList<String> newSprites = spriteCreator.createAvator(parts[0]);
 			for(String sprite: newSprites){
 				sprites.add(sprite);
 			}
@@ -209,10 +251,63 @@ public class Mutant {
 	}
 
 	public void addNPC(){
-		System.out.println("Making NPCs");
-		String npc = spriteCreator.createNPC("enemy" + random.nextInt(10000),  "oryx/alien1");
-		sprites.add(npc); 
-		levelMapping.add(random.nextInt(9) + " > background " + npc.split(" ")[0]);
+		String npc = spriteCreator.createNPC("enemy" + random.nextInt(10000));
+		String character = getNewCharacter(); 
+		if (character != null){
+			sprites.add(npc); 
+			levelMapping.add(character + " > background " + npc.split(" ")[0]);
+		}
+	
+	}
+
+	public void addSpawner(){
+		String npc = spriteCreator.createSpawner("spawner" + random.nextInt(10000));
+		String character = getNewCharacter(); 
+		if (character != null){
+			sprites.add(npc); 
+			levelMapping.add(character + " > background " + npc.split(" ")[0]);
+		}
+	}
+
+	public void addItem(){
+		String npc = spriteCreator.createOther("item" + random.nextInt(10000));
+		String character = getNewCharacter(); 
+		if (character != null){
+			sprites.add(npc); 
+			levelMapping.add(character + " > background " + npc.split(" ")[0]);
+		}
+	}
+
+	public void mutateSprite(){
+		String sprite = sprites.get(random.nextInt(sprites.size())); 
+		sprites.remove(sprite); 
+		sprites.add(spriteCreator.mutateSprite(sprite)); 
+	}
+
+	public void removeSprite(){
+		
+		String sprite = sprites.get(random.nextInt(sprites.size())); 
+		int i = 0;  
+		while(sprite.contains("Avatar") && i < 100){
+			sprite = sprites.get(random.nextInt(sprites.size()));  
+			i ++;
+		}
+		if(!sprite.contains("Avatar")){
+			sprites.remove(sprite);
+
+			String mapString = null; 
+			for(String map: levelMapping){
+				if (map.contains(sprite.split(" ")[0])){
+					mapString = map; 
+				}
+			}
+
+
+			if(mapString != null){
+				levelMapping.remove(mapString); 
+			}
+		}
+		
 	}
 
     public void mutateTermination(){
@@ -460,18 +555,24 @@ public class Mutant {
 		
     }
     public Mutant Mutate(int mutationAmount){
+
         Mutant copy = new Mutant(game, level); 
 		if(random.nextDouble() > 0.5){
+
 			copy.mutate_level(5);
+
 			copy.updateLevel();
         	 
 		}else{
+		
 			copy.mutate_game(mutationAmount);
         	copy.updateGame();
 		}
         
-		
+
         copy.parseFiles();
+
+
         return copy; 
     }
 
@@ -758,6 +859,17 @@ public class Mutant {
 			
 		}
    }
+
+   public void addSprite(){
+		float roll = random.nextFloat(); 
+		if (roll < 0.33){
+			addNPC();
+		}else if (roll < 0.66){
+			addSpawner();
+		}else{
+			addItem();
+		}
+   }
 	
 
    public void mutate_game(int amount){
@@ -765,12 +877,16 @@ public class Mutant {
 		{
             float roll = random.nextFloat(); 
             // add a interaction rule 
-            if(roll < 0.25){
+            if(roll < 0.20){
                 mutateInteraction();
-            }else if (roll < 0.50){
+            }else if (roll < 0.40){
                 mutateTermination();
+			}else if (sprites.size() < 27 && roll < 0.50){
+				addSprite();
+			}else if (roll < 0.60){
+				mutateSprite();
 			}else if (roll < 0.70){
-				addNPC();
+				removeSprite();
             }else{
 				changeAvatar();
 			}
@@ -834,6 +950,35 @@ public class Mutant {
 	
 	}
 
+	private String getNewCharacter(){
+		String c = characters[random.nextInt(characters.length)]; 
+		int i = 0; 
+		while(isInLevelMapping(c) && i < 1000){
+			c = characters[random.nextInt(characters.length)]; 
+			i ++; 
+		}
+
+		if (isInLevelMapping(c)){
+			return null; 
+		}else{
+			return c; 
+		}
+		
+	}
+
+	private boolean isInLevelMapping(String test){
+		ArrayList<Character> characters = getLevelCharacters(); 
+		for(Character c: characters){
+			if(String.valueOf(c).equals(test)){
+				return true; 
+			}
+		}
+
+		return false; 
+
+
+	}
+
     private ArrayList<Character> getLevelCharacters(){
         HashMap<Character, ArrayList<String>> charMap = toPlay.getCharMapping(); 
         Iterator<Character> chars = charMap.keySet().iterator(); 
@@ -870,9 +1015,8 @@ public class Mutant {
                 myWriter.write("\n"); 
             }
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred in saving file.");
             e.printStackTrace();
           }
 
@@ -983,7 +1127,6 @@ public class Mutant {
 							inMap = false; 
                         }else{
 							if (lastIndex < index){
-								System.out.println(content);
 								String indent = new String(new char[index - lastIndex]).replace('\0', ' ');
 								content = indent + content; 
 							}
@@ -1079,9 +1222,8 @@ public class Mutant {
                 myWriter.write(terminationSpace + "\t" + line + "\n"); 
             }
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred in writing game file.");
             e.printStackTrace();
           }
 

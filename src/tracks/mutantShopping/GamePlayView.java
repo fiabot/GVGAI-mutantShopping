@@ -9,8 +9,6 @@ import tracks.ArcadeMachine;
 
 import javax.swing.*;
 
-import org.w3c.dom.events.MutationEvent;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
