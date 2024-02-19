@@ -97,6 +97,33 @@ public class BasicGame extends Game {
 		}
 	}
 
+	public void buildLevelFromString(String level, int randomSeed){
+		String[] lines = level.split("\n");
+
+		// Pathfinder
+		obstacles = new ArrayList<>();
+		boolean doPathf = false;
+
+		if (obs != null) {
+			doPathf = true;
+			int obsArray[] = super.getRegistry().explode(obs);
+			for (Integer it : obsArray)
+				obstacles.add(it);
+		}
+
+		if (doPathf)
+			pathf = new PathFinder(obstacles);
+
+		buildStringLevel(lines, randomSeed);
+
+		if (doPathf) {
+			long t = System.currentTimeMillis();
+
+			pathf.run(this.getObservation());
+			System.out.println(System.currentTimeMillis() - t);
+		}
+	}
+
 	@Override
 	/**
 	 * Builds a level from this game, reading it from file.

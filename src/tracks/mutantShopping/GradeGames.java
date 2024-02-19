@@ -56,9 +56,10 @@ public class GradeGames {
             panel.removeAll();
             EvaluateMutant mutant = mutants.get(0);
             mutants.remove(mutant);
-            currentView = new GradePlayView(mutant.mutant.game, mutant.mutant.level, panel, this);
+            currentView = new GradePlayView(mutant.mutant.gameString, mutant.mutant.levelString, mutant.fitness, panel, this);
             currentView.playGame();
             current = mutant;
+            panel.repaint();
         } else {
             panel.removeAll();
             panel.repaint();
@@ -70,6 +71,7 @@ public class GradeGames {
     }
 
     public void evaluateCurrent(int value) {
+        panel.removeAll();
         System.out.println("Current mutant value is:" + value);
         currentView.stopGame();
         

@@ -284,18 +284,18 @@ public class VGDLFactory
         }catch (NoSuchMethodException e)
         {
             System.out.println("Error creating sprite " + content.identifier + " of class " + content.referenceClass);
-            e.printStackTrace();
+            //e.printStackTrace();
             
         }
         catch (NullPointerException e){
             System.out.println("Error creating sprite " + content.identifier + " of class " + content.referenceClass);
-            e.printStackTrace();
+            //e.printStackTrace();
             
         }
         catch (Exception e)
         {
             System.out.println("Error creating sprite " + content.identifier + " of class " + content.referenceClass);
-            e.printStackTrace();
+            //e.printStackTrace();
             
         }
 

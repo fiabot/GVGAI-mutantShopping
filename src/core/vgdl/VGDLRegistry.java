@@ -41,7 +41,6 @@ public class VGDLRegistry
     private void init()
     {
         sprite_mapping = new TreeMap<String, Integer>();
-        System.out.println("Making new Map");
     }
 
     

@@ -1,17 +1,19 @@
 package tracks.mutantShopping;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Evolution implements EvaluateListener {
 
     String intialLevel;
     String intialGame;
     GradeGames view;
-    ArrayList<EvaluateMutant> infeasible;
-    ArrayList<EvaluateMutant> feasible;
+    ArrayList<EvaluateMutant> population;
     Random random;
+    double bestFitness; 
 
     public Evolution(String initalGame, String intialLevel, String agent, int seed) {
         view = new GradeGames(agent, seed);
@@ -26,55 +28,51 @@ public class Evolution implements EvaluateListener {
         try {
             feasibleValue = mutant.feasibility();
         } catch (Exception e) {
-            feasibleValue = -1;
+            mutant.fitness = -1; 
         }
 
-        // is infeasible
-        if (feasibleValue < 1) {
-            infeasible.add(mutant);
-        } else {
-            // let human evaluate
-            System.out.println("Sending a new game");
-            view.addMutant(mutant);
-            feasible.add(mutant);
+        population.add(mutant);
 
-        }
+        
     }
 
-    public void RunEvolution(int generations, int mutationAmount) {
-
-        infeasible = new ArrayList<EvaluateMutant>();
-        feasible = new ArrayList<EvaluateMutant>();
-        EvaluateMutant origin = new EvaluateMutant(new Mutant(intialGame, intialLevel));
+    public void RunEvolution(int populationSize, int mutationAmount, int elitism) throws IOException {
+        bestFitness = -1; 
+        population = new ArrayList<EvaluateMutant>();
+        EvaluateMutant origin = new EvaluateMutant(new Mutant(intialGame, intialLevel, true));
         origin.feasibility();
-        if (origin.constrainFitness < 1) {
-            infeasible.add(origin);
-        } else {
-            feasible.add(origin);
+        for (int j = 0; j < populationSize; j ++){
+            population.add(origin);  
         }
+        
+        view.addMutant(origin); // show origin first 
         int i = 0; 
         while(true){
             i++; 
-            System.out.println("Generation:" +i);
-            Collections.sort(infeasible);
-            
-            Collections.sort(feasible);
-            if(infeasible.size() > 0){
-                System.out.println(infeasible.get(0).constrainFitness);
-            } 
+           
+            Collections.sort(population);
+            System.out.println("Generation:" +i + " top contraint:" +population.get(0).fitness + " top human: " + population.get(0).humanEval);
 
-            double roll = random.nextDouble();
-            double prob = (double) (feasible.size()  * 2)/ (double) (feasible.size() + infeasible.size());
-            EvaluateMutant child;
-            if (roll < prob) {
-                child = rankSelection(feasible);
+            ArrayList<EvaluateMutant> newPop = new ArrayList<EvaluateMutant>(); 
 
-            } else {
-                child = rankSelection(infeasible);
+            for(int j =0 ; j < elitism; j++){
+                newPop.add(population.get(j));
             }
 
-            Mutant newMutant = child.mutant.Mutate(mutationAmount);
-            addChild(new EvaluateMutant(newMutant));
+            while(newPop.size() < populationSize){
+
+                EvaluateMutant child = rankSelection(population);
+
+
+                Mutant newMutant = child.mutant.Mutate(mutationAmount);
+                addChild(new EvaluateMutant(newMutant));
+
+            }
+
+            population = newPop;
+
+
+        
 
         }
 
@@ -82,17 +80,36 @@ public class Evolution implements EvaluateListener {
 
     @Override
     public void evaluate(EvaluateMutant mutant, int value) {
-        mutant.setHumanEval(value);
-        //feasible.add(mutant);
-        System.out.println("Feasible Size: " + feasible.size());
+
+        // set value 
+        mutant.humanEval = value; 
+
+        // get next top that hasn't been evaluated 
+        Collections.sort(population);
+        EvaluateMutant nextTop = population.get(0); 
+
+        int i = 1; 
+        while(i < population.size() && nextTop.humanEval != -1){
+            nextTop = population.get(i); 
+            i++;
+        }
+        if (i < population.size()){
+            view.addMutant(nextTop);
+        }else{
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            evaluate(mutant, value);
+        }
+        
+
     }
 
-    /**
-     * Performs rank selection on the given population
-     * 
-     * @param population the population to be performed upon
-     * @return
-     */
+
+    
     private EvaluateMutant rankSelection(ArrayList<EvaluateMutant> population) {
         double[] probabilities = new double[population.size()];
         probabilities[0] = 1.0;

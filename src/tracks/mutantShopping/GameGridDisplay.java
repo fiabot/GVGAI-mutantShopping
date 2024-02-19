@@ -45,7 +45,7 @@ public class GameGridDisplay extends JComponent {
         views = new GamePlayView[games.length]; 
 
         for(int i = 0; i < games.length; i ++){
-            GamePlayView view = new GamePlayView(games[i], levels[i], panel, this); 
+            GamePlayView view = new GamePlayView(games[i], levels[i], panel, this, true); 
             views[i] = view; 
         }
 
@@ -74,33 +74,39 @@ public class GameGridDisplay extends JComponent {
         return this.seed; 
     }
 
-    public void Mutate(String game, String level){
+    public void Mutate(String game, String level, boolean asFile){
         clearDisplay(); 
-        Mutant starting = new Mutant(game, level); 
-        nextMutant ++; 
-
-        Mutant[] mutants = new Mutant[games.length]; 
-
-        for(int i =0; i < games.length; i++){
-            Mutant mut = starting.Mutate(1); 
+        try{
+            Mutant starting = new Mutant(game, level, asFile); 
             nextMutant ++; 
-            mutants[i] = mut; 
-            GamePlayView view = new GamePlayView(mut.game, mut.level, panel, this); 
-            views[i] = view; 
-            
-        }
-        
-
-        for(int i = 0; i < views.length; i ++){
-            views[i].playGame(); 
-
-            try {
-                TimeUnit.MILLISECONDS.sleep(300);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+    
+            Mutant[] mutants = new Mutant[games.length]; 
+    
+            for(int i =0; i < games.length; i++){
+                Mutant mut = starting.Mutate(1); 
+                nextMutant ++; 
+                mutants[i] = mut; 
+                GamePlayView view = new GamePlayView(mut.gameString, mut.levelString, panel, this, false); 
+                views[i] = view; 
+                
             }
+            
+    
+            for(int i = 0; i < views.length; i ++){
+                views[i].playGame(); 
+    
+                try {
+                    TimeUnit.MILLISECONDS.sleep(300);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+        }catch (Exception e){
+            System.out.println("Failed to mutate game: " + game); 
         }
+       
 
     }
 

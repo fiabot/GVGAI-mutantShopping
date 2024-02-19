@@ -33,9 +33,6 @@ public class Mutant {
     String gameString; 
     String levelString; 
 
-	String game; 
-	String level; 
-
     /**
 	 * current level described by the chromosome
 	 */
@@ -73,7 +70,7 @@ public class Mutant {
     int terminationIndent; 
     int interactionIndent; 
 	
-    private ArrayList<String> interaction; 
+    protected ArrayList<String> interaction; 
 	protected ArrayList<String> sprites; 
 	protected ArrayList<String> levelMapping; 
  	
@@ -107,8 +104,8 @@ public class Mutant {
         id = next; 
         next++; 
 
-        this.game = game; 
-        this.level = level; 
+        this.gameString = game; 
+        this.levelString = level; 
 		this.random = new Random();
 		spriteCreator = new SpriteCreator(random, "bullet", "oryx/bullet1", this); 
 
@@ -117,15 +114,17 @@ public class Mutant {
 		
     }
 
-	public Mutant(String game, String level, boolean asFiles){
+	public Mutant(String game, String level, boolean asFiles) throws IOException{
         id = next; 
         next++; 
 		if(asFiles){
 			this.gameString = getFileAsString(game);
 			this.levelString = getFileAsString(level);
+		}else{
+			this.gameString = game; 
+			this.levelString = level; 
 		}
-        this.game = game; 
-        this.level = level; 
+       
 		this.random = new Random();
 		spriteCreator = new SpriteCreator(random, "bullet", "oryx/bullet1", this); 
 
@@ -139,8 +138,8 @@ public class Mutant {
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
         while ((line = reader.readLine()) != null) {
-            stringBuilder.append("<br>");
             stringBuilder.append(line);
+			stringBuilder.append("\n");
         }
         // delete the last new line separator
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
@@ -154,26 +153,26 @@ public class Mutant {
 		
         
         try {
-			toPlay = new VGDLParser().parseGame(game);
+			toPlay = new VGDLParser().parseGameAsString(gameString);
 		
         	description = new GameDescription(toPlay); 
         	analyzer = new GameAnalyzer(description); 
-            parseInteractions(game);
+            parseInteractions(gameString);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-			System.out.println("Failed Parsing: " + game + " " + level);
+			System.out.println("Failed Parsing: ");
             //e.printStackTrace();
         }
         
     
     
-		String[] lines = new IO().readFile(level);
+		String[] lines = levelString.split("\n");
         try {
             this.sl = new SLDescription(toPlay, lines,42);
             this.usefulSprites = new ArrayList<String>();
             this.random = new Random();
             String[][] currentLevel = sl.getCurrentLevel();
-			toPlay.buildLevel(level, random.nextInt());
+			toPlay.buildLevelFromString(levelString, random.nextInt());
 			
 
 
@@ -556,10 +555,10 @@ public class Mutant {
     }
     public Mutant Mutate(int mutationAmount){
 
-        Mutant copy = new Mutant(game, level); 
+        Mutant copy = new Mutant(gameString, levelString); 
 		if(random.nextDouble() > 0.5){
 
-			copy.mutate_level(5);
+			copy.mutate_level(mutationAmount);
 
 			copy.updateLevel();
         	 
@@ -596,7 +595,7 @@ public class Mutant {
     public void mutateInteraction(){
         double mutationType = random.nextDouble();
 		// we do an insertion
-		if(mutationType < 0.33) {
+		if(mutationType < 0.50) {
 			// roll dice to see if we will insert a new rule altogether or a new parameter into an existing rule
 			double roll = random.nextDouble();
 			// insert a new parameter onto an existing rule
@@ -657,7 +656,7 @@ public class Mutant {
 			}
 		} 
 		// we do a deletion
-		else if(mutationType < 0.33 + 0.33) {
+		else if(mutationType < 0.50 + 0.25) {
 			// roll dice to see if we will delete a rule altogether or a parameter of an existing rule
 			double roll = random.nextDouble();
 			// delete a parameter from an existing rule
@@ -719,7 +718,7 @@ public class Mutant {
 			}
 		} 
 		// modify a rule from the interaction set by changing its parameters
-		else if (mutationType < 0.2 + 0.33 + 0.33) {
+		else if (mutationType < 1) {
 			// pick our modified rule
 			int point = random.nextInt(interaction.size());
 			
@@ -877,15 +876,15 @@ public class Mutant {
 		{
             float roll = random.nextFloat(); 
             // add a interaction rule 
-            if(roll < 0.20){
+            if(roll < 0.25){
                 mutateInteraction();
-            }else if (roll < 0.40){
+            }else if (roll < 0.50){
                 mutateTermination();
-			}else if (sprites.size() < 27 && roll < 0.50){
+			}else if (sprites.size() < 15 && roll < 0.60){
 				addSprite();
-			}else if (roll < 0.60){
-				mutateSprite();
 			}else if (roll < 0.70){
+				mutateSprite();
+			}else if (roll < 0.80){
 				removeSprite();
             }else{
 				changeAvatar();
@@ -1005,22 +1004,17 @@ public class Mutant {
     
 
     private void updateLevel(){
-        String file = "src/tracks/mutantShopping/MutantLevels/mutant_" + Integer.toString(id) + "_level.txt"; 
-        try {
-            FileWriter myWriter = new FileWriter(file);
-            for(int y = 0; y < level_array.length; y++){
-                for(int x = 0; x <level_array[0].length; x++){
-                    myWriter.write(Character.toString(level_array[y][x]));
-                }
-                myWriter.write("\n"); 
-            }
-            myWriter.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred in saving file.");
-            e.printStackTrace();
-          }
+        //String file = "src/tracks/mutantShopping/MutantLevels/mutant_" + Integer.toString(id) + "_level.txt"; 
+        StringBuilder builder = new StringBuilder(); 
+		for(int y = 0; y < level_array.length; y++){
+			for(int x = 0; x <level_array[0].length; x++){
+				builder.append(Character.toString(level_array[y][x]));
+			}
+			builder.append("\n"); 
+		}
+        
 
-          level = file; 
+          levelString = builder.toString(); 
           
         }
 
@@ -1072,9 +1066,8 @@ public class Mutant {
 		}
 	}
 
-    private void parseInteractions(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader (file));
-        String line = null;
+    private void parseInteractions(String game) throws IOException {
+        String[] lines = game.split("\n");  
         StringBuilder stringBuilder = new StringBuilder();
         String ls = System.getProperty("line.separator");
         interaction = new ArrayList<String>();
@@ -1089,145 +1082,137 @@ public class Mutant {
         String tabTemplate = "    ";
         int lastIndex = -1; 
     
-        try {
-            while((line = reader.readLine()) != null) {
-                if (inTerminat || inInteration ||inSprites || inMap){
-                    line.replaceAll("\t", tabTemplate);
-                    // remove comments starting with "#"
-                    if (line.contains("#"))
-                        line = line.split("#")[0];
+   
+		for(String line: lines) {
+			if (inTerminat || inInteration ||inSprites || inMap){
+				line.replaceAll("\t", tabTemplate);
+				// remove comments starting with "#"
+				if (line.contains("#"))
+					line = line.split("#")[0];
 
-                    // handle whitespace and indentation
-                    String content = line.trim();
-                    if(content.length() > 0){
-                        char firstChar = content.charAt(0);
-                        // figure out the indent of the line.
-                        int index = line.indexOf(firstChar);
+				// handle whitespace and indentation
+				String content = line.trim();
+				if(content.length() > 0){
+					char firstChar = content.charAt(0);
+					// figure out the indent of the line.
+					int index = line.indexOf(firstChar);
 
-                        if (lastIndex == -1 && content.length() > 0) {
-                            
-                            lastIndex =  index; 
-                            if (inInteration){
-                                interaction.add(content);
-                            }else if (inTerminat){
-                                termination.add(content); 
-                        
-                            }else if (inSprites){
-                                sprites.add(content); 
-                        
-                            }else if (inMap){
-                                levelMapping.add(content); 
-                        
-                            }
-                            
-                        }else if (lastIndex > index){ //de-indended 
-                            inInteration = false; 
-                            inTerminat = false; 
-							inSprites = false; 
-							inMap = false; 
-                        }else{
-							if (lastIndex < index){
-								String indent = new String(new char[index - lastIndex]).replace('\0', ' ');
-								content = indent + content; 
-							}
-                            if (inInteration){
-                                interaction.add(content);
-                        
-                            }else if (inTerminat){
-                                termination.add(content); 
-                                
-                            }else if (inSprites){
-                                sprites.add(content); 
-                        
-                            }else if (inMap){
-                                levelMapping.add(content); 
-                        
-                            }
-                        }
-                    }
-                    
-                }
-                if (line.contains("TerminationSet")){
-                    inTerminat = true; 
-                    String content = line.trim();
-                   
-                    char firstChar = content.charAt(0);
-                    // figure out the indent of the line.
-                    terminationIndent = line.indexOf(firstChar);
-                    
-                }
+					if (lastIndex == -1 && content.length() > 0) {
+						
+						lastIndex =  index; 
+						if (inInteration){
+							interaction.add(content);
+						}else if (inTerminat){
+							termination.add(content); 
+					
+						}else if (inSprites){
+							sprites.add(content); 
+					
+						}else if (inMap){
+							levelMapping.add(content); 
+					
+						}
+						
+					}else if (lastIndex > index){ //de-indended 
+						inInteration = false; 
+						inTerminat = false; 
+						inSprites = false; 
+						inMap = false; 
+					}else{
+						if (lastIndex < index){
+							String indent = new String(new char[index - lastIndex]).replace('\0', ' ');
+							content = indent + content; 
+						}
+						if (inInteration){
+							interaction.add(content);
+					
+						}else if (inTerminat){
+							termination.add(content); 
+							
+						}else if (inSprites){
+							sprites.add(content); 
+					
+						}else if (inMap){
+							levelMapping.add(content); 
+					
+						}
+					}
+				}
+				
+			}
+			if (line.contains("TerminationSet")){
+				inTerminat = true; 
+				String content = line.trim();
+				
+				char firstChar = content.charAt(0);
+				// figure out the indent of the line.
+				terminationIndent = line.indexOf(firstChar);
+				
+			}
 
-                else if(line.contains("InteractionSet")){
-                    inInteration = true; 
-                    String content = line.trim();
-                   
-                    char firstChar = content.charAt(0);
-                    // figure out the indent of the line.
-                    interactionIndent = line.indexOf(firstChar);
-                }
-				else if(line.contains("SpriteSet")){
-                    inSprites = true; 
-                    String content = line.trim();
-                   
-                    char firstChar = content.charAt(0);
-                    // figure out the indent of the line.
-                    spriteIndent = line.indexOf(firstChar);
-                }
-				else if(line.contains("LevelMapping")){
-                    inMap = true; 
-                    //String content = line.trim();
-                   
-                    //char firstChar = content.charAt(0);
-                    // figure out the indent of the line.
-                    ///spriteIndent = line.indexOf(firstChar);
-                }
-                else if (!inTerminat && !inInteration && !inSprites && !inMap){
-                    stringBuilder.append(line);
-                    stringBuilder.append(ls);
-                }
-               
-            }
-    
-            stableGame = stringBuilder.toString();
-        } finally {
-            reader.close();
-        }
+			else if(line.contains("InteractionSet")){
+				inInteration = true; 
+				String content = line.trim();
+				
+				char firstChar = content.charAt(0);
+				// figure out the indent of the line.
+				interactionIndent = line.indexOf(firstChar);
+			}
+			else if(line.contains("SpriteSet")){
+				inSprites = true; 
+				String content = line.trim();
+				
+				char firstChar = content.charAt(0);
+				// figure out the indent of the line.
+				spriteIndent = line.indexOf(firstChar);
+			}
+			else if(line.contains("LevelMapping")){
+				inMap = true; 
+				//String content = line.trim();
+				
+				//char firstChar = content.charAt(0);
+				// figure out the indent of the line.
+				///spriteIndent = line.indexOf(firstChar);
+			}
+			else if (!inTerminat && !inInteration && !inSprites && !inMap){
+				stringBuilder.append(line);
+				stringBuilder.append(ls);
+			}
+			
+		}
+
+		stableGame = stringBuilder.toString();
+        
     }
 
     private void updateGame(){
-        String file = "src/tracks/mutantShopping/MutantGames/mutant_" + Integer.toString(id) + "_game.txt"; 
+        //String file = "src/tracks/mutantShopping/MutantGames/mutant_" + Integer.toString(id) + "_game.txt"; 
         String interactionSpace = new String(new char[interactionIndent]).replace('\0', ' ');
         String terminationSpace = new String(new char[terminationIndent]).replace('\0', ' ');
 		String spriteSpace = new String(new char[spriteIndent]).replace('\0', ' ');
+		StringBuilder stringBuilder = new StringBuilder();
+		//System.out.println(stableGame);
+		stringBuilder.append(stableGame);
+		stringBuilder.append(interactionSpace + "SpriteSet\n");
+		for(String line: sprites){
+			stringBuilder.append(spriteSpace + "\t" + line + "\n"); 
+		}
+		stringBuilder.append("\n" +  interactionSpace + "LevelMapping\n");
+		for(String line: levelMapping){
+			stringBuilder.append(spriteSpace + "\t" + line + "\n"); 
+		}
+		
+		stringBuilder.append("\n" + interactionSpace + "InteractionSet\n");
+		for(String line: interaction){
+			stringBuilder.append(interactionSpace + "\t" + line + "\n"); 
+		}
+		stringBuilder.append("\n" + interactionSpace + "TerminationSet\n");
+		for(String line: termination){
+			stringBuilder.append(terminationSpace + "\t" + line + "\n"); 
+		}
+	
 
-        try {
-            FileWriter myWriter = new FileWriter(file);
-            //System.out.println(stableGame);
-            myWriter.write(stableGame);
-			myWriter.write(interactionSpace + "SpriteSet\n");
-            for(String line: sprites){
-                myWriter.write(spriteSpace + "\t" + line + "\n"); 
-            }
-			myWriter.write("\n" +  interactionSpace + "LevelMapping\n");
-            for(String line: levelMapping){
-                myWriter.write(spriteSpace + "\t" + line + "\n"); 
-            }
-			
-            myWriter.write("\n" + interactionSpace + "InteractionSet\n");
-            for(String line: interaction){
-                myWriter.write(interactionSpace + "\t" + line + "\n"); 
-            }
-            myWriter.write("\n" + interactionSpace + "TerminationSet\n");
-            for(String line: termination){
-                myWriter.write(terminationSpace + "\t" + line + "\n"); 
-            }
-            myWriter.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred in writing game file.");
-            e.printStackTrace();
-          }
-
-          game = file; 
+          gameString = stringBuilder.toString();
         }
     
 }

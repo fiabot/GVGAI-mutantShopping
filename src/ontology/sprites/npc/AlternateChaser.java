@@ -203,7 +203,7 @@ public class AlternateChaser extends RandomNPC
         targetSprite.itype2 = this.itype2.clone();
         targetSprite.targets = new ArrayList<VGDLSprite>();
         targetSprite.actions = new ArrayList<Direction>();
-        targetSprite.registry = this,registry;
+        targetSprite.registry = this.registry;
         super.copyTo(targetSprite);
     }
 

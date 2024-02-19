@@ -29,7 +29,7 @@ public class GradePlayView {
 
     boolean play = true;
 
-    public GradePlayView(String game, String level, Container container, GradeGames parent) {
+    public GradePlayView(String game, String level, double value, Container container, GradeGames parent) {
         this.game = game;
         this.level = level;
         this.parent = parent;
@@ -59,6 +59,9 @@ public class GradePlayView {
 
         label.setText("<html> <body width='%1s'>" + gameInstruction + "</html>");
         scroll.add(label);
+
+        JLabel valueLabel = new JLabel(); 
+        valueLabel.setText("Fitness: " + value);
 
         JButton playbutton = new JButton("Play Game");
         playbutton.addActionListener(new PlayGame(this));
@@ -91,6 +94,12 @@ public class GradePlayView {
         gbc.gridy = 1;
         panel.add(playhelperPanel, gbc);
 
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipady = 20;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(valueLabel, gbc);
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -100,22 +109,20 @@ public class GradePlayView {
         String recordActionsFile = null;
 
         runnable = new RunGame(game, level, true, parent.getAgent(), recordActionsFile, parent.seed, 0, gamePanel,
-                parent.getFrame(), this);
+                parent.getFrame(), this, false);
         thread = new Thread(runnable);
 
     }
 
     public String getGameInstructions() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(game));
         StringBuilder stringBuilder = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
+    
+       for(String line: game.split("\n")) {
             stringBuilder.append("<br>");
             stringBuilder.append(line);
         }
         // delete the last new line separator
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        reader.close();
 
         String content = stringBuilder.toString();
         return content;
@@ -156,7 +163,7 @@ public class GradePlayView {
         public void actionPerformed(ActionEvent e) {
             // view.gamePanel.removeAll();
             view.stopGame();
-            RunGame runnable = new RunGame(game, level, true, "", parent.seed, 0, gamePanel, parent.getFrame(), view);
+            RunGame runnable = new RunGame(game, level, true, "", parent.seed, 0, gamePanel, parent.getFrame(), view, false);
             Thread thread = new Thread(runnable);
             thread.start();
         }

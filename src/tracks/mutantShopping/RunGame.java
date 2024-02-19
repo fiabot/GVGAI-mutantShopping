@@ -20,9 +20,10 @@ public class RunGame implements Runnable {
     GamePlayView view; 
     GradePlayView view2;
     boolean humanPlayer; 
+    boolean asFile; 
 
     public RunGame(String game_file, String level_file, boolean visuals, String agentNames,
-    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, GamePlayView view){
+    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, GamePlayView view, boolean asFile){
         this.game_file = game_file; 
         this.level_file = level_file; 
         this.visuals = visuals; 
@@ -35,11 +36,12 @@ public class RunGame implements Runnable {
         this.go = true; 
         this.view = view; 
         humanPlayer = false; 
+        this.asFile = asFile;
     }
 
 
     public RunGame(String game_file, String level_file, boolean visuals, String agentNames,
-    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, GradePlayView view){
+    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, GradePlayView view, boolean asFile){
         this.game_file = game_file; 
         this.level_file = level_file; 
         this.visuals = visuals; 
@@ -52,10 +54,11 @@ public class RunGame implements Runnable {
         this.go = true; 
         this.view2 = view; 
         humanPlayer = false; 
+        this.asFile = asFile;
     }
 
     public RunGame(String game_file, String level_file, boolean visuals, 
-    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, GradePlayView view){
+    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, GradePlayView view, boolean asFile){
         this.game_file = game_file; 
         this.level_file = level_file; 
         this.visuals = visuals; 
@@ -68,16 +71,17 @@ public class RunGame implements Runnable {
         this.go = true; 
         this.view2 = view; 
         humanPlayer = true; 
+        this.asFile = asFile;
     }
 
     @Override
     public void run() {
         try{
             if(humanPlayer){
-                ArcadeMachine.playOneGame(game_file, level_file, actionFile, randomSeed); 
+                ArcadeMachine.playOneGame(game_file, level_file, actionFile, randomSeed, asFile); 
             }else{
                 ArcadeMachine.runOneGame(game_file,level_file, visuals, agentNames,
-            actionFile, randomSeed, playerID, container, frame);
+            actionFile, randomSeed, playerID, container, frame, asFile);
 
             }
             

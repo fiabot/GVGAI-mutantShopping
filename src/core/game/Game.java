@@ -550,7 +550,7 @@ public abstract class Game {
 
 		while (!queue.isEmpty()) {
 			int current = queue.remove(0);
-			if (visited[current]) {
+			if (current == -1 || visited[current]) {
 				continue;
 			}
 
@@ -2365,6 +2365,9 @@ public abstract class Game {
 	public void buildLevel(String gamelvl, int randomSeed) {
 	}
 
+	public void buildLevelFromString(String level, int randomSeed){
+
+	}
 	public ArrayList<Node> getPath(Vector2d start, Vector2d end) {
 		Vector2d pathStart = new Vector2d(start);
 		Vector2d pathEnd = new Vector2d(end);

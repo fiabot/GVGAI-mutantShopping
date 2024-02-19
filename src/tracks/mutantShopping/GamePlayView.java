@@ -21,8 +21,9 @@ public class GamePlayView{
     String game; 
     String level; 
     boolean play = true; 
+    boolean asFile; 
 
-    public GamePlayView(String game, String level, Container container, GameGridDisplay parent){
+    public GamePlayView(String game, String level, Container container, GameGridDisplay parent, boolean asFile){
         this.game = game; 
         this.level = level;
         this.parent = parent; 
@@ -34,7 +35,7 @@ public class GamePlayView{
         //gamePanel.setSize(800, 500);
         gamePanel.setBackground(Color.GRAY);
         JButton button = new JButton("Mutate");
-        button.addActionListener(new MutateEvent(game, level, parent)); 
+        button.addActionListener(new MutateEvent(game, level, parent, asFile)); 
         JPanel helperPanel = new JPanel();
         //helperPanel.setSize(800, 50);
         button.setSize(200, 50);
@@ -43,16 +44,17 @@ public class GamePlayView{
         
 
         panel.add(gamePanel, BorderLayout.NORTH); 
-        panel.add(new Label(game)); 
+        //panel.add(new Label(game)); 
 
         panel.add(helperPanel, BorderLayout.SOUTH); 
         
 
         container.add(panel); 
         String recordActionsFile = null;
+        this.asFile = asFile;
 
 
-        runnable = new RunGame(game, level, true, parent.getAgent(), recordActionsFile, parent.seed, 0, gamePanel, parent.getFrame(), this); 
+        runnable = new RunGame(game, level, true, parent.getAgent(), recordActionsFile, parent.seed, 0, gamePanel, parent.getFrame(), this, asFile); 
         thread = new Thread(runnable); 
 
     }
@@ -65,6 +67,8 @@ public class GamePlayView{
             }catch (Exception e){
                 e.printStackTrace();
             }
+
+            panel.repaint();
         }
        
         
@@ -85,14 +89,16 @@ public class GamePlayView{
         String game; 
         String level; 
         GameGridDisplay grid; 
-        public MutateEvent(String game, String level, GameGridDisplay grid){
+        boolean asFile; 
+        public MutateEvent(String game, String level, GameGridDisplay grid, boolean asFile){
             this.game = game; 
             this.level = level; 
             this.grid = grid; 
+            this.asFile = asFile; 
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            this.grid.Mutate(game, level);
+            this.grid.Mutate(game, level, asFile);
         }
  }
 

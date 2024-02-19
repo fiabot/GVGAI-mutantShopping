@@ -43,6 +43,26 @@ public class ArcadeMachine {
 		return runOneGame(game_file, level_file, visuals, agentName, actionFile, randomSeed, 0);
     }
 
+	public static double[] playOneGame(String game_file, String level_file, String actionFile, int randomSeed, boolean asFile) {
+		String agentName = "tracks.singlePlayer.tools.human.Agent";
+		boolean visuals = true;
+		return runOneGame(game_file, level_file, visuals, agentName, actionFile, randomSeed, 0, asFile);
+    }
+
+	 /**
+     * Reads and launches a game for a human to be played. Graphics always on.
+     * 
+     * @param game_file
+     *            game description file.
+     * @param level_file
+     *            file with the level to be played.
+     */
+    public static double[] playOneGame(String game_file, String level_file, String actionFile, int randomSeed, Container container, JFrame frame, boolean asFile) {
+		String agentName = "tracks.singlePlayer.tools.human.Agent";
+		boolean visuals = true;
+		return runOneGame(game_file, level_file, visuals, agentName, actionFile, randomSeed, 0, container, frame, asFile);
+    }
+
     /**
      * Reads and launches a game for a human to be played. Graphics always on.
      * 
@@ -85,6 +105,32 @@ public class ArcadeMachine {
      */
     public static double[] runOneGame(String game_file, String level_file, boolean visuals, String agentNames,
 	    String actionFile, int randomSeed, int playerID) {
+		return runOneGame(game_file, level_file, visuals, agentNames, actionFile, randomSeed, playerID, true); 
+	}
+
+	 /**
+     * Reads and launches a game for a bot to be played. Graphics can be on or
+     * off.
+     * 
+     * @param game_file
+     *            game description file.
+     * @param level_file
+     *            file with the level to be played.
+     * @param visuals
+     *            true to show the graphics, false otherwise.
+     * @param agentNames
+     *            names (inc. package) where the tracks are otherwise.
+     *            Names separated by space.
+     * @param actionFile
+     *            filename of the files where the actions of these players, for
+     *            this game, should be recorded.
+     * @param randomSeed
+     *            sampleRandom seed for the sampleRandom generator.
+     * @param playerID
+     *            ID of the human player
+     */
+    public static double[] runOneGame(String game_file, String level_file, boolean visuals, String agentNames,
+	    String actionFile, int randomSeed, int playerID, boolean asFile) {
 		//VGDLFactory.GetInstance().init(); // This always first thing to do.
 		//VGDLRegistry.GetInstance().init();
 
@@ -97,8 +143,14 @@ public class ArcadeMachine {
 		}
 
 		// First, we create the game to be played..
-		Game toPlay = new VGDLParser().parseGame(game_file);
-		toPlay.buildLevel(level_file, randomSeed);
+		Game toPlay; 
+		if(asFile){
+			toPlay = new VGDLParser().parseGame(game_file);
+			toPlay.buildLevel(level_file, randomSeed);
+		}else{
+			toPlay = new VGDLParser().parseGameAsString(game_file);
+			toPlay.buildLevelFromString(level_file, randomSeed);
+		}
 
 		// Warm the game up.
 		ArcadeMachine.warmUp(toPlay, CompetitionParameters.WARMUP_TIME);
@@ -201,7 +253,7 @@ public class ArcadeMachine {
      *            ID of the human player
      */
     public static double[] runOneGame(String game_file, String level_file, boolean visuals, String agentNames,
-	    String actionFile, int randomSeed, int playerID, Container container, JFrame frame) {
+	    String actionFile, int randomSeed, int playerID, Container container, JFrame frame, boolean asFile) {
 		//VGDLFactory.GetInstance().init(); // This always first thing to do.
 		//GDLRegistry.GetInstance().init();
 
@@ -214,8 +266,15 @@ public class ArcadeMachine {
 		}
 
 		// First, we create the game to be played..
-		Game toPlay = new VGDLParser().parseGame(game_file);
-		toPlay.buildLevel(level_file, randomSeed);
+		Game toPlay; 
+		if(asFile){
+			toPlay = new VGDLParser().parseGame(game_file);
+			toPlay.buildLevel(level_file, randomSeed);
+		}else{
+			toPlay = new VGDLParser().parseGameAsString(game_file);
+			toPlay.buildLevelFromString(level_file, randomSeed);
+		}
+		
 
 		// Warm the game up.
 		ArcadeMachine.warmUp(toPlay, CompetitionParameters.WARMUP_TIME);

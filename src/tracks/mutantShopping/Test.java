@@ -9,6 +9,7 @@ import tracks.ArcadeMachine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -203,27 +204,52 @@ public class Test {
 		String sampleRSController = "tracks.singlePlayer.advanced.sampleRS.Agent";
 		String game = "src/tracks/mutantShopping/SimpleGame.txt";
 		String level = "src/tracks/mutantShopping/SimpleLevel.txt";
-		Mutant mutant = new Mutant(game, level);
-		EvaluateMutant eval = new EvaluateMutant(mutant);
+		Mutant mutant;
+		try {
+			mutant = new Mutant(game, level, true);
+			EvaluateMutant eval = new EvaluateMutant(mutant);
 
-		Mutant mutant1 = mutant.Mutate(5);
-		EvaluateMutant eval1 = new EvaluateMutant(mutant1);
+			Mutant mutant1 = mutant.Mutate(5);
+			EvaluateMutant eval1 = new EvaluateMutant(mutant1);
 
-		Mutant mutant2 = mutant.Mutate(5);
-		EvaluateMutant eval2 = new EvaluateMutant(mutant2);
-		GradeGames view = new GradeGames(sampleRSController, 0);
-		view.addMutant(eval);
-		view.addMutant(eval1);
-		view.addMutant(eval2);
+			Mutant mutant2 = mutant.Mutate(5);
+			EvaluateMutant eval2 = new EvaluateMutant(mutant2);
+			GradeGames view = new GradeGames(sampleRSController, 0);
+			view.addMutant(eval);
+			view.addMutant(eval1);
+			view.addMutant(eval2);
 
+		} catch (IOException e) {
+			System.out.println("Couldn't create mutant");
+		}
 	}
 
 	public static void testEvolution() {
+
+		// Load available games
+		String spGamesCollection = "examples/all_games_sp.csv";
+		String[][] games = Utils.readGames(spGamesCollection);
+
+		// Game settings
+		boolean visuals = true;
+		int seed = new Random().nextInt();
+
+		// Game 1 and level 1 to play
+		int gameIdx = 0;
+		int level1Idx = 0; // level names from 0 to 4 (game_lvlN.txt).
+		String game1Name = games[gameIdx][1];
+		String game1 = games[gameIdx][0];
+		String level1 = game1.replace(game1Name, game1Name + "_lvl" + level1Idx);
+
 		String sampleRSController = "tracks.singlePlayer.advanced.sampleRS.Agent";
 		String game = "src/tracks/mutantShopping/SimpleGame.txt";
 		String level = "src/tracks/mutantShopping/SimpleLevel.txt";
-		Evolution evo = new Evolution(game, level, sampleRSController, 42);
-		evo.RunEvolution(10000, 5);
+		Evolution evo = new Evolution(game, level, sampleRSController, 20);
+		try {
+			evo.RunEvolution(20, 5, 3);
+		} catch (IOException e) {
+			System.out.println("Unable to start evolution");
+		}
 	}
 
 	public static void simpleGame() {
@@ -254,9 +280,9 @@ public class Test {
 	public static void main(String[] args) {
 
 		// testPlayView();
-		// simpleGame();
-		testGrade();
-		//testEvolution();
+		//simpleGame();
+		//testGrade();
+		testEvolution();
 
 		// Available tracks:
 		/*

@@ -108,6 +108,38 @@ public class VGDLParser {
 	 *            filename of the file containing the game
 	 * @return the game created
 	 */
+	public Game parseGameAsString(String gamedesc) {
+		String[] desc_lines =gamedesc.split("\n"); 
+		if (desc_lines != null) {
+			VGDLRegistry registry  = new VGDLRegistry(); 
+			Node rootNode = indentTreeParser(desc_lines, registry);
+
+			// Parse here game and arguments of the first line
+			VGDLFactory factory = new VGDLFactory();
+			game = factory.createGame((GameContent) rootNode.content, registry);
+			game.initMulti();
+
+			// Parse the parameter nodes first, if any.
+			parseParameterNodes(rootNode, factory, registry);
+
+			// Parse the nodes.
+			try {
+				parseNodes(rootNode, factory, registry);
+			} catch (Exception e) {
+			    logger.addMessage(new Message(Message.ERROR, "[PARSE ERROR] " + e.toString()));
+			}
+		}
+
+		return game;
+	}
+
+	/**
+	 * Parses a game passed whose file is passed by parameter.
+	 *
+	 * @param gamedesc_file
+	 *            filename of the file containing the game
+	 * @return the game created
+	 */
 	public Game parseGameWithParameters(String gamedesc_file, HashMap<String, ParameterContent> parameters) {
 		String[] desc_lines = new IO().readFile(gamedesc_file);
 		if (desc_lines != null) {

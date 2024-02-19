@@ -71,10 +71,8 @@ public class SpriteCreator {
             String[] ammo = createAmo(); 
             avatar += " stype=" + ammo[0]; 
             returnList.add(ammo[1]); 
-            System.out.println("ammo:" + ammo[1]);
 
         }
-        System.out.println("Avatar:" + avatar);
         returnList.add(avatar);
         return returnList; 
     }
@@ -344,7 +342,6 @@ public class SpriteCreator {
         for(String str : newParts){
             newSprite += str + " "; 
         }
-        System.out.println("Mutating Sprite:" + sprite + ":" + newSprite); 
         return newSprite; 
     }
 }

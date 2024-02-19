@@ -25,6 +25,7 @@ public class RandomBomber extends SpawnPoint
 
     public RandomBomber(Vector2d position, Dimension size, SpriteContent cnt, VGDLFactory factory, VGDLRegistry registry)
     {
+        super.registry = registry;
         //Init the sprite
         this.init(position, size, factory);
 
