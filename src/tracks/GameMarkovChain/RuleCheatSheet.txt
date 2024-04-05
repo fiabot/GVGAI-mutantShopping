@@ -1,0 +1,45 @@
+Sprites: 
+
+SpriteContext:[avatar, npc, spawner, ammos, others]
+
+Interactions: 
+1.killSprite: kill 
+2.killAll:kill 
+3.killIfHasMore: kill 
+4.killIfHasLess: kill 
+5.killIfFromAbove: kill 
+6.killIfOtherHasMore: kill 
+7.transformToSingleton: transform
+8.spawnBehind: spawn
+9.spawnIfHasMore: spawn 
+10. spawnIfHasLess: spawn 
+11. cloneSprite: spawn 
+12. transformTo: transform 
+13. transformIfCounts: transform 
+14. transformToRandomChild: transform 
+15. updateSpawnType: spawn
+16. removeScore: health
+17. addHealthPoints: health 
+18. addHealthPointsToMax: health 
+19. subtractHealthPoints: health 
+20. increaseSpeedToAll: movement
+21. decreaseSpeedToAll: movement 
+22. setSpeedForAll: movement 
+23. stepBack: movement 
+24. undoAll: movement 
+25. flipDirection: direction
+26. reverseDirection: direction
+27. attractGaze: direction
+28. align:direction
+29. turnAround: direction
+30. wrapAround: movement
+31. teleportToExit: movement 
+32. pullWithIt: movement
+33. bounceForward: movement
+34. collectResource: health
+35. changeResource: health 
+
+Interaction context: [kill, spawn, transform, health, movement, direction]
+
+
+Terminations: 
