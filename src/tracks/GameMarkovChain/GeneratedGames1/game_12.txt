@@ -1,0 +1,54 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/snowmanbodyinplace 
+    	sprite1 > Chaser img=newset/hotdog stype=sprite0 cooldown=6 color=RED speed=0.9 
+    	sprite1 > Chaser stype=sprite1 speed=0.9 img=newset/burger singleton=True 
+    	sprite1 > Chaser stype=sprite1 cooldown=6 speed=0.9 color=ORANGE img=oryx/bat1 
+    	sprite1 > SpawnPoint stype=sprite1 prob=0.01 cooldown=30 img=portal 
+    	sprite5 > SpawnPoint invisible=True hidden=True stype=sprite0 cooldown=10 total=400 
+    	sprite6 > OrientedAvatar rotateInPlace=false speed=0.5 color=YELLOW img=oryx/alien1 
+    	sprite6 > RandomPathAltChaser singleton=True stype1=sprite6 stype2=sprite6 cooldown=4 img=oryx/ghost4 cons=4 
+    	sprite6 > SpawnPoint stype=sprite6 cooldown=100 prob=1 img=newset/lasercannon_4 portal=True 
+    	sprite9 > MovingAvatar img=newset/girl5 healthPoints=10 
+    	sprite11 > Resource value=10000 limit=1 img=oryx/diamond3 
+    	sprite12 > Passive shrinkfactor=0.8 img=newset/blockB 
+    	sprite14 > Flicker shrinkfactor=0.5 color=GREEN limit=1 img=newset/mole_fast 
+    	sprite16 > OrientedFlicker limit=2 color=LIGHTGRAY img=oryx/fireleft1 shrinkfactor=0.6 
+    	sprite16 > ShootAvatar stype=sprite16 healthPoints=10 img=oryx/prince1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite1
+    	D > sprite1
+    	E > sprite1
+    	F > sprite5
+    	G > sprite6
+    	H > sprite6
+    	I > sprite6
+    	J > sprite9
+    	K > sprite11
+    	L > sprite12
+    	M > sprite14
+    	N > sprite16
+    	O > sprite16
+
+    InteractionSet
+    	sprite9 sprite6  > killSprite 
+    	sprite1 sprite9  > killSprite 
+    	sprite9 sprite1  > subtractHealthPoints 
+    	sprite9 sprite0  > changeResource resource=sprite11 value=-1 
+    	sprite9 sprite1  > killSprite 
+    	sprite9 sprite12  > addHealthPoints 
+    	sprite1 sprite14  > killSprite 
+    	sprite1 sprite0  > killSprite 
+    	sprite1 sprite14  > killSprite scoreChange=1 
+    	sprite1 sprite14  > killSprite scoreChange=2 
+    	sprite16 sprite0  > stepBack 
+    	sprite1 sprite14  > killSprite 
+    	sprite1 sprite0  > killSprite 
+
+    TerminationSet
+    	Timeout limit=1500 win=False 
+    	SpriteCounter stype=sprite0 limit=0 win=False 
+    	Timeout win=True limit=50

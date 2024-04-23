@@ -1,0 +1,14 @@
+LevelMapping
+    a > avatar 
+    b > missile0 
+
+LevelDescription
+      a      
+           b 
+             
+             
+             
+             
+             
+             
+             

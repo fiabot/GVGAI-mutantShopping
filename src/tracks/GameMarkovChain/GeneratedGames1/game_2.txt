@@ -1,0 +1,55 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/dirtwall 
+    	sprite1 > Immovable invisible=true hidden=True 
+    	sprite2 > SpawnPoint img=oryx/fire1 portal=True invisible=True stype=sprite0 
+    	sprite3 > SpawnPoint invisible=True hidden=True img=newset/hole4 stype=sprite2 cooldown=100 total=2 
+    	sprite4 > OrientedAvatar img=oryx/vampire1 rotateInPlace=false speed=0.5 color=ORANGE 
+    	sprite4 > RandomPathAltChaser singleton=True stype1=sprite4 stype2=sprite4 cooldown=4 img=oryx/ghost4 cons=4 
+    	sprite4 > SpawnPoint img=newset/whirlpool2 portal=True cooldown=30 total=20 stype=sprite4 
+    	sprite7 > Missile color=BROWN speed=0.5 shrinkfactor=0.5 img=newset/potato singleton=True 
+    	sprite7 > SpawnPoint invisible=True hidden=True img=portal stype=sprite7 cooldown=500 total=20 
+    	sprite9 > SpawnPoint img=oryx/cloak3 stype=sprite7 
+    	sprite10 > SpawnPoint img=portal stype=sprite3 
+    	sprite11 > Flicker color=LIGHTGRAY limit=5 singleton=True img=oryx/slash1 shrinkfactor=0.7 
+    	sprite11 > Spreader img=oryx/sparkle3 color=ORANGE spreadprob=1.0 stype=sprite11 
+    	sprite11 > SpawnPoint invisible=True hidden=True prob=0.05 cooldown=2 stype=sprite11 
+    	sprite14 > Immovable color=WHITE img=newset/chair1 
+    	sprite15 > ShootAvatar stype=sprite11 img=newset/girl3 frameRate=8 
+    	sprite17 > Resource color=BLUE limit=1 img=newset/butter shrinkfactor=0.75 
+    	sprite18 > Bomber stype=sprite7 img=oryx/alien3 prob=0.02 cooldown=6 speed=1 frameRate=8 
+    	sprite20 > MovingAvatar img=newset/man4 img=oryx/rat1 
+    	sprite21 > Passive img=newset/block1 shrinkfactor=0.8 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite4
+    	G > sprite4
+    	H > sprite7
+    	I > sprite7
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite11
+    	N > sprite11
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite17
+    	R > sprite18
+    	S > sprite20
+    	T > sprite21
+
+    InteractionSet
+    	sprite15 sprite7  > changeResource resource=sprite17 value=-1 killResource=True scoreChange=2 
+    	sprite18 sprite7  > transformTo stype=sprite0 
+    	sprite11 sprite0 sprite14 sprite7  > killSprite scoreChange=1 
+    	sprite7 sprite11  > transformTo stype=sprite20 
+
+    TerminationSet
+    	SpriteCounter stype=sprite21 win=True 
+    	SpriteCounter stype=sprite15 win=False 
+    	Timeout win=True limit=50

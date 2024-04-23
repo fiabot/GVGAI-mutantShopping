@@ -1,0 +1,48 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Passive img=oryx/floor2 
+    	sprite1 > RandomNPC cooldown=2 cons=2 invisible=True hidden=True 
+    	sprite2 > RandomNPC cooldown=2 img=oryx/guard1 
+    	sprite3 > Immovable autotiling=True img=oryx/spike2 
+    	sprite3 > Chaser speed=0.1 img=newset/shark2 stype=sprite3 singleton=True 
+    	sprite3 > Chaser speed=0.9 color=ORANGE img=newset/zombie stype=sprite3 
+    	sprite6 > SpawnPoint invisible=True hidden=True stype=sprite3 cooldown=2 total=5 img=portal 
+    	sprite7 > Missile speed=4 img=oryx/bullet1 orientation=UP 
+    	sprite8 > Flicker limit=5 img=oryx/cspell5 shrinkfactor=0.7 
+    	sprite10 > MovingAvatar img=newset/man4 
+    	sprite11 > ShootAvatar stype=sprite8 img=newset/humanShotgun 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite3
+    	F > sprite3
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite10
+    	K > sprite11
+
+    InteractionSet
+    	sprite1 sprite3  > transformTo stype=sprite0 
+    	sprite2 sprite3 sprite3  > stepBack 
+    	sprite1 sprite3  > transformTo stype=sprite6 
+    	sprite2 sprite3  > transformTo stype=sprite3 
+    	sprite1 sprite3  > transformTo stype=sprite7 scoreChange=5 killSecond=true 
+    	sprite1 sprite3 sprite3  > stepBack 
+    	sprite2 sprite3 sprite3  > stepBack pixelPerfect=True 
+    	sprite2 sprite8  > transformTo stype=sprite10 scoreChange=1 
+    	sprite11 sprite3  > subtractHealthPoints timer=10 repeating=True 
+    	sprite1 sprite1 sprite3  > transformTo stype=sprite3 
+    	sprite1 sprite1  > transformTo stype=sprite3 
+    	sprite1 sprite8  > killSprite 
+    	sprite11 sprite3  > transformToAll stype=sprite1 stypeTo=sprite0 
+    	sprite2 sprite1 sprite3  > transformTo stype=sprite11 
+
+    TerminationSet
+    	SpriteCounter stype=sprite11 win=False 
+    	SpriteCounter stype=sprite0 win=True 
+    	Timeout limit=500 win=True 
+    	Timeout win=True limit=50

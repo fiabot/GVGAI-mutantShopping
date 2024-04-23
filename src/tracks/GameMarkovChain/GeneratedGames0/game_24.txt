@@ -1,0 +1,56 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=DARKBLUE img=oryx/tree2 invisible=true hidden=True 
+    	sprite1 > Immovable img=newset/flag2 
+    	sprite2 > Immovable autotiling=true img=oryx/bookRight 
+    	sprite3 > Immovable color=LIGHTBLUE img=oryx/bookDown 
+    	sprite4 > Immovable color=DARKBLUE img=newset/floor2 invisible=True hidden=True 
+    	sprite5 > Immovable color=RED img=newset/bomb 
+    	sprite6 > Immovable img=oryx/wall3 hidden=True 
+    	sprite7 > Immovable img=newset/exit2 hidden=True 
+    	sprite8 > Missile img=oryx/orb3 orientation=UP speed=0.9 color=BROWN 
+    	sprite8 > SpawnPoint img=newset/lasercannon_4 portal=True invisible=True stype=sprite8 
+    	sprite10 > Bomber prob=0.01 cooldown=3 speed=1 orientation=RIGHT spawnorientation=UP stype=sprite8 img=newset/bandit1 
+    	sprite10 > SpawnPoint invisible=True stype=sprite10 cooldown=8 total=400 
+    	sprite12 > ShootAvatar stype=sprite8 healthPoints=10 img=oryx/axeman1 
+    	sprite14 > MovingAvatar speed=1.0 img=oryx/swordman1 frameRate=8 
+    	sprite15 > Door color=GREEN img=newset/exit2 
+    	sprite15 > Chaser stype=sprite15 color=BROWN img=newset/waiter 
+    	sprite15 > Chaser cooldown=5 stype=sprite15 img=oryx/explosion1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite8
+    	K > sprite10
+    	L > sprite10
+    	M > sprite12
+    	N > sprite14
+    	O > sprite15
+    	P > sprite15
+    	Q > sprite15
+
+    InteractionSet
+    	sprite12 sprite4 sprite6 sprite6  > stepBack 
+    	sprite10 sprite5  > stepBack 
+    	sprite10 sprite1  > transformTo stype=sprite14 
+    	sprite10 sprite8  > killSprite 
+    	sprite12 sprite5 sprite0 sprite1  > stepBack 
+    	sprite10 sprite4  > transformTo stype=sprite2 scoreChange=1 
+    	EOSsprite8 sprite8  > killSprite scoreChange=5 
+    	sprite10 sprite6  > transformTo stype=sprite8 
+    	sprite8 sprite4  > reverseDirection 
+    	sprite3 sprite8 sprite8  > spawn stype=sprite15 
+    	sprite10 sprite0  > stepBack 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite5 stype2=sprite8 limit=1 win=True 
+    	SpriteCounter stype=sprite12 limit=0 win=False 
+    	Timeout win=True limit=50

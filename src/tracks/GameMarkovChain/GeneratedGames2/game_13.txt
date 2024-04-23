@@ -1,0 +1,54 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable invisible=True 
+    	sprite1 > Missile orientation=LEFT color=BROWN speed=0.2 img=oryx/orb3 
+    	sprite2 > ShootAvatar stype=sprite1 rotateInPlace=False img=oryx/axeman1 
+    	sprite3 > RandomNPC cooldown=4 cons=1 img=newset/monkey2 
+    	sprite4 > Missile img=newset/camel2 shrinkfactor=0.5 singleton=True 
+    	sprite5 > Immovable img=newset/floor6 
+    	sprite6 > Immovable img=oryx/tombstone1 portal=true 
+    	sprite7 > Resource img=oryx/key2 shrinkfactor=0.2 
+    	sprite8 > Passive hidden=TRUE invisible=TRUE 
+    	sprite9 > Bomber prob=0.1 cooldown=3 speed=0.25 img=oryx/alien3 orientation=LEFT spawnorientation=RIGHT stype=sprite4 
+    	sprite10 > SpawnPoint invisible=True hidden=True prob=0.01 cooldown=2 stype=sprite9 
+    	sprite11 > Door color=GREEN img=oryx/cloak3 
+    	sprite12 > PathChaser img=oryx/wolf1 stype=sprite11 
+    	sprite13 > MissileAvatar img=newset/man3 orientation=UP color=ORANGE 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+
+    InteractionSet
+    	sprite0 sprite1  > transformIfCount stype=sprite6 stypeCount=sprite7 geq=1 
+    	sprite5 sprite4  > transformTo stype=sprite1 
+    	sprite0 sprite4  > transformToAll stype=sprite8 stypeTo=sprite3 
+    	sprite6 sprite1  > transformTo stype=sprite10 
+    	sprite3 sprite0  > stepBack 
+    	sprite3 sprite0  > stepBack 
+    	sprite2 sprite10  > killSprite scoreChange=1 
+    	sprite2 sprite6 EOS > stepBack 
+    	sprite12 sprite2  > transformTo stype=sprite13 scoreChange=1 
+    	sprite2 sprite0  > killSprite 
+    	sprite1 sprite5  > undoAll 
+    	sprite5 sprite5  > spawn stype=sprite0 
+    	sprite5 sprite0  > transformTo stype=sprite3 
+    	sprite2 sprite6 sprite5  > stepBack 
+    	sprite2 sprite5  > killSprite 
+
+    TerminationSet
+    	SpriteCounter stype=sprite11 limit=0 win=False 
+    	SpriteCounter stype=sprite11 limit=0 win=False 
+    	Timeout win=True limit=50

@@ -1,0 +1,41 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True 
+              immovable1 > color=LIGHTBLUE img=oryx/backLBlue 
+              immovable2 > color=BLUE img=oryx/seaWater 
+              immovable3 > img=oryx/backGrey 
+  
+          randomnpc0    > RandomNPC     color=WHITE cons=1 
+          shootavatar0    > ShootAvatar orientation=DOWN color=YELLOW ammo=resource0 rotateInPlace=False 
+              chaser0 > Chaser cooldown=5 stype=movingavatar0 speed=0.9 hidden=True 
+              missile1 > Missile orientation=DOWN speed=1 
+                  missile3 > orientation=LEFT speed=0.3 color=RED 
+              missile2 > Missile orientation=DOWN color=RED speed=0.5 img=newset/bomb 
+          immovable2 > Immovable img=oryx/dirtwall autotiling=True 
+  
+      LevelMapping 
+          0 > immovable0 immovable2 immovable0 
+          1 > immovable0 immovable2 
+          r > immovable0 resource0 
+          g > immovable0 immovable4 
+          . > immovable0 bomber3 
+          A > immovable0 movingavatar0 
+          2 > immovable0 
+          3 > immovable0 immovable4 
+          w > immovable0 immovable5 
+          A > immovable0 movingavatar0 
+          2 > immovable0 spawnpoint2 
+          3 > immovable0 immovable6 
+          4 > immovable0 immovable3 immovable8 
+  
+          A > immovable0 movingavatar0 
+          s > immovable0 spawnpoint3 
+          2 > immovable0 spawnpoint1 
+          3 > immovable0 spawnpoint2 
+          4 > immovable0 passive0 
+          g > immovable0 immovable2 
+          t > immovable0 immovable4 
+           
+      TerminationSet 
+          SpriteCounter stype=immovable1    win=True       
+          SpriteCounter stype=orientedavatar0 win=False 

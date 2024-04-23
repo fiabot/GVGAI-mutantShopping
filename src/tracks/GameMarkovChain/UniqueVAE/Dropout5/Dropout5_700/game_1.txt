@@ -1,0 +1,65 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True 
+              immovable1 > color=LIGHTBLUE img=oryx/backLBlue 
+              immovable2 > color=BLUE img=oryx/seaWater 
+              immovable3 > img=oryx/backGrey 
+  
+          randomnpc0    > RandomNPC     color=WHITE   cons=1 
+          shootavatar0    > ShootAvatar orientation=DOWN color=YELLOW ammo=resource0 stype=missile2 
+          missile0 > Missile 
+              missile1   > orientation=UP     color=BLUE singleton=True img=oryx/bullet1 
+              missile2 > orientation=DOWN   color=RED speed=0.2 speed=0.5 
+              missile2 > orientation=DOWN img=newset/laser1 
+              missile3 > orientation=DOWN img=newset/laser1 
+              missile4 > orientation=RIGHT img=newset/laser1_1 
+              missile5 > orientation=LEFT img=newset/laser1_1 
+  
+          immovable1 > Immovable portal=true 
+              immovable2 > speed=0.25 invisible=True hidden=True 
+              immovable3 > orientation=LEFT img=dirt 
+  
+          immovable4 > Immovable 
+              immovable5 > Immovable img=oryx/slime3 
+              immovable6 > Immovable img=oryx/slime1 
+              immovable7 > Immovable img=oryx/slime2 
+              immovable8 > Immovable hidden=True 
+  
+          resource5 > Resource limit=1 
+              resource6 > color=RED 
+              spawnpoint5 > img=newset/lasercannon_4 
+  
+          movingavatar0 > MovingAvatar 
+              movingavatar1 > img=newset/girl1 
+              immovable6 > orientation=DOWN 
+              immovable8 > img=newset/block3 
+  
+          movingavatar0 > MovingAvatar 
+              movingavatar1 > img=newset/girl1 
+              movingavatar2 > img=newset/girl2 
+              movingavatar3 > img=newset/girl1 
+              movingavatar4 > img=newset/girl3 
+  
+          immovable6 > Immovable img=oryx/dirtwall autotiling=True 
+       
+      LevelMapping 
+          . > immovable0 
+          + > immovable1 
+          - > immovable2 
+          g > immovable3 
+  
+          B > movingavatar2 immovable0 
+          A > movingavatar3 immovable1 
+          s > immovable2 immovable0 
+          t > immovable2 immovable2 
+          t > immovable4 immovable1 
+          r > immovable4 immovable2 
+          r > immovable3 immovable2 
+  
+          l > immovable3 immovable2 
+  
+          i > spawnpoint0 immovable2 
+          b > spawnpoint1 immovable2 
+          t > spawnpoint1 immovable1 
+          . > immovable0 
+          A > avatar 

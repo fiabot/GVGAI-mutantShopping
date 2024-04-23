@@ -1,0 +1,59 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=GREEN color=GREEN img=oryx/dooropen1 
+          parent0    > 
+              shootavatar0   > ShootAvatar stype=flicker0 img=newset/girl1 
+                  randomnpc0 > RandomNPC speed=1 cooldown=4 cons=8 cooldown=3 
+              chaser0 > Chaser stype=immovable1   color=ORANGE 
+                  immovable3 > Immovable singleton=True 
+          immovable4 > Immovable color=BLACK img=oryx/wall1 
+  
+      LevelMapping 
+          0 > immovable0 door0 
+          . > immovable0 
+          + > immovable0 
+          w > immovable0 
+          + > immovable0 
+  
+      InteractionSet 
+          movingavatar0 immovable8 > stepBack 
+  
+ 
+          movingavatar0 immovable2 > transformTo stype=movingavatar2 
+          movingavatar0 immovable5 > transformTo stype=immovable2 
+          movingavatar0 immovable4 > stepBack 
+          movingavatar0 immovable5 > stepBack 
+          movingavatar0 immovable4 > stepBack 
+          movingavatar0 immovable4 > stepBack pixelPerfect=True 
+  
+          passive3 movingavatar0 > transformTo stype=movingavatar2 killSecond=True 
+  
+          resource0 movingavatar0 > collectResource scoreChange=1 
+          resource0 movingavatar0 > collectResource 
+          resource5 movingavatar0 > collectResource scoreChange=3 
+  
+          movingavatar0 immovable7 > spawnIfHasMore resource=resource3 limit=1 stype=parent0 
+          movingavatar0 immovable4 > spawnIfHasMore resource=resource3 limit=1 stype=parent2 
+          movingavatar0 immovable5 > changeResource resource=resource1 value=-1 
+  
+          movingavatar0 immovable3 > spawnIfHasMore resource=resource3 limit=1 stype=parent1 
+  
+          movingavatar0 immovable3 > spawnIfHasMore resource=resource2 limit=1 stype=parent0 
+          movingavatar0 immovable4 > spawnIfHasMore resource=resource2 limit=1 stype=parent2 
+          movingavatar0 immovable5 > spawnIfHasMore resource=resource3 limit=1 stype=parent2 
+          movingavatar0 immovable5 > spawnIfHasMore resource=resource1 limit=1 stype=parent2 
+  
+          movingavatar0 parent0 > changeResource resource=resource1 value=-1 killResource=True scoreChange=10 
+          movingavatar0 parent0 > changeResource resource=resource2 value=-1 killResource=True scoreChange=10 
+          movingavatar0 parent0 > changeResource resource=resource3 value=-1 killResource=True scoreChange=10 
+  
+          movingavatar0 parent1 > changeResource resource=resource1 value=-1 killResource=True scoreChange=5 
+          movingavatar0 parent1 > changeResource resource=resource2 value=-1 killResource=True scoreChange=5 
+          movingavatar0 parent1 > changeResource resource=resource3 value=-1 killResource=True scoreChange=5 
+  
+          movingavatar0 parent2 > changeResource resource=resource1 value=-1 killResource=True scoreChange=1 
+          movingavatar0 parent2 > changeResource resource=resource2 value=-1 killResource=True scoreChange=1 
+          movingavatar0 parent2 > changeResource resource=resource3 value=-1 killResource=True scoreChange=1 

@@ -1,0 +1,73 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/water2 
+    	sprite1 > Immovable invisible=True 
+    	sprite2 > Immovable img=oryx/floor1 hidden=True 
+    	sprite3 > Immovable solid=True color=GREEN 
+    	sprite4 > Immovable img=newset/log orientation=UP img=oryx/tree2 
+    	sprite5 > Immovable img=oryx/wall6 hidden=True 
+    	sprite6 > Immovable color=WHITE shrinkfactor=0.8 img=oryx/floorTileOrange 
+    	sprite7 > Immovable img=newset/pipeLD autotiling=true 
+    	sprite8 > Immovable img=oryx/floor3 autotiling=True 
+    	sprite9 > Immovable color=RED img=newset/floor2 
+    	sprite10 > Immovable img=oryx/wall4 
+    	sprite11 > Passive img=newset/wallBlue shrinkfactor=0.8 
+    	sprite12 > Passive img=newset/block2 orientation=DOWN img=newset/hole1 
+    	sprite13 > Missile speed=25 img=newset/camel2L orientation=DOWN 
+    	sprite14 > RandomBomber stype=sprite13 prob=0.4 cooldown=3 speed=0.001 rotateInPlace=True img=newset/satellite 
+    	sprite15 > Missile orientation=DOWN speed=0.2 img=oryx/bullet1 
+    	sprite16 > Immovable invisible=true hidden=True orientation=LEFT img=newset/bomb 
+    	sprite17 > MovingAvatar img=oryx/dwarf1 
+    	sprite18 > MovingAvatar speed=0.25 img=oryx/druid1 
+    	sprite19 > Immovable color=BLUE img=newset/chair1 
+    	sprite20 > Immovable color=RED img=oryx/doorclosed1 invisible=True 
+    	sprite21 > Immovable color=YELLOW img=newset/chair1 invisible=True hidden=True 
+    	sprite22 > OngoingShootAvatar speed=0.5 img=oryx/druid1 stype=sprite12 
+    	sprite23 > Resource color=RED value=0 limit=1 img=spaceship shrinkfactor=0.7 
+    	sprite24 > MissileAvatar img=newset/blockB3 orientation=DOWN color=YELLOW 
+    	sprite25 > Door img=oryx/dooropen1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+    	a > sprite25
+
+    InteractionSet
+    	sprite19 sprite12  > transformToAll stype=sprite0 stypeTo=sprite11 
+    	sprite23 sprite18  > killSprite 
+    	sprite10 sprite17  > spawn stype=sprite7 
+    	sprite21 sprite18  > spawnLeft stype=sprite21 stepBack=True 
+    	sprite18 sprite9  > transformTo stype=sprite17 
+    	sprite18 sprite16  > transformTo stype=sprite13 killSecond=True 
+    	sprite17 sprite7  > transformTo stype=sprite24 
+    	sprite18 sprite5  > transformToAll stype=sprite11 stypeTo=sprite15 
+    	sprite17 sprite4  > changeResource resource=sprite23 value=1 killResource=True 
+    	sprite17 sprite6  > changeResource resource=sprite23 value=-1 killResource=True scoreChange=1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite25 win=False 
+    	SpriteCounter stype=sprite19 limit=0 win=True 
+    	Timeout win=True limit=50

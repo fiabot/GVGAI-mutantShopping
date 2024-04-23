@@ -1,0 +1,36 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/backLBrown 
+    	sprite1 > Immovable img=oryx/wall3_0 autotiling=True 
+    	sprite2 > Immovable color=RED img=newset/pipeLD 
+    	sprite3 > CarAvatar physicstype=CONT friction=0.02 img=newset/car_redR 
+    	sprite5 > OngoingAvatar speed=0.5 img=oryx/spaceship1 healthPoints=15 limitHealthPoints=20 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite5
+
+    InteractionSet
+    	sprite3 sprite0  > killSprite scoreChange=-10 
+    	sprite0 avatar > killSprite scoreChange=-1 
+    	sprite1 avatar > killSprite scoreChange=-1 
+    	avatarsprite1  > killSprite scoreChange=-10 
+    	sprite1 avatar > killSprite 
+    	sprite0 avatar > killSprite scoreChange=9 
+    	avatarwall > wallStop 
+    	avatarEOS > killSprite 
+    	avatarEOS > killSprite 
+    	sprite1 avatar > killSprite 
+    	avatarEOS > killSprite scoreChange=-10 
+    	avatarsprite1  > killSprite 
+    	avatarsprite0  > killSprite 
+    	sprite1 avatar > killSprite 
+    	avatarwall > wallStop 
+
+    TerminationSet
+    	SpriteCounter stype=sprite5 win=False 
+    	MultiSpriteCounter stype1=sprite0 limit=0 win=False 
+    	Timeout win=True limit=50

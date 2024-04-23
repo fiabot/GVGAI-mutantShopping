@@ -1,0 +1,72 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/water2 
+    	sprite1 > Immovable img=newset/floor6 
+    	sprite2 > Immovable color=RED img=oryx/key1 
+    	sprite3 > Immovable invisible=true hidden=True 
+    	sprite4 > Immovable img=oryx/wall3_0 
+    	sprite5 > Immovable img=newset/floor2 autotiling=true 
+    	sprite6 > Immovable hidden=True orientation=RIGHT img=newset/mirror_l 
+    	sprite7 > Immovable img=dirt autotiling=True 
+    	sprite8 > Immovable img=oryx/floor1 
+    	sprite9 > Bomber prob=0.01 cooldown=6 speed=0.5 img=newset/bandit1h stype=sprite1 orientation=LEFT spawnorientation=RIGHT img=newset/bandit1 
+    	sprite10 > Missile orientation=DOWN speed=0.25 img=newset/laser1_1 portal=True 
+    	sprite11 > Bomber prob=0.005 cooldown=6 speed=0.8 orientation=LEFT spawnorientation=DOWN stype=sprite10 img=newset/bandit1h 
+    	sprite12 > RandomNPC color=BROWN img=newset/nurse cons=6 
+    	sprite13 > SpawnPoint img=portal stype=sprite12 
+    	sprite14 > SpawnPoint img=oryx/dooropen1 stype=sprite10 
+    	sprite15 > SpawnPoint invisible=True hidden=True img=newset/lasercannon_1 stype=sprite14 cooldown=12 total=5 
+    	sprite16 > Immovable img=newset/water2 
+    	sprite17 > Flicker img=oryx/spike2 singleton=True 
+    	sprite18 > MovingAvatar img=oryx/angel1 
+    	sprite19 > OrientedAvatar rotateInPlace=false img=oryx/knight1 frameRate=8 
+    	sprite20 > PathAltChaser singleton=True stype1=sprite19 stype2=sprite19 cooldown=2 img=oryx/ogre2 invisible=True hidden=True 
+    	sprite21 > Passive img=oryx/wall2 invisible=True hidden=True 
+    	sprite22 > Door color=GREEN img=oryx/doorclosed1 
+    	sprite23 > FlakAvatar rotateInPlace=False stype=sprite10 img=oryx/spaceship1 
+    	sprite24 > ShootAvatar stype=sprite10 img=newset/cop1 frameRate=8 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+
+    InteractionSet
+    	sprite18 sprite1  > transformToAll stype=sprite20 stypeTo=sprite21 
+    	sprite10 sprite19 sprite9  > killSprite scoreChange=4 
+    	sprite10 EOSsprite5  > killSprite scoreChange=-1 
+    	sprite19 sprite16  > stepBack 
+    	sprite11 sprite1  > transformTo stype=sprite18 
+    	sprite11 sprite8  > transformTo stype=sprite10 
+    	sprite19 sprite22 sprite22  > stepBack 
+    	sprite10 sprite19 sprite9  > killSprite scoreChange=1 
+    	sprite19 sprite8 sprite9  > stepBack 
+    	sprite9 sprite22  > transformTo stype=sprite23 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite2 limit=2 win=False 
+    	SpriteCounter stype=sprite24 limit=0 win=False 
+    	SpriteCounter stype=sprite22 win=True 
+    	Timeout win=True limit=50

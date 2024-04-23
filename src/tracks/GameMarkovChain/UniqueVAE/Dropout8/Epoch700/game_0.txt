@@ -1,0 +1,117 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=GREEN color=GREEN img=oryx/dooropen1 
+          parent0    > 
+              shootavatar0   > ShootAvatar stype=flicker0 img=newset/girl1 
+                  randomnpc0 > RandomNPC speed=1 cooldown=4 cons=8 cooldown=3 
+              chaser0 > Chaser stype=immovable1   color=ORANGE 
+                  immovable3 > Immovable singleton=True 
+          immovable4 > Immovable color=BLACK img=oryx/wall1 
+  
+      LevelMapping 
+          0 > immovable0 door0 
+          . > immovable0 
+          + > immovable0 
+  
+      InteractionSet 
+  
+          shootavatar0 immovable2 > stepBack 
+          shootavatar0   immovable1   > stepBack 
+          shootavatar0   > killSprite scoreChange=1 
+          immovable1 immovable0 > killBoth 
+          immovable1 immovable0 > killSprite 
+  
+          door0 immovable0 > transformTo stype=immovable3 
+          immovable1 immovable0 > transformTo stype=immovable3 
+          immovable8 immovable1 > transformTo stype=immovable2 
+  
+          immovable5 parent0 > transformTo stype=immovable2 
+          immovable8 shootavatar0 > killSprite 
+  
+          resource0 shootavatar0 > collectResource 
+          immovable3 immovable3 > stepBack 
+          immovable2 movingavatar0 > bounceForward 
+          passive1 immovable4 > undoAll 
+          passive1 immovable4 > stepBack 
+          passive2 immovable4 > stepBack 
+          passive2 immovable4 > stepBack 
+          passive2 immovable4 > stepBack 
+          passive2 missile5 > transformTo stype=passive2 scoreChange=1 
+  
+ 
+          missile0 immovable5 > reverseDirection 
+  
+  
+          immovable2 movingavatar0 > killSprite scoreChange=1 
+           
+      TerminationSet 
+          SpriteCounter       stype=immovable7 limit=0 win=True 
+           
+      InteractionSet 
+          shootavatar0   EOS immovable1 > stepBack 
+  
+          bomber0    EOS   > killSprite 
+           
+          missile0 parent0 > killSprite scoreChange=1 
+          immovable1 immovable1 > killSprite 
+          immovable1 missile0 > killSprite 
+          missile1 missile0 > killSprite scoreChange=1 
+          spaceshipavatar0 immovable2 > killSprite 
+          spaceshipavatar0 immovable1 > killSprite 
+          spaceshipavatar0 immovable1 > killSprite 
+          spaceshipavatar0 immovable1 > killSprite scoreChange=1 
+  
+          door0 movingavatar0 > killSprite scoreChange=1 
+          door0 movingavatar0 > killSprite scoreChange=5 
+  
+          immovable1 movingavatar0 > killIfOtherHasMore resource=resource0 limit=1 
+          movingavatar0 immovable1 > killSprite 
+  
+      LevelMapping 
+          1 > immovable0 resource0 immovable1 
+          t > immovable0 immovable1 
+          x > immovable1 immovable0 
+          k > immovable1 immovable0 
+          l > immovable1 immovable0 
+          . > immovable0 
+          A > movingavatar0 immovable0 
+          w > immovable4 immovable0 
+          A > movingavatar0 immovable0 
+  
+      InteractionSet 
+  
+          shootavatar0 immovable4 eos > stepBack 
+          shootavatar0   immovable5   > stepBack 
+          immovable4 immovable5 orientedflicker0 > stepBack 
+          immovable5 parent0 > killSprite 
+  
+          immovable2 movingavatar0 > killSprite scoreChange=1 
+          passive0 immovable1 > killSprite 
+          immovable1 immovable3 > killSprite 
+  
+          shootavatar0 missile0 > subtractHealthPoints 
+          shootavatar0 missile0 > subtractHealthPoints 
+  
+          missile0 parent0 > spawn stype=parent4 
+          parent0 immovable1 > killSprite 
+  
+          missile0 immovable1 > transformTo stype=parent2 
+          missile5 > immovable0 door0 
+          missile0 > immovable0 door0 
+          immovable2 > immovable0 passive0 
+          passive0 > undoAll 
+          passive0 immovable1 > stepBack 
+  
+          immovable9 immovable2 > stepBack 
+          passive0 immovable1 > killSprite 
+          randombomber0 immovable1 > killSprite 
+          movingavatar0 immovable2 > killSprite scoreChange=-1 
+          movingavatar0 immovable2 > stepBack 
+          movingavatar0 immovable2 > stepBack 
+  
+      TerminationSet 
+          SpriteCounter stype=immovable3 limit=0 win=True 
+          SpriteCounter stype=movingavatar0 limit=0 win=False 

@@ -1,0 +1,82 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True img=oryx/backLBrown 
+          passive0 > Passive color=BLUE portal=True 
+          movingavatar0 > MovingAvatar img=oryx/axeman1 
+  
+          immovable1 > Immovable 
+              immovable2 > color=PINK 
+              immovable3 >   
+              immovable4 > color=GREEN 
+              immovable5 > color=GREEN 
+  
+          missile0 > Missile orientation=RIGHT 
+              missile1 > orientation=LEFT speed=0.2 
+              missile2 > orientation=RIGHT img=newset/laser1_1 
+              missile3 > orientation=LEFT img=newset/laser1_1 
+  
+          immovable4 > Immovable img=oryx/wall1 
+          immovable5 > Immovable color=GREEN img=oryx/tree2 
+          immovable5 > Immovable color=GREEN img=oryx/tree2 
+          immovable6 > Immovable autotiling=true img=oryx/wall3 
+  
+          orientedflicker0 > Immovable img=oryx/wall3 autotiling=True 
+              immovable10   > orientation=UP 
+              immovable10 >   shrinkfactor=0.5 
+  
+          resource0 > Resource color=GOLD limit=10 img=oryx/gold1 img=oryx/gold1 
+          resource1 > Resource limit=1 img=oryx/key2 singleton=True shrinkfactor=0.7 
+  
+          flicker0 > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/pickaxe shrinkfactor=0.5 
+          shootavatar0 > ShootAvatar stype=flicker0 singleton=True 
+  
+          immovable4 > Immovable img=oryx/dirtwall autotiling=True 
+  
+      InteractionSet 
+          movingavatar0 immovable6 EOS > stepBack 
+  
+          door0 movingavatar0 > bounceForward 
+          passive2 immovable6 > transformTo stype=immovable3 
+          movingavatar0 parent0 > transformTo stype=parent4 
+          passive2 door0 > transformTo stype=immovable3 scoreChange=-1 
+          passive2 door0 > transformTo stype=immovable4 scoreChange=-1 
+          passive3 passive6 > transformTo stype=immovable5 scoreChange=-1 
+          passive3 passive4 > transformTo stype=immovable7 scoreChange=-1 
+  
+          passive4 immovable5 > transformTo stype=immovable6 
+          passive4 > transformTo stype=immovable7 
+  
+          movingavatar0 > transformTo stype=parent3 
+  
+          passive3 passive1 > transformTo stype=immovable3 scoreChange=-1 
+          missile2 door0   > transformTo stype=immovable4   scoreChange=-1 
+          parent0 spawnpoint0 > transformTo stype=immovable7 scoreChange=-1 
+  
+          bomber1 immovable1 > transformTo stype=immovable4 scoreChange=1 
+          passive4 passive1 > stepBack 
+  
+          passive4 immovable3 > killBoth scoreChange=1 
+          passive3 immovable5 > transformTo stype=immovable6 
+  
+          missile1 immovable5 > transformTo stype=missile3 
+          immovable4 parent1 > transformTo stype=missile3 
+  
+          immovable5 missile1 > attractGaze align=True 
+          missile2 immovable6 > transformTo stype=missile2 
+          missile2 missile3 > transformTo stype=parent3 
+  
+          missile2 immovable3 > transformTo stype=missile3 
+          missile2 immovable4 > undoAll 
+          missile4 immovable5 > transformTo stype=immovable7 
+  
+          immovable5 > 
+          g > immovable1 
+          b > immovable0 
+          d > immovable1 
+  
+      TerminationSet 
+          SpriteCounter       stype=shootavatar0                limit=0 win=False 
+          SpriteCounter       stype=randomnpc0                limit=0 win=False 
+          MultiSpriteCounter       stype2=bomber0                limit=0 win=True 
+          MultiSpriteCounter stype1=immovable2 limit=1 win=False 
+          MultiSpriteCounter stype1=immovable6 limit=1 win=False 

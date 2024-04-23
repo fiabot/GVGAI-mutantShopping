@@ -10,11 +10,11 @@ import javax.swing.text.DefaultStyledDocument.ElementSpec;
 public class SpriteCreator {
 
     
-	private static String[] avatars = new String[] {"MovingAvatar", "HorizontalAvatar", "VerticalAvatar", "OngoingAvatar", "OngoingTurningAvatar", "MissileAvatar", "OrientedAvatar", "ShootAvatar", "FlakAvatar"};
-    private static String[] npcs = new String[] {"RandomNPC", "Chaser", "Fleeing", "AlternateChaser", "RandomAltChaser"}; 
-    private static String[] spawners = new String[] {"Bomber", "BomberRandomMissile", "RandomBomber", "SpawnPoint", "SpawnPointMultiSprite", "Spreader"}; 
-    private static String[] ammos = new String[] {"Missile", "RandomMissile"}; 
-    private static String[] others = new String[] {"Immovable", "Passive", "Flicker", "OrientedFlicker", "Door", "Portal", "Resource"}; 
+	public static String[] avatars = new String[] {"MovingAvatar", "HorizontalAvatar", "VerticalAvatar", "OngoingAvatar", "OngoingTurningAvatar", "MissileAvatar", "OrientedAvatar", "ShootAvatar", "FlakAvatar"};
+    public static String[] npcs = new String[] {"RandomNPC", "Chaser", "Fleeing", "AlternateChaser", "RandomAltChaser"}; 
+    public static String[] spawners = new String[] {"Bomber", "BomberRandomMissile", "RandomBomber", "SpawnPoint", "SpawnPointMultiSprite", "Spreader"}; 
+    public static String[] ammos = new String[] {"Missile", "RandomMissile"}; 
+    public static String[] others = new String[] {"Immovable", "Passive", "Flicker", "OrientedFlicker", "Door", "Portal", "Resource"}; 
 
     private static String[] commonParams = new String[] {"shrinkfactor", "invisible", "hidden", "img", "color", "singleton", "cooldown", "speed", "orientation", "rotateInPlace"}; 
 

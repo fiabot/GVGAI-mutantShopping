@@ -1,0 +1,71 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/wall3 
+    	sprite1 > Immovable img=oryx/eye1 hidden=True 
+    	sprite2 > Immovable invisible=True hidden=True orientation=RIGHT img=newset/exit2 
+    	sprite3 > Immovable color=DARKBLUE img=oryx/wall3 
+    	sprite4 > Resource color=BLUE 
+    	sprite5 > Resource color=BLUE value=0 limit=10 img=oryx/coin1 
+    	sprite6 > Immovable img=newset/block2 
+    	sprite7 > MovingAvatar img=oryx/vampire1 healthPoints=1 limitHealthPoints=20 
+    	sprite8 > Fleeing singleton=True stype=sprite7 maxDistance=500 cooldown=2 img=oryx/bird1 
+    	sprite9 > Resource color=GOLD limit=1 
+    	sprite10 > Resource shrinkfactor=0.6 img=oryx/belt2 limit=1 
+    	sprite11 > Door color=GREEN img=newset/exit2 
+    	sprite12 > Passive img=newset/mirror_l portal=True 
+    	sprite13 > OrientedFlicker limit=1 singleton=true img=oryx/slash1 
+    	sprite14 > ShootAvatar stype=sprite13 img=oryx/prince1 
+    	sprite15 > OrientedAvatar rotateInPlace=false speed=0.5 color=YELLOW img=newset/pacman 
+    	sprite16 > OngoingShootAvatar speed=0.4 img=oryx/dwarf1 stype=sprite12 
+    	sprite17 > PathAltChaser singleton=True stype1=sprite15 stype2=sprite15 cooldown=2 img=oryx/ogre2 randomTarget=True invisible=True hidden=True 
+    	sprite18 > RandomNPC speed=0.4 img=newset/cat 
+    	sprite19 > Missile color=RED singleton=True img=oryx/scorpion3 shrinkfactor=0.5 
+    	sprite20 > Chaser stype=sprite11 cooldown=5 speed=0.9 color=RED img=oryx/sparkle1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+
+    InteractionSet
+    	sprite12 sprite1  > killBoth 
+    	sprite9 sprite14  > transformIfCount stype=sprite0 stypeCount=sprite6 geq=3 
+    	sprite15 sprite1  > addTimer timer=200 ftype=transformToAll stype=sprite16 stypeTo=sprite16 
+    	sprite17 sprite12  > transformToAll stype=sprite3 stypeTo=sprite18 
+    	sprite12 sprite1  > transformTo stype=sprite19 
+    	sprite7 sprite1  > killIfHasLess resource=sprite5 limit=0 
+    	sprite7 sprite6  > transformTo stype=sprite18 
+    	sprite7 sprite0  > killIfHasLess resource=sprite5 limit=0 
+    	sprite19 sprite1  > killSprite 
+    	sprite7 sprite2  > stepBack 
+    	sprite19 sprite2  > transformTo stype=sprite3 
+    	sprite7 sprite2  > transformTo stype=sprite19 
+
+    TerminationSet
+    	SpriteCounter stype=sprite20 win=False 
+    	SpriteCounter stype=sprite11 win=False 
+    	SpriteCounter stype=sprite19 limit=0 win=False 
+    	SpriteCounter stype=sprite11 win=False 
+    	MultiSpriteCounter stype1=sprite6 limit=1 win=True 
+    	SpriteCounter stype=sprite2 limit=0 win=False 
+    	SpriteCounter stype=sprite1 win=False 
+    	MultiSpriteCounter stype1=sprite3 limit=1 win=True 
+    	Timeout win=True limit=50

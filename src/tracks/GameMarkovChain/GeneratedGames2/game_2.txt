@@ -1,0 +1,68 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable hidden=True orientation=DOWN img=oryx/space1 
+    	sprite1 > Immovable color=RED img=newset/city1 
+    	sprite2 > Immovable orientation=UP color=LIGHTBLUE img=oryx/wall6 
+    	sprite3 > Passive img=newset/blockG shrinkfactor=0.7 
+    	sprite4 > Immovable img=oryx/explosion2 
+    	sprite5 > Immovable img=newset/floor6 
+    	sprite6 > Immovable img=oryx/bookUp 
+    	sprite7 > Immovable img=oryx/slime3 
+    	sprite8 > Resource limit=8 img=oryx/amulat1 
+    	sprite9 > Resource invisible=True 
+    	sprite10 > Immovable color=PINK img=oryx/bullet1 
+    	sprite11 > Missile orientation=UP speed=0.5 img=newset/laser1_1 portal=True 
+    	sprite12 > SpawnPoint img=portal stype=sprite11 
+    	sprite13 > Resource img=oryx/key2 shrinkfactor=0.9 
+    	sprite14 > Resource value=0 img=newset/cherries 
+    	sprite15 > Resource img=oryx/boots2 limit=1 value=0 color=BLUE 
+    	sprite16 > MovingAvatar img=newset/girl1 
+    	sprite17 > ShootAvatar stype=sprite4 healthPoints=10 img=oryx/spelunky frameRate=8 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+
+    InteractionSet
+    	sprite16 sprite10  > stepBack 
+    	sprite11 sprite10  > transformTo stype=sprite0 scoreChange=-1 killSecond=True 
+    	sprite16 sprite7  > stepBack 
+    	sprite16 sprite4  > transformTo stype=sprite12 
+    	sprite16 sprite4  > killSprite 
+    	sprite11 sprite6  > spawn stype=sprite12 
+    	sprite16 sprite6  > changeResource resource=sprite9 value=1 killResource=True scoreChange=1 
+    	sprite16 sprite5  > transformTo stype=sprite2 
+    	sprite16 sprite5  > killIfHasLess resource=sprite14 limit=0 
+    	sprite16 sprite5  > stepBack 
+    	sprite16 sprite4  > transformTo stype=sprite11 killSecond=True scoreChange=2 
+    	sprite16 sprite0  > spawnIfHasMore resource=sprite8 limit=1 stype=sprite7 
+    	sprite11 sprite10  > killSprite scoreChange=1 
+    	sprite16 sprite2  > stepBack 
+    	sprite0 sprite11  > setSpeedForAll value=1 stype=sprite11 
+    	sprite16 sprite5  > stepBack 
+    	sprite16 sprite1  > stepBack 
+    	sprite16 sprite10  > stepBack 
+    	sprite16 sprite1  > stepBack pixelPerfect=True 
+    	sprite5 sprite11  > setSpeedForAll stype=sprite11 value=1 
+    	sprite5 sprite11  > killSprite scoreChange=10 
+
+    TerminationSet
+    	SpriteCounter stype=sprite17 win=False 
+    	Timeout limit=1500 win=False 
+    	Timeout win=True limit=50

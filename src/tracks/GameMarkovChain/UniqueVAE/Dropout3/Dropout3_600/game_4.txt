@@ -1,0 +1,46 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+          immovable2 > Immovable invisible=True hidden=True 
+          immovable3 > Immovable color=PINK img=oryx/sparkle1 
+          parent0 > 
+              movingavatar0 > MovingAvatar img=newset/man4 
+              parent1 > 
+              parent2 > 
+              parent3 > img=oryx/goldsack 
+          parent4 > Immovable 
+              immovable12 > > 
+              immovable6 > orientation=DOWN img=dirt 
+              immovable7 > Immovable 
+              immovable8 > Immovable 
+  
+  
+          parent0 > 
+              movingavatar0 > MovingAvatar img=newset/man4 
+              missileavatar0 > MissileAvatar img=newset/man3 speed=1 
+  
+          spawnpoint0 > SpawnPoint stype=chaser0 prob=0.05 total=1 invisible=True 
+              spawnpoint1 > stype=missile0 
+              spawnpoint3 > stype=missile1 
+              spawnpoint2 > stype=missile2 
+              spawnpoint3 > img=newset/lasercannon_1 stype=missile3 
+              spawnpoint3 > > stype=missile3 
+              spawnpoint4 > orientation=UP 
+              missile6 > img=newset/lasercannon_4 
+  
+          missile0 > Missile speed=0.1   shrinkfactor=0.5 speed=0.5 
+              missile1 > orientation=UP img=newset/laser1 
+              missile2 > orientation=DOWN img=newset/laser1 
+              missile3 > orientation=RIGHT img=newset/laser1_1 
+              missile4 > orientation=LEFT img=newset/laser1_1 
+  
+          movingavatar0 > MovingAvatar healthPoints=10 img=oryx/rogue 
+          immovable3 > Immovable img=oryx/wall3 autotiling=True 
+  
+      LevelMapping 
+          x > door0 immovable0 
+          g > immovable3 immovable0 
+          1 > spawnpoint3 immovable0 
+          A > immovable0 movingavatar0 
+          . > floor 

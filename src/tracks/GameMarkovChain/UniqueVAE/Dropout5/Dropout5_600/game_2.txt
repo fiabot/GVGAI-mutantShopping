@@ -1,0 +1,72 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True 
+              immovable1 > color=LIGHTBLUE img=oryx/backLBlue 
+              immovable2 > color=BLUE img=oryx/seaWater 
+              immovable3 > img=oryx/backGrey 
+  
+          randomnpc0    > RandomNPC     color=WHITE color=WHITE cons=1 
+          shootavatar0    > ShootAvatar orientation=DOWN color=YELLOW ammo=resource0 stype=missile2 
+              missile0 > Missile 
+              missile1 > orientation=RIGHT 
+                  missile2 > orientation=UP 
+                  missile3 > orientation=DOWN 
+                  missile4 > 
+          missile4 > Immovable 
+          immovable3 > Immovable 
+              immovable3 > img=oryx/wall1 
+              immovable4 > orientation=LEFT 
+              immovable5 > immovable6 
+          immovable6 > Immovable 
+              immovable6 > orientation=DOWN 
+              immovable7 > color=LIGHTYELLOW 
+              immovable8 > color=LIGHTBLUE 
+              immovable9 > color=LIGHTGREEN 
+              immovable7 > Immovable 
+              immovable7 > Immovable img=oryx/dirtwall autotiling=True 
+  
+      LevelMapping 
+          . > immovable0 
+          A > immovable0 shootavatar0 
+          l > immovable0 spawnpoint4 
+          r > immovable0 spawnpoint3 
+          u > immovable0 spawnpoint1 
+          d > immovable0 spawnpoint2 
+          g > immovable0 immovable10 
+          p > immovable0 spawnpoint6 
+          v > immovable0 passive0 
+  
+          1 > immovable0 immovable2 immovable6 
+          2 > immovable0 immovable3 immovable7 
+          3 > immovable0 immovable4 immovable6 
+          4 > immovable0 immovable2 immovable7 
+          5 > immovable0 immovable3 immovable8 
+          1 > immovable0 immovable2 immovable6 
+          2 > immovable0 immovable2 immovable7 
+          3 > immovable0 immovable2 immovable9 
+          4 > immovable4 immovable0 
+          . > immovable0 
+  
+      InteractionSet 
+  
+          movingavatar0 immovable4 immovable1 immovable2 > stepBack 
+          movingavatar0   > stepBack 
+          passive0 immovable1 > stepBack 
+  
+          passive0 movingavatar0   > bounceForward 
+          passive0 immovable2 passive0 spawnpoint0   > undoAll 
+          passive1 immovable1 > killBoth 
+          immovable1 movingavatar0 > killSprite 
+          immovable2 immovable3 > killSprite 
+          immovable1 door0 > transformTo stype=immovable2 
+          door0 shootavatar0 > killSprite 
+          immovable2 movingavatar0 > transformTo stype=movingavatar2 
+          movingavatar0 immovable2 > transformTo stype=movingavatar4 
+          movingavatar0 immovable3 > transformTo stype=movingavatar4 
+          passive0 movingavatar0 > bounceForward 
+  
+  
+      TerminationSet 
+          SpriteCounter stype=immovable3 limit=0 win=False 
+          SpriteCounter stype=immovable5 limit=0 win=True 
+          Timeout limit=1000 win=False 

@@ -1,0 +1,50 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/dirtwall autotiling=True 
+    	sprite1 > Resource color=BLUE limit=10 
+    	sprite2 > Missile color=RED shrinkfactor=0.5 speed=1 orientation=RIGHT img=newset/car_redD 
+    	sprite3 > ShootAvatar stype=sprite2 img=oryx/spaceship1 frameRate=8 
+    	sprite4 > Flicker img=oryx/pickaxe singleton=True 
+    	sprite5 > Resource shrinkfactor=0.8 img=newset/butter limit=1 
+    	sprite6 > Resource color=GOLD 
+    	sprite7 > Resource shrinkfactor=0.7 img=oryx/key2 
+    	sprite8 > Missile orientation=DOWN speed=0.5 img=oryx/bullet2 
+    	sprite9 > Immovable color=BLUE img=newset/tile2 
+    	sprite10 > Immovable img=newset/chair1 
+    	sprite11 > Door color=GREEN img=oryx/doorclosed1 
+    	sprite12 > Immovable color=DARKBLUE img=oryx/spike2 
+    	sprite13 > Passive img=oryx/gold2 shrinkfactor=0.8 
+    	sprite14 > MovingAvatar img=newset/man3_satright healthPoints=1 limitHealthPoints=20 
+    	sprite15 > MissileAvatar img=newset/blockB3 orientation=UP color=GREEN 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+
+    InteractionSet
+    	sprite2 sprite13 sprite9 sprite0 sprite13  > transformTo stype=sprite14 scoreChange=1 killSecond=True 
+    	sprite3 sprite10  > stepBack pixelPerfect=True 
+    	sprite3 sprite10  > subtractHealthPoints value=12 
+    	sprite8 sprite8  > stepBack 
+    	sprite3 sprite10  > transformTo stype=sprite15 
+    	sprite3 sprite9  > transformToAll stype=sprite12 stypeTo=sprite10 nextExecution=300 timer=500 repeating=False 
+    	EOSsprite2 sprite8 sprite13  > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite14 limit=0 win=False 
+    	SpriteCounter stype=sprite12 win=True 
+    	Timeout win=True limit=50

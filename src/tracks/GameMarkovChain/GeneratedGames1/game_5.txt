@@ -1,0 +1,73 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable hidden=True color=LIGHTBLUE img=newset/highway2 
+    	sprite1 > Immovable color=GREEN img=oryx/wall3 
+    	sprite2 > Immovable color=BROWN img=newset/tile1 
+    	sprite3 > Immovable orientation=RIGHT color=RED img=oryx/diamond2 
+    	sprite4 > Immovable img=newset/bomb 
+    	sprite5 > MovingAvatar img=newset/girl3 healthPoints=10 limitHealthPoints=30 
+    	sprite6 > MovingAvatar speed=1.0 img=newset/man4 
+    	sprite7 > MovingAvatar img=newset/man4 frameRate=8 
+    	sprite8 > MovingAvatar img=oryx/princess1 healthPoints=5 
+    	sprite9 > Immovable img=newset/hole1 hidden=True 
+    	sprite10 > Missile img=newset/laser1_1 speed=0.15 orientation=LEFT 
+    	sprite11 > Passive img=newset/pastaplate 
+    	sprite13 > Door color=GREEN img=oryx/dooropen1 
+    	sprite14 > Chaser stype=sprite4 speed=0.1 color=ORANGE img=oryx/ghost2 
+    	sprite14 > Chaser stype=sprite14 color=ORANGE speed=0.25 img=oryx/explosion1 
+    	sprite16 > OrientedAvatar rotateInPlace=false img=newset/pacman color=ORANGE speed=1 frameRate=8 
+    	sprite16 > PathAltChaser singleton=True stype1=sprite11 stype2=sprite16 cooldown=2 img=oryx/ogre2 randomTarget=True invisible=True hidden=True 
+    	sprite18 > MissileAvatar img=oryx/bat1 orientation=DOWN 
+    	sprite20 > ShootAvatar ammo=pickaxe stype=sprite10 healthPoints=5 img=newset/girl2 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite13
+    	N > sprite14
+    	O > sprite14
+    	P > sprite16
+    	Q > sprite16
+    	R > sprite18
+    	S > sprite20
+
+    InteractionSet
+    	sprite5 sprite3  > killAll stype=sprite2 scoreChange=8 
+    	sprite11 sprite2  > killAll stype=sprite13 
+    	sprite11 sprite0  > killBoth scoreChange=1 
+    	sprite11 sprite8  > bounceForward 
+    	sprite11 sprite0  > killSprite 
+    	sprite9 sprite1  > killBoth scoreChange=1 
+    	sprite2 sprite2  > transformTo stype=sprite14 
+    	sprite8 EOS > stepBack 
+    	sprite8 sprite3  > stepBack 
+    	sprite7 sprite0 sprite2  > stepBack 
+    	sprite5 sprite9  > transformToAll stype=sprite16 stypeTo=sprite2 
+    	sprite7 sprite1  > stepBack 
+    	sprite2 sprite7  > killSprite 
+    	sprite7 sprite9  > transformTo stype=sprite6 scoreChange=-2 
+    	sprite2 sprite7  > killSprite 
+    	sprite18 sprite1  > transformTo stype=sprite11 scoreChange=-1 
+    	sprite7 sprite9  > transformTo stype=sprite10 scoreChange=-1 
+    	sprite6 eos > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite6 limit=0 win=False 
+    	SpriteCounter stype=sprite20 win=False 
+    	SpriteCounter stype=sprite13 limit=0 win=True 
+    	MultiSpriteCounter stype1=sprite9 stype2=sprite8 limit=1 win=False 
+    	SpriteCounter stype=avatar win=False 
+    	SpriteCounter stype=sprite20 limit=0 win=False 
+    	SpriteCounter stype=sprite13 limit=0 win=True 
+    	SpriteCounter stype=sprite14 limit=0 win=False 
+    	Timeout win=True limit=50

@@ -1,0 +1,52 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=GREEN img=oryx/wall3 portal=true 
+    	sprite1 > Immovable img=oryx/fire1 hidden=True 
+    	sprite2 > Immovable img=oryx/wall3 hidden=True 
+    	sprite3 > Immovable img=newset/bomb 
+    	sprite4 > VerticalAvatar speed=0.25 hMult=3 alternate_keys=True img=oryx/floor3 
+    	sprite5 > Passive img=oryx/key3 
+    	sprite6 > Passive img=oryx/floor2 
+    	sprite7 > Passive img=oryx/gold2 wMult=2 
+    	sprite8 > Flicker color=LIGHTGRAY limit=1 singleton=True img=oryx/cspell5 shrinkfactor=0.5 
+    	sprite10 > OrientedAvatar rotateInPlace=false img=oryx/knight1 color=ORANGE speed=1 
+    	sprite10 > Fleeing singleton=True stype=sprite10 maxDistance=500 cooldown=2 img=oryx/bird1 
+    	sprite10 > PathChaser stype=sprite10 img=oryx/wolf1 cooldown=2 
+    	sprite13 > Resource color=GREEN limit=1 shrinkfactor=0.8 img=oryx/sword3 
+    	sprite15 > MovingAvatar img=newset/man3 
+    	sprite17 > Missile orientation=LEFT speed=0.2 img=newset/bossthug 
+    	sprite18 > OrientedFlicker limit=2 singleton=true img=oryx/slash1 
+    	sprite18 > ShootAvatar img=newset/man1 frameRate=8 stype=sprite18 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite10
+    	K > sprite10
+    	L > sprite10
+    	M > sprite13
+    	N > sprite15
+    	O > sprite17
+    	P > sprite18
+    	Q > sprite18
+
+    InteractionSet
+    	sprite3 sprite8  > transformTo stype=sprite10 
+    	sprite13 sprite10  > collectResourceIfHeld heldResource=inc1 scoreChange=1 
+    	sprite7 sprite3  > killBoth 
+    	sprite5 sprite15  > bounceForward 
+    	sprite7 sprite0  > killSprite 
+    	sprite3 sprite0  > killSprite 
+    	sprite7 sprite1  > transformTo stype=sprite17 
+
+    TerminationSet
+    	SpriteCounter stype=sprite18 limit=11 win=False 
+    	SpriteCounter stype=sprite18 limit=0 win=True 
+    	Timeout win=True limit=50

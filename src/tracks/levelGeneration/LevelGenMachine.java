@@ -92,7 +92,7 @@ public class LevelGenMachine
      */
     public static void generateLevels(String gameFile, String levelGenerator, String[] levelFile) {
         //VGDLFactory.GetInstance().init(); // This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+        //VGDLRegistry.GetInstance().init();
 
         // First, we create the game to be played..
         Game toPlay = new VGDLParser().parseGame(gameFile);
@@ -148,7 +148,7 @@ public class LevelGenMachine
      * @param levelFile
      *            a file to save the generated level
      */
-    public static double playOneGeneratedLevel(String gameFile, String actionFile, String levelFile, int randomSeed) {
+    public static double[] playOneGeneratedLevel(String gameFile, String actionFile, String levelFile, int randomSeed) {
         String agentName = "tracks.singlePlayer.tools.human.Agent";
         boolean visuals = true;
         return runOneGeneratedLevel(gameFile, visuals, agentName, actionFile, levelFile, randomSeed, true);
@@ -168,7 +168,7 @@ public class LevelGenMachine
      * @param isHuman indicates if the game is played by a human or a bot
      * @return score of the game plaayed
      */
-    public static double runOneGeneratedLevel(String gameFile, boolean visuals, String agentName, String actionFile,
+    public static double[] runOneGeneratedLevel(String gameFile, boolean visuals, String agentName, String actionFile,
                                               String levelFile, int randomSeed, boolean isHuman) {
         //VGDLFactory.GetInstance().init(); // This always first thing to do.
         //VGDLRegistry.GetInstance().init();
@@ -195,9 +195,7 @@ public class LevelGenMachine
             toPlay.disqualify();
 
             // Get the score for the result.
-            double result = toPlay.handleResult()[0];
-            toPlay.printResult();
-            return result;
+            return toPlay.getFullResult();
         }
 
         // Then, play the game.
@@ -224,7 +222,7 @@ public class LevelGenMachine
 
         double result = toPlay.handleResult()[0];
         toPlay.printResult();
-        return result;
+        return toPlay.getFullResult();
     }
 
 

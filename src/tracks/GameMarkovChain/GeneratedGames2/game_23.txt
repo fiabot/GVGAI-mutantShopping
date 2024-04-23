@@ -1,0 +1,63 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/backBlack 
+    	sprite1 > Portal color=LIGHTBLUE img=newset/exit2 singleton=True portal=True stype=sprite0 
+    	sprite2 > Missile orientation=LEFT img=oryx/fireup1 speed=0.1 
+    	sprite3 > Missile color=RED singleton=True img=newset/laser1_1 shrinkfactor=1.2 
+    	sprite4 > Missile shrinkfactor=4 timeToLive=20 speed=0.5 orientation=UP img=oryx/bullet1 
+    	sprite5 > Missile orientation=DOWN speed=0.2 physicstype=CONT img=oryx/bullet2 shrinkfactor=0.7 singleton=True 
+    	sprite6 > Door img=oryx/dooropen1 
+    	sprite7 > Immovable img=newset/snowmanbodyinplace 
+    	sprite8 > Immovable img=oryx/dooropen1 
+    	sprite9 > Flicker color=LIGHTGRAY limit=5 singleton=True img=oryx/sword1 shrinkfactor=0.5 
+    	sprite10 > Resource color=GOLD limit=1 value=10000 img=oryx/key2 
+    	sprite11 > Missile shrinkfactor=0.5 orientation=LEFT speed=0.8 img=oryx/bullet2 
+    	sprite12 > Passive img=oryx/heart1 orientation=UP img=newset/block1 
+    	sprite13 > OrientedAvatar img=newset/pacman 
+    	sprite14 > Chaser speed=0.5 img=oryx/explosion1 stype=sprite13 singleton=True 
+    	sprite15 > Chaser stype=sprite14 color=ORANGE speed=0.3 img=newset/zombie 
+    	sprite16 > SpawnPoint portal=True stype=sprite15 color=LIGHTGRAY prob=0.05 img=portal 
+    	sprite17 > MovingAvatar shrinkfactor=0.8 img=newset/man3_satright 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+
+    InteractionSet
+    	sprite2 sprite0  > killSprite 
+    	sprite0 sprite8  > reverseDirection 
+    	sprite12 sprite12  > transformTo stype=sprite12 
+    	sprite12 sprite12  > transformTo stype=sprite16 
+    	sprite1 sprite17  > killSprite scoreChange=2000 
+    	sprite11 EOS > subtractHealthPoints 
+    	sprite17 sprite4  > subtractHealthPoints 
+    	sprite4 EOS > killSprite scoreChange=-1 
+    	sprite17 sprite8 sprite7  > stepBack 
+    	sprite17 sprite1  > teleportToExit 
+    	sprite17 sprite1  > teleportToExit scoreChange=1 
+    	sprite17 sprite1  > teleportToExit 
+    	sprite17 sprite1  > teleportToExit 
+    	sprite17 sprite1  > teleportToExit 
+    	sprite17 sprite1  > teleportToExit 
+    	sprite17 sprite0 sprite8  > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite13 limit=0 win=True 
+    	SpriteCounter stype=sprite15 limit=0 win=False 
+    	Timeout win=True limit=50

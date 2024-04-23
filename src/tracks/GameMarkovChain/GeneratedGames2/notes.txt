@@ -1,0 +1,12 @@
+1. remove all but two avatars 
+2. determine goal 
+    2.1 remove extra time out 
+    2.2 changle win -> kill avatar - lose, timeout= win 
+3. remove unused sprites 
+    3.1 also remove resource as it mentioned only once 
+4. remove nonsencial interactions 
+5. have alt chaser chase sprite2 
+6. define enemies that can kill the avatar 
+7. add points 
+8. modify interaction to make sprite7 a power up 
+9. made sprite0 a wall sprite 

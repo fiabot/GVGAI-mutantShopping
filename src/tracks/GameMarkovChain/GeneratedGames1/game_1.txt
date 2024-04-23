@@ -1,0 +1,65 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/wall3 
+    	sprite1 > Immovable color=PINK img=oryx/floorTileOrange 
+    	sprite2 > OrientedFlicker limit=1 speed=0.5 orientation=DOWN singleton=True img=oryx/fireright1 
+    	sprite3 > Immovable color=DARKBLUE img=oryx/fire1 
+    	sprite4 > OrientedFlicker limit=5 color=LIGHTGRAY img=oryx/pickaxe 
+    	sprite5 > ShootAvatar img=oryx/spelunky frameRate=8 stype=sprite4 
+    	sprite6 > Missile shrinkfactor=0.3 timeToLive=20 speed=0 orientation=LEFT img=newset/tank_blueD 
+    	sprite7 > Missile shrinkfactor=4 speed=0.5 color=YELLOW orientation=LEFT img=newset/car2 
+    	sprite8 > Missile speed=0.2 img=newset/laser1 orientation=RIGHT 
+    	sprite9 > Missile orientation=RIGHT color=BROWN cooldown=5 speed=0.9 img=newset/laser1 
+    	sprite10 > OrientedAvatar rotateInPlace=false img=oryx/rogue frameRate=8 
+    	sprite10 > RandomPathAltChaser singleton=True stype1=sprite10 stype2=sprite10 cooldown=4 img=oryx/ghost6 cons=4 
+    	sprite10 > SpawnPoint invisible=True hidden=True stype=sprite10 cooldown=20 total=5 
+    	sprite13 > Missile orientation=DOWN color=YELLOW speed=0.1 img=newset/car3R shrinkfactor=0.6 
+    	sprite14 > Missile healthPoints=10 speed=0.3 img=oryx/orb1 color=BLUE orientation=UP 
+    	sprite15 > SpawnPoint stype=sprite6 cooldown=16 prob=0.15 total=5 invisible=True hidden=True 
+    	sprite16 > SpawnPoint color=LIGHTGRAY img=newset/lasercannon_3 portal=True stype=sprite7 prob=0.15 total=1 
+    	sprite17 > Immovable img=newset/whirlpool2 hidden=True 
+    	sprite18 > Immovable img=oryx/wall3 
+    	sprite19 > Immovable color=YELLOW img=newset/hole5 
+    	sprite20 > Immovable img=oryx/backBrown 
+    	sprite21 > Immovable img=oryx/backBiege hidden=True 
+    	sprite22 > RandomNPC cooldown=2 cons=6 invisible=True hidden=True 
+    	sprite23 > Passive shrinkfactor=0.8 img=newset/wallRed 
+    	sprite25 > MovingAvatar img=newset/man4 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite10
+    	M > sprite10
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite25
+
+    InteractionSet
+    	sprite16 sprite6  > transformTo stype=sprite22 timer=210 repeating=True 
+    	sprite23 sprite14  > transformTo stype=sprite25 
+    	sprite10 sprite7  > transformTo stype=sprite5 
+
+    TerminationSet
+    	SpriteCounter stype=sprite8 win=False 
+    	MultiSpriteCounter stype1=sprite21 limit=1 win=False 
+    	SpriteCounter stype=sprite10 win=True 
+    	Timeout win=True limit=50

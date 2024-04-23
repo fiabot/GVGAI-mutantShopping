@@ -1,0 +1,79 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=WHITE img=oryx/cspell4 
+    	sprite1 > Immovable color=BLUE img=newset/snowmanbase 
+    	sprite2 > Immovable img=oryx/bush2 
+    	sprite3 > Passive img=oryx/diamond3 shrinkfactor=0.7 
+    	sprite4 > Immovable autotiling=True img=newset/tile4 
+    	sprite5 > RandomMissile img=oryx/axe1 shrinkfactor=0.5 
+    	sprite6 > Door color=GREEN img=oryx/stairsdown4 
+    	sprite7 > Resource limit=2 img=oryx/wall4 singleton=True 
+    	sprite8 > Passive img=newset/block2 
+    	sprite9 > Passive img=oryx/gold2 
+    	sprite10 > WizardAvatar physicstype=CONT gravity=1.0 friction=0.02 color=YELLOW stype=sprite4 img=newset/chef jump_strength=16 mass=1 
+    	sprite12 > Walker physicstype=CONT gravity=0.5 orientation=LEFT gravity=1.0 img=newset/zombie friction=0.02 
+    	sprite14 > OrientedAvatar physicstype=CONT friction=0.02 img=newset/pacman 
+    	sprite15 > MovingAvatar img=newset/man3_satright frameRate=8 
+    	sprite17 > Portal invisible=True singleton=True portal=True stype=sprite2 
+    	sprite17 > SpawnPoint img=newset/lasercannon_1 stype=sprite17 
+    	sprite17 > SpawnPoint img=newset/hole5 portal=True invisible=True stype=sprite17 
+    	sprite20 > Fleeing speed=0.9 stype=sprite14 color=BLUE img=oryx/bird1 
+    	sprite21 > Missile img=newset/car2R orientation=LEFT speed=25 color=YELLOW 
+    	sprite22 > RandomNPC cooldown=4 cons=1 invisible=True hidden=True 
+    	sprite23 > ShootAvatar stype=sprite7 img=oryx/axeman1 
+    	sprite25 > OngoingTurningAvatar speed=1.0 img=oryx/butcher1 spawnBehind=playerWall 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite12
+    	M > sprite14
+    	N > sprite15
+    	O > sprite17
+    	P > sprite17
+    	Q > sprite17
+    	R > sprite20
+    	S > sprite21
+    	T > sprite22
+    	U > sprite23
+    	V > sprite25
+
+    InteractionSet
+    	sprite4 sprite10  > killSprite scoreChange=16 
+    	sprite10 sprite12  > killIfAlive 
+    	sprite3 sprite9  > transformTo stype=sprite14 killSecond=True 
+    	sprite3 sprite3  > transformTo stype=sprite2 
+    	sprite9 sprite9  > transformTo stype=sprite1 
+    	sprite15 sprite1 sprite0  > stepBack 
+    	sprite3 sprite0  > transformTo stype=sprite17 scoreChange=1 killSecond=True 
+    	sprite15 sprite2  > stepBack 
+    	sprite15 sprite7  > changeResource resource=sprite7 value=-1 killResource=True 
+    	sprite15 sprite7  > changeResource resource=sprite7 value=1 killResource=True 
+    	sprite15 sprite0  > transformToAll stype=sprite4 stypeTo=sprite20 
+    	sprite15 sprite2  > transformTo stype=sprite15 
+    	sprite15 sprite2  > killSprite 
+    	sprite15 sprite7  > changeResource resource=sprite7 value=1 killResource=True 
+    	sprite7 sprite15  > collectResource 
+    	sprite15 sprite1  > stepBack 
+    	sprite15 sprite0  > transformToAll stype=sprite21 stypeTo=sprite22 
+    	sprite23 sprite17  > teleportToExit 
+    	sprite1 sprite23  > killSprite scoreChange=-10 
+    	sprite21 sprite0  > killSprite 
+    	sprite21 sprite2  > transformTo stype=sprite1 
+    	sprite23 sprite4  > stepBack 
+    	sprite4 sprite21  > killBoth scoreChange=1 
+    	sprite21 sprite2  > align orient=False 
+
+    TerminationSet
+    	SpriteCounter stype=sprite22 limit=0 win=False 
+    	SpriteCounter stype=sprite25 win=False 
+    	Timeout win=True limit=50

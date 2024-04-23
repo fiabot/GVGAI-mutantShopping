@@ -1,0 +1,33 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=GRAY img=oryx/backBiege 
+    	sprite1 > Immovable color=GRAY img=newset/city1_1 
+    	sprite2 > MovingAvatar frameRate=8 img=newset/man3 
+    	sprite3 > Immovable img=oryx/grass autotiling=True hidden=True 
+    	sprite4 > Immovable color=GRAY img=newset/win1 img=oryx/bookLeft 
+    	sprite5 > Immovable img=oryx/wall6 
+    	sprite6 > Immovable solid=True color=DARKGRAY 
+    	sprite7 > OrientedAvatar rotateInPlace=false img=oryx/ghost2 color=YELLOW speed=0.5 
+    	sprite8 > Passive img=oryx/bookRight 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+
+    InteractionSet
+    	sprite7 EOS > wrapAround 
+    	sprite1 sprite2  > killSprite 
+    	sprite8 sprite2  > bounceForward 
+    	sprite2 sprite2  > killSprite 
+    	sprite2 sprite2  > transformTo stype=sprite2 scoreChange=-1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=True 
+    	Timeout win=True limit=50

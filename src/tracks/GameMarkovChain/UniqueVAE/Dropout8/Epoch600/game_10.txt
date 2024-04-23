@@ -1,0 +1,47 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=RED   color=ORANGE 
+              immovable4 > speed=0.25 color=BLUE 
+              immovable5 > speed=0.25 invisible=True hidden=True 
+  
+              parent2 > 
+              door0 > Door color=GREEN img=oryx/doorclosed1 
+              immovable1 > Immovable img=oryx/dooropen1 
+  
+          immovable2 > Immovable img=oryx/wall3 autotiling=True 
+  
+      LevelMapping 
+          A > shootavatar0 immovable0 
+          b > passive0 immovable0 
+          c > immovable1 immovable0 
+          x > passive0 immovable0 
+          . > immovable0 
+          w > immovable5 immovable0 
+  
+      InteractionSet 
+          movingavatar0 immovable4 > stepBack 
+          movingavatar0 immovable1 > killSprite 
+          movingavatar0 immovable4 > stepBack 
+          movingavatar0 immovable4 > stepBack 
+          movingavatar0 immovable1 > stepBack 
+  
+          passive2 parent1 > transformTo stype=immovable2 scoreChange=2 
+          parent0 immovable4   > transformTo stype=randomnpc0 
+          parent0 immovable7 > transformTo 
+          parent0 immovable7 > transformTo 
+          immovable4 shootavatar0 > transformTo stype=immovable6 
+  
+          orientedavatar0 immovable3 immovable4 > stepBack 
+          orientedavatar0 immovable3 > stepBack 
+          passive1 orientedavatar0 > bounceForward 
+          passive1 immovable2 passive0 passive1 > transformTo stype=passive2 scoreChange=1 
+          passive2 missile5 > transformTo stype=passive1 
+  
+  
+      TerminationSet 
+          SpriteCounter       stype=shootavatar0              limit=0 win=False 
+           
+          SpriteCounter       win=False 

@@ -1,0 +1,54 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable invisible=True hidden=True orientation=LEFT img=oryx/backBrown 
+    	sprite1 > Missile img=oryx/barrel1 speed=0.25 
+    	sprite1 > ShootAvatar stype=sprite1 img=newset/shooter1 
+    	sprite3 > BomberRandomMissile speed=0 img=oryx/bat1 stypeMissile=mbikeSlow,mbikeMed,mbikeFast prob=0.5 healthPoints=10 limitHealthPoints=20 
+    	sprite3 > Chaser stype=sprite3 speed=0.9 color=ORANGE img=newset/waiter 
+    	sprite5 > RandomNPC color=GREEN img=newset/nurse speed=0.4 cons=8 
+    	sprite5 > Chaser img=oryx/spelunky frameRate=8 color=ORANGE stype=sprite5 speed=0.5 maxDistance=200 
+    	sprite7 > MovingAvatar speed=1.0 color=YELLOW img=newset/girl1 healthPoints=30 limitHealthPoints=30 
+    	sprite7 > Chaser speed=0.3 img=oryx/sparkle2 stype=sprite7 singleton=True 
+    	sprite9 > Chaser stype=sprite7 cooldown=5 color=ORANGE img=newset/girl2 frameRate=8 shrinkfactor=0.75 
+    	sprite10 > Door color=GREEN img=oryx/doorclosed1 
+    	sprite10 > Chaser img=newset/waiter frameRate=8 color=ORANGE stype=sprite10 speed=0.9 maxDistance=200 
+    	sprite12 > OrientedAvatar img=oryx/vampire1 
+    	sprite12 > Chaser stype=sprite12 color=ORANGE speed=0.3 img=oryx/freak2 
+    	sprite14 > Immovable color=YELLOW img=oryx/slime2 
+    	sprite15 > Resource img=newset/egg limit=2 shrinkfactor=0.5 
+    	sprite16 > Flicker limit=20 img=oryx/pickaxe 
+    	sprite18 > SpawnPoint stype=sprite5 total=20 cooldown=500 img=oryx/slash1 orientation=LEFT 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite1
+    	D > sprite3
+    	E > sprite3
+    	F > sprite5
+    	G > sprite5
+    	H > sprite7
+    	I > sprite7
+    	J > sprite9
+    	K > sprite10
+    	L > sprite10
+    	M > sprite12
+    	N > sprite12
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite18
+
+    InteractionSet
+    	sprite1 sprite5  > killSprite scoreChange=10 
+    	sprite5 sprite0  > killIfHasMore resource=sprite15 limit=11 
+    	sprite5 sprite1  > transformTo stype=sprite5 
+    	sprite5 sprite16  > killSprite 
+    	sprite1 sprite5 sprite0  > transformTo stype=sprite18 
+    	sprite5 sprite0  > stepBack 
+    	sprite1 sprite5 sprite0  > transformTo stype=sprite0 scoreChange=13 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite0 limit=1 win=True 
+    	MultiSpriteCounter stype1=sprite18 limit=1 win=False 
+    	Timeout win=True limit=50

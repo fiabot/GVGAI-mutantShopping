@@ -1,0 +1,39 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/space1 
+    	sprite1 > Immovable shrinkfactor=0.7 img=newset/win2 img=newset/city1 
+    	sprite2 > Passive img=newset/block2 wMult=2 
+    	sprite3 > Immovable invisible=True hidden=True 
+    	sprite4 > Immovable img=oryx/diamond3 autotiling=True 
+    	sprite5 > Immovable orientation=LEFT color=DARKGRAY img=oryx/cspell4 
+    	sprite6 > Immovable invisible=True 
+    	sprite7 > Flicker img=oryx/sparkle3 shrinkfactor=0.5 singleton=True 
+    	sprite8 > MovingAvatar img=newset/painter21 
+    	sprite9 > Resource img=oryx/diamond2 limit=2 shrinkfactor=0.5 
+    	sprite10 > OrientedFlicker invisible=True hidden=True limit=1 singleton=true 
+    	sprite11 > ShootAvatar stype=sprite10 healthPoints=10 img=newset/helicopter 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+
+    InteractionSet
+    	sprite7 sprite8  > killSprite 
+    	sprite9 sprite11  > collectResource scoreChange=2 
+    	sprite2 sprite5  > killAll stype=sprite5 
+
+    TerminationSet
+    	SpriteCounter stype=sprite3 win=False 
+    	SpriteCounter stype=sprite0 limit=0 win=True 
+    	SpriteCounter stype=sprite8 win=False 
+    	Timeout win=True limit=50

@@ -1,0 +1,81 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/chair2 autotiling=True 
+    	sprite1 > Immovable img=newset/pipeLR hidden=True 
+    	sprite2 > Passive img=newset/snowmanchest 
+    	sprite3 > Passive img=newset/block2 
+    	sprite4 > Missile orientation=LEFT speed=0.07 color=RED shrinkfactor=0.6 img=oryx/orb1 
+    	sprite4 > RandomBomber stype=sprite4 prob=0.4 cooldown=3 speed=0.001 rotateInPlace=True img=newset/cannon 
+    	sprite6 > Missile orientation=DOWN speed=0.25 color=YELLOW img=newset/bomb 
+    	sprite7 > Immovable img=oryx/backLBlue autotiling=true 
+    	sprite8 > Immovable shrinkfactor=0.6 img=oryx/wall1 img=oryx/seaWater 
+    	sprite9 > Immovable invisible=True 
+    	sprite10 > Immovable shrinkfactor=0.7 img=oryx/grass 
+    	sprite11 > Flicker limit=3 img=oryx/slash1 
+    	sprite12 > Immovable img=newset/hole1 autotiling=True hidden=True 
+    	sprite13 > PlatformerAvatar physicstype=CONT gravity=1.0 img=newset/man1 mass=0.5 friction=0.1 jump_strength=16 
+    	sprite15 > Walker physicstype=CONT gravity=0.5 friction=0.02 orientation=LEFT img=oryx/rat2 
+    	sprite17 > MovingAvatar img=newset/car_red 
+    	sprite19 > RandomNPC speed=0.1 cooldown=2 cons=6 img=newset/camel1 
+    	sprite19 > SpawnPoint portal=True stype=sprite19 color=LIGHTGRAY prob=1 img=newset/hole4 
+    	sprite21 > OrientedAvatar img=oryx/rogue rotateInPlace=false speed=1 color=YELLOW 
+    	sprite21 > RandomPathAltChaser singleton=True stype1=sprite21 stype2=sprite21 cooldown=4 img=oryx/ghost5 cons=4 
+    	sprite23 > Resource invisible=True 
+    	sprite25 > ShootAvatar stype=sprite11 img=oryx/spelunky 
+    	sprite26 > Door img=oryx/doorclosed1 
+    	sprite26 > Chaser speed=0.1 img=oryx/bat2 stype=sprite26 singleton=True 
+    	sprite28 > OngoingTurningAvatar speed=1.0 img=oryx/butcher1 spawnBehind=playerWall 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite4
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite15
+    	P > sprite17
+    	Q > sprite19
+    	R > sprite19
+    	S > sprite21
+    	T > sprite21
+    	U > sprite23
+    	V > sprite25
+    	X > sprite26
+    	Y > sprite26
+    	Z > sprite28
+
+    InteractionSet
+    	sprite13 sprite15  > killIfAlive 
+    	sprite17 sprite9  > transformTo stype=sprite19 
+    	sprite17 sprite8  > transformToAll stype=sprite21 stypeTo=sprite3 
+    	sprite17 sprite23  > changeResource resource=sprite23 value=-1 killResource=True scoreChange=1 
+    	sprite17 EOS > stepBack 
+    	sprite17 sprite0  > transformTo stype=sprite23 
+    	sprite17 sprite23  > changeResource resource=sprite19 value=5 
+    	sprite17 EOS > stepBack pixelPerfect=True 
+    	sprite17 sprite9  > transformTo stype=sprite0 
+    	sprite17 sprite0  > transformTo stype=sprite25 
+    	sprite17 sprite8  > stepBack 
+    	sprite17 sprite23  > changeResource resource=sprite23 value=-1 scoreChange=100 killResource=True 
+    	sprite17 sprite1  > transformTo stype=sprite26 scoreChange=1 
+    	sprite17 sprite7  > stepBack 
+    	sprite17 sprite12 sprite9 EOSsprite9  > stepBack 
+    	sprite17 sprite7  > transformTo stype=sprite7 scoreChange=1 
+    	sprite17 sprite0  > stepBack 
+    	sprite12 sprite17  > killSprite 
+    	sprite17 sprite0  > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False 
+    	SpriteCounter stype=sprite28 limit=0 win=True 
+    	MultiSpriteCounter stype1=sprite12 stype2=sprite10 limit=1 win=False 
+    	Timeout win=True limit=50

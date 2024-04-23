@@ -1,0 +1,25 @@
+LevelMapping
+    a > sprite2 
+    b > sprite3 
+    c > sprite5 
+
+LevelDescription
+aaaaaaaaaaaaaaaaaaaa
+a            ab    a
+a            a   b a
+a          aaaa b  a
+a     b            a
+a               aaaa
+a b         b      a
+a       b      b   a
+a    aaaa        aaa
+a b     a     c aa a
+a            b     a
+a                  a
+a            b     a
+a         bb       a
+a  b      a        a
+ab      b a        a
+a       aaab       a
+ab       a         a
+aaaaaaaaaaaaaaaaaaaa

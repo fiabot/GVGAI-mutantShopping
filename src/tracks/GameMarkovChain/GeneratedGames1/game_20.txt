@@ -1,0 +1,76 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=BLUE img=newset/win2 
+    	sprite1 > Immovable img=newset/floor6 
+    	sprite2 > Missile orientation=DOWN color=RED speed=0.25 img=oryx/bullet1 shrinkfactor=2 
+    	sprite2 > SpawnPoint img=newset/whirlpool2 stype=sprite2 
+    	sprite2 > SpawnPoint total=400 cooldown=25 stype=sprite2 img=newset/hole5 portal=True 
+    	sprite2 > SpawnPoint img=newset/hole4 stype=sprite2 
+    	sprite6 > SpawnPoint invisible=True hidden=True stype=sprite2 cooldown=100 total=32 
+    	sprite7 > OrientedAvatar img=oryx/bullet1 
+    	sprite7 > RandomPathAltChaser singleton=True stype1=sprite7 stype2=sprite7 cooldown=4 img=oryx/ghost5 cons=4 
+    	sprite7 > SpawnPoint img=portal stype=sprite7 
+    	sprite10 > Flicker shrinkfactor=0.8 color=LIGHTGRAY limit=1 img=oryx/fire1 
+    	sprite10 > Spreader color=BLUE spreadprob=1.0 stype=sprite10 img=oryx/sparkle3 
+    	sprite10 > SpawnPoint img=newset/lasercannon_1 portal=True invisible=True stype=sprite10 
+    	sprite13 > SpawnPoint stype=sprite2 cooldown=16 prob=0.01 total=10 invisible=True hidden=True 
+    	sprite14 > SpawnPoint invisible=True hidden=True stype=sprite2 prob=1 cooldown=100 total=1 
+    	sprite15 > Immovable img=oryx/seaWater autotiling=True 
+    	sprite16 > MovingAvatar img=newset/girl1 
+    	sprite17 > Missile speed=0.6 color=YELLOW img=newset/block3 speed=0.5 img=oryx/bullet2 
+    	sprite18 > Missile shrinkfactor=0.75 orientation=DOWN speed=0.3 img=oryx/barrel2 
+    	sprite19 > Missile physicstype=CONT gravity=0.5 speed=0.5 shrinkfactor=1.2 img=newset/car1R orientation=DOWN 
+    	sprite20 > FlakAvatar rotateInPlace=False stype=sprite18 img=oryx/floor3 
+    	sprite22 > Bomber prob=0.1 cooldown=6 speed=1 orientation=UP spawnorientation=UP stype=sprite18 img=newset/bandit1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite2
+    	E > sprite2
+    	F > sprite2
+    	G > sprite6
+    	H > sprite7
+    	I > sprite7
+    	J > sprite7
+    	K > sprite10
+    	L > sprite10
+    	M > sprite10
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite22
+
+    InteractionSet
+    	sprite19 sprite20  > killSprite scoreChange=-2 
+    	sprite22 EOS > killSprite 
+    	sprite18 sprite18  > subtractHealthPoints 
+    	sprite20 EOS > stepBack 
+    	sprite17 sprite17  > killSprite scoreChange=10 
+    	sprite19 sprite20  > killSprite scoreChange=-1 
+    	sprite20 sprite19  > killSprite scoreChange=9 
+    	sprite22 EOS > killSprite 
+    	sprite19 sprite17  > transformTo stype=sprite0 killSecond=True scoreChange=1 
+    	sprite20 sprite2  > transformTo stype=sprite2 
+    	sprite17 sprite19  > transformTo stype=sprite7 scoreChange=-1 
+    	sprite19 EOS > killSprite 
+    	sprite22 EOS > killSprite 
+    	sprite22 sprite2  > killBoth 
+    	sprite20 EOS > stepBack 
+    	sprite20 sprite18  > killBoth scoreChange=1 
+    	sprite20 sprite18  > killBoth 
+    	sprite18 sprite20  > killSprite 
+    	sprite20 sprite18  > transformTo stype=sprite22 scoreChange=5 killSecond=True 
+    	sprite20 sprite18  > killBoth scoreChange=-1 
+    	sprite17 EOS > killSprite scoreChange=100 
+
+    TerminationSet
+    	SpriteCounter stype=sprite19 win=False 
+    	MultiSpriteCounter stype1=sprite2 limit=0 win=False 
+    	Timeout win=True limit=50

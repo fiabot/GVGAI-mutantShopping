@@ -1,0 +1,62 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True img=oryx/backLBrown 
+          passive0 > Passive color=BLUE portal=True 
+          movingavatar0 > MovingAvatar img=oryx/axeman1 
+  
+          immovable1 > Immovable 
+              immovable2 > color=PINK 
+              immovable3 >   
+              immovable4 > color=GREEN 
+              immovable5 > color=GREEN 
+  
+          missile0 > Missile orientation=RIGHT 
+              missile1 > orientation=LEFT speed=0.2 
+              missile2 > orientation=RIGHT img=newset/laser1_1 
+              missile3 > orientation=LEFT img=newset/laser1_1 
+  
+          immovable4 > Immovable img=oryx/wall1 
+          immovable5 > Immovable color=GREEN img=oryx/tree2 
+          immovable5 > Immovable color=GREEN img=oryx/tree2 
+          immovable11 > Immovable img=oryx/bush5 
+          passive0   > Passive img=newset/block3 
+          immovable10 > Immovable img=oryx/spike2 
+          immovable11 > Immovable img=oryx/bush5 
+          immovable11 > Immovable img=oryx/dirtwall autotiling=True 
+  
+      LevelMapping 
+          0 > immovable3 immovable0 
+          1 > immovable2 immovable0 
+          e > spawnpoint0 immovable0 
+          m > missile1 immovable0 
+          . > immovable0 
+          A > shootavatar0 immovable0 
+          w > immovable5 immovable0 
+  
+      TerminationSet 
+          SpriteCounter   stype=shootavatar0   limit=0 win=False 
+          MultiSpriteCounter   stype2=bomber0 limit=0 win=True 
+          MultiSpriteCounter stype1=immovable2 limit=1 win=False 
+          MultiSpriteCounter stype1=immovable6 limit=1 win=True 
+  
+      InteractionSet 
+          shootavatar0 wall EOS > stepBack 
+          shootavatar0 missile1 > stepBack 
+          missile1 shootavatar0 wall > killSprite 
+          missile0 EOS missile1 > killSprite 
+          missile1 shootavatar0 wall > killSprite 
+           
+          flakavatar0 wall EOS          > killSprite 
+          SpriteCounter wall EOS          EOS > killSprite 
+  
+      LevelMapping 
+          flakavatar0 > immovable0 door0 
+          c > immovable0 missile4 
+          c > immovable0 spawnpoint1 
+          h > immovable0 passive4 
+          . > immovable0 
+          w > immovable0 immovable2 
+          + > immovable0 
+  
+      TerminationSet 
+          Timeout limit=1000 win=True 

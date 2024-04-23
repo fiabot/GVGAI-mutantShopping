@@ -1,0 +1,121 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True img=oryx/grass autotiling=True 
+          immovable1 > Immovable color=BROWN img=oryx/backLBrown 
+              parent0 > 
+              parent1    > 
+                  randomnpc0   > Chaser stype=immovable1 color=ORANGE 
+                  chaser0   > Chaser speed=0.5 color=ORANGE 
+                  missile0    > Missile orientation=LEFT 
+                  missile2 > orientation=LEFT 
+                  missile3 > speed=1.0 
+                  missile4 > orientation=LEFT 
+  
+  
+          parent0 > 
+              parent1 > 
+                  ongoingshootavatar0   > speed=0.2   color=ORANGE   color=ORANGE 
+                  randomnpc3 > RandomNPC cooldown=2 cons=2 invisible=True hidden=True 
+                  randomnpc3 > orientation=DOWN color=RED cooldown=2 cons=2 
+                  missileavatar2 > orientation=UP 
+                  missileavatar2 > orientation=DOWN 
+                  parent2 > 
+                  parent2 > 
+                  parent4 > 
+                  parent5 > 
+                  parent6 > speed=0.25 
+  
+  
+          parent0 > 
+              parent1 > 
+                  ongoingshootavatar0 > speed=1.0 
+                  shootavatar0 > ShootAvatar stype=flicker0 img=newset/man3 
+                  parent1 > 
+  
+      TerminationSet 
+          SpriteCounter stype=flakavatar0 limit=0 win=True 
+          SpriteCounter stype=passive1   win=True 
+          Timeout limit=1000 win=True 
+  
+      InteractionSet 
+          parent0     > reverseDirection 
+          parent0 immovable12 > stepBack 
+          parent0 immovable13 > stepBack 
+          parent0 parent1 > stepBack 
+  
+          parent0 orientedflicker0 > killSprite scoreChange=1 
+          immovable13 orientedflicker0 > killSprite scoreChange=1 
+          orientedflicker0 immovable12 > killSprite 
+          immovable2 movingavatar0 > killSprite scoreChange=1 
+  
+          immovable9 movingavatar0 > killSprite scoreChange=10 
+          immovable9 immovable4 > undoAll 
+          immovable4 movingavatar0 > bounceForward 
+          passive0 immovable11 > undoAll 
+  
+          passive0 movingavatar0 > bounceForward 
+          passive0 immovable6 > undoAll 
+          passive0 immovable2 > transformTo stype=immovable7 scoreChange=1 
+  
+          immovable1 movingavatar0 > killSprite 
+          immovable2 movingavatar0 > killSprite scoreChange=5 
+  
+      TerminationSet 
+          SpriteCounter stype=movingavatar0 limit=0 win=False 
+          SpriteCounter stype=door0 limit=0 win=True 
+          Timeout limit=1000 win=False 
+  
+      LevelMapping 
+          x > door0 immovable0 
+          t > immovable1 immovable0 
+          c > randomnpc0 immovable0 
+          h > immovable0 resource0 
+          . > immovable0 
+          A > immovable0 movingavatar0 
+          . > immovable0 
+          w > immovable1 
+       
+      TerminationSet 
+          SpriteCounter       stype=flakavatar0                limit=0 win=False 
+          SpriteCounter       limit=0 win=True 
+           
+      InteractionSet 
+  
+          shootavatar0   > stepBack 
+          passive0 shootavatar0   > killSprite scoreChange=1 
+  
+          resource0 movingavatar0 > collectResource 
+          movingavatar0 immovable2 > stepBack 
+          movingavatar0 immovable1 > stepBack 
+  
+          movingavatar0 parent0 > transformTo stype=missileavatar0   scoreChange=2 
+          movingavatar0 resource0 > transformTo stype=immovable3 scoreChange=-1 
+          movingavatar0 immovable4 > transformTo stype=immovable3 scoreChange=-1 
+          movingavatar0 immovable5 > transformTo stype=immovable3 scoreChange=-1 
+          movingavatar0 door0 > transformTo stype=immovable3 scoreChange=-1 
+          movingavatar0 door0 > transformTo stype=immovable3 scoreChange=-1 
+          movingavatar0 immovable5 > transformTo stype=immovable3 scoreChange=-1 
+          movingavatar0 immovable5 > transformTo stype=movingavatar2 
+          movingavatar0 immovable6 > transformTo stype=immovable7 
+  
+          movingavatar0 resource0 spawnpoint5 > stepBack 
+  
+          missileavatar0 parent0 > transformTo stype=missileavatar0 
+          missile0 parent1 > wallBounce 
+          parent1 
+          spawnpoint0 missile0   > killSprite 
+  
+          missile6 parent1 > killSprite 
+          bomber0      immovable3 > stepBack 
+          chaser0 immovable3 > stepBack 
+          chaser0 immovable0 > stepBack 
+          shootavatar0 immovable2 > stepBack 
+          shootavatar0 immovable3 > stepBack 
+  
+          immovable3 flicker0 > transformTo stype=movingavatar2 
+          resource0 shootavatar0 > killSprite scoreChange=1 
+  
+  
+      TerminationSet 
+          SpriteCounter stype=shootavatar0     limit=0 win=True 
+          SpriteCounter stype=shootavatar0     limit=0 win=False 

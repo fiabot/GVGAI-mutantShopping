@@ -1,0 +1,11 @@
+trial, do nothing steps, advanced win, advanced score, one step scores, random score
+0,15.0,true,13.0,0.0,0.0
+1,15.0,false,2.0,10.0,0.0
+2,15.0,true,10.0,0.0,0.0
+3,15.0,false,0.0,10.0,0.0
+4,15.0,true,10.0,10.0,0.0
+5,15.0,false,2.0,10.0,0.0
+6,15.0,false,2.0,0.0,0.0
+7,15.0,false,2.0,10.0,0.0
+8,15.0,false,2.0,10.0,0.0
+9,15.0,true,10.0,0.0,0.0

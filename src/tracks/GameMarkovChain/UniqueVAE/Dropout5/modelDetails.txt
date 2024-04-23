@@ -1,0 +1,5 @@
+embed_size	30
+hidden_size	600
+latent_size	20
+lstm_layer	1
+dropout	0.8

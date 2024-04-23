@@ -1,0 +1,86 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/floor4 
+    	sprite1 > Door img=oryx/cloak3 
+    	sprite2 > Immovable color=BLACK 
+    	sprite3 > Immovable img=newset/highway3 
+    	sprite4 > Immovable img=oryx/mushroom2 
+    	sprite5 > Immovable img=newset/tile3 
+    	sprite6 > Immovable autotiling=true img=newset/tile4 
+    	sprite7 > Immovable img=oryx/dooropen1 autotiling=True 
+    	sprite8 > Immovable img=newset/whirlpool2 autotiling=True 
+    	sprite9 > Immovable color=BLUE img=oryx/backBrown 
+    	sprite10 > Door img=oryx/dooropen1 
+    	sprite11 > OrientedFlicker limit=1 color=LIGHTGRAY img=oryx/pickaxe shrinkfactor=0.4 
+    	sprite11 > ShootAvatar stype=sprite11 img=oryx/archer1 
+    	sprite13 > RandomNPC cooldown=2 cons=8 img=oryx/priest1 
+    	sprite14 > RandomNPC cooldown=8 cons=2 img=oryx/guard1 
+    	sprite15 > Immovable img=newset/highway 
+    	sprite16 > Immovable img=oryx/treasure2 hidden=True 
+    	sprite17 > MovingAvatar img=newset/man2 
+    	sprite18 > MovingAvatar speed=1.0 img=oryx/axeman1 
+    	sprite19 > MovingAvatar healthPoints=10 limitHealthPoints=30 frameRate=8 img=newset/man4 
+    	sprite20 > Immovable randomtiling=0.9 img=newset/street3 hidden=True 
+    	sprite21 > Chaser stype=sprite8 speed=0.1 img=oryx/scorpion2 singleton=True 
+    	sprite21 > Chaser stype=sprite21 cooldown=6 speed=0.25 color=ORANGE img=newset/waiter 
+    	sprite24 > Missile solid=True orientation=RIGHT speed=0.05 img=oryx/orb3 
+    	sprite24 > Bomber prob=0.01 cooldown=3 speed=0.1 orientation=LEFT spawnorientation=UP stype=sprite24 img=oryx/alien3 
+    	sprite24 > SpawnPoint stype=sprite24 cooldown=56 invisible=True hidden=True prob=1 
+    	sprite27 > Passive shrinkfactor=0.8 img=newset/block1 
+    	sprite28 > OrientedAvatar img=oryx/prince1 rotateInPlace=false speed=0.5 color=YELLOW 
+    	sprite27 > PathAltChaser singleton=True stype1=sprite27 stype2=sprite28 cooldown=2 img=oryx/ogre2 randomTarget=True invisible=True hidden=True 
+    	sprite30 > Resource invisible=True 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite11
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite21
+    	Y > sprite24
+    	Z > sprite24
+    	a > sprite24
+    	b > sprite27
+    	c > sprite28
+    	d > sprite27
+    	e > sprite30
+
+    InteractionSet
+    	sprite19 sprite20  > stepBack 
+    	sprite7 sprite21  > transformTo stype=sprite24 
+    	sprite17 sprite5  > stepBack 
+    	sprite17 sprite8  > transformTo stype=sprite24 killSecond=True forceOrientation=True 
+    	sprite21 sprite3 sprite3 sprite6 EOS > stepBack 
+    	sprite19 sprite16  > transformToAll stype=sprite27 stypeTo=sprite8 
+    	sprite17 sprite16  > stepBack 
+    	sprite17 sprite8  > stepBack 
+    	sprite8 sprite18  > killIfOtherHasMore resource=sprite30 limit=1 
+    	sprite0 sprite21  > transformTo stype=sprite24 
+    	sprite19 sprite4  > addHealthPoints value=10 killSecond=True 
+    	sprite19 sprite0  > spawnIfHasMore resource=sprite30 stype=sprite30 limit=1 
+    	sprite18 sprite15  > spawnIfHasMore resource=sprite30 limit=1 stype=sprite16 
+    	sprite19 sprite7  > transformToAll stype=sprite14 stypeTo=sprite27 
+
+    TerminationSet
+    	SpriteCounter stype=sprite20 win=False 
+    	MultiSpriteCounter stype1=sprite6 stype2=sprite18 limit=1 win=True 
+    	SpriteCounter stype=sprite20 limit=0 win=False 
+    	Timeout win=True limit=50

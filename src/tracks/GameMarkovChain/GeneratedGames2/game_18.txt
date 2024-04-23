@@ -1,0 +1,55 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/door2 
+    	sprite1 > Immovable color=BLACK shrinkfactor=0.7 img=newset/ladder2 
+    	sprite2 > Immovable img=oryx/dirtwall hidden=True 
+    	sprite3 > Missile orientation=LEFT color=BROWN speed=0.5 img=newset/tree2 shrinkfactor=0.8 
+    	sprite4 > Missile orientation=DOWN speed=0.25 img=newset/laser3 portal=True 
+    	sprite5 > Missile orientation=DOWN img=oryx/scorpion3 speed=0.25 
+    	sprite6 > Missile orientation=UP speed=10 img=newset/laser1_1 frameRate=10 
+    	sprite7 > Spreader img=oryx/fire1 color=ORANGE spreadprob=0.6 stype=sprite1 
+    	sprite8 > Immovable invisible=True hidden=True 
+    	sprite9 > Immovable img=oryx/wall3 
+    	sprite10 > ShootAvatar stype=sprite3 rotateInPlace=False img=oryx/spelunky 
+    	sprite11 > MovingAvatar speed=0.25 img=newset/ship img=oryx/dwarf1 
+    	sprite12 > Portal color=GREEN img=newset/exit2 singleton=True portal=True stype=sprite8 
+    	sprite13 > MissileAvatar img=newset/blockB3 orientation=UP color=YELLOW 
+    	sprite14 > FlakAvatar stype=sprite3 ammo=explosiveegg minAmmo=5 ammoCost=5 img=oryx/spider3 
+    	sprite15 > Door img=oryx/door2 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+
+    InteractionSet
+    	sprite8 sprite10  > transformTo stype=sprite11 scoreChange=-1 
+    	sprite11 sprite4  > addHealthPoints value=1 killSecond=True 
+    	sprite11 sprite12  > teleportToExit 
+    	sprite11 sprite5  > pullWithIt pixelPerfect=True 
+    	sprite11 sprite4  > spawn stype=sprite8 prob=0.02 
+    	sprite13 sprite1  > setSpeedForAll value=1 stype=sprite11 
+    	sprite11 sprite12  > teleportToExit 
+    	sprite4 EOS > subtractHealthPoints stype=sprite14 value=32 
+    	sprite11 sprite12  > teleportToExit 
+    	sprite11 sprite12  > teleportToExit 
+    	sprite6 EOS > wrapAround 
+    	sprite11 sprite4  > spawn stype=sprite0 
+
+    TerminationSet
+    	Timeout limit=500 win=True 
+    	SpriteCounter stype=sprite15 limit=0 win=False 
+    	Timeout win=True limit=50

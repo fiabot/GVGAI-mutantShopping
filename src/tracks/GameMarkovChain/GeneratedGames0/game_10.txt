@@ -1,0 +1,68 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/tree2 
+    	sprite1 > Missile orientation=DOWN speed=0.5 color=RED img=newset/redthug 
+    	sprite2 > Missile orientation=UP speed=0.5 img=oryx/bullet1 
+    	sprite3 > Missile color=RED shrinkfactor=0.2 speed=0.2 orientation=RIGHT img=oryx/orb2 
+    	sprite4 > Immovable invisible=True hidden=True 
+    	sprite5 > Immovable img=oryx/wall6 autotiling=True 
+    	sprite6 > Immovable invisible=True hidden=True orientation=RIGHT img=oryx/diamond1 
+    	sprite7 > Immovable img=oryx/spike2 hidden=True 
+    	sprite8 > MovingAvatar img=newset/girl4 
+    	sprite9 > Immovable img=oryx/seaWater hidden=True 
+    	sprite10 > Immovable color=BLACK img=oryx/grass invisible=True 
+    	sprite11 > Door color=GREEN img=oryx/door2 
+    	sprite12 > Door img=oryx/dooropen1 
+    	sprite13 > Resource color=BLUE value=2 limit=1 img=oryx/wall4 shrinkfactor=0.7 
+    	sprite14 > Immovable img=dirt portal=true 
+    	sprite15 > Immovable img=dirt 
+    	sprite16 > Portal invisible=True singleton=True portal=True stype=sprite4 
+    	sprite18 > Flicker img=oryx/sword1 shrinkfactor=0.5 singleton=True 
+    	sprite18 > ShootAvatar img=oryx/yeti1 frameRate=8 stype=sprite18 
+    	sprite21 > OrientedAvatar rotateInPlace=false img=newset/man4 frameRate=8 
+    	sprite21 > RandomPathAltChaser singleton=True stype1=sprite21 stype2=sprite21 cooldown=4 img=oryx/ghost4 cons=4 
+    	sprite23 > RandomNPC color=PINK speed=0.1 img=newset/satellite cons=1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite18
+    	S > sprite18
+    	T > sprite21
+    	U > sprite21
+    	V > sprite23
+
+    InteractionSet
+    	sprite2 sprite16  > teleportToExit 
+    	sprite18 sprite13  > changeResource resource=sprite13 value=1 killResource=True scoreChange=5 
+    	sprite2 sprite15  > transformTo stype=sprite14 scoreChange=5 
+    	sprite2 sprite18  > killSprite scoreChange=10 
+    	sprite3 sprite4  > transformTo stype=sprite13 
+    	sprite1 sprite7  > attractGaze align=True 
+    	sprite18 sprite6  > transformToAll stype=sprite21 stypeTo=sprite23 
+    	sprite3 sprite12  > transformTo stype=sprite8 
+    	sprite1 sprite11  > transformTo stype=sprite15 
+    	sprite8 sprite5  > stepBack 
+    	sprite3 sprite11  > transformTo stype=sprite21 
+    	sprite8 sprite6  > stepBack pixelPerfect=True 
+
+    TerminationSet
+    	SpriteCounter stype=sprite18 limit=0 win=False 
+    	SpriteCounter stype=sprite21 limit=0 win=False 
+    	SpriteCounter stype=sprite12 limit=0 win=True 
+    	Timeout win=True limit=50

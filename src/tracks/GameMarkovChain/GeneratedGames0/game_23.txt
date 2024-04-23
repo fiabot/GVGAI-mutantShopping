@@ -1,0 +1,62 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=GRAY img=oryx/backGrey 
+    	sprite1 > Immovable img=oryx/seaWater 
+    	sprite2 > Immovable img=oryx/seaWater autotiling=True 
+    	sprite3 > Immovable shrinkfactor=0.6 img=newset/hole5 img=oryx/backLBrown 
+    	sprite4 > RandomNPC speed=0.4 cooldown=2 cons=3 img=oryx/priest1 
+    	sprite5 > Immovable invisible=True hidden=True 
+    	sprite6 > Passive img=newset/block3 shrinkfactor=0.8 
+    	sprite7 > MovingAvatar speed=1.0 img=newset/man4 rotateInPlace=False 
+    	sprite8 > Immovable invisible=True 
+    	sprite9 > Immovable img=newset/blockB portal=true 
+    	sprite10 > Flicker limit=2 singleton=True img=oryx/pickaxe 
+    	sprite10 > ShootAvatar color=YELLOW stype=sprite10 img=oryx/axeman1 
+    	sprite13 > Resource color=BLUE limit=2 shrinkfactor=0.8 img=oryx/cloak2 
+    	sprite15 > OrientedAvatar rotateInPlace=false img=newset/man4 color=YELLOW speed=1 
+    	sprite17 > Door img=oryx/doorclosed1 
+    	sprite18 > Missile speed=0.25 hMult=3 img=newset/block3 
+    	sprite18 > SpawnPoint stype=sprite18 cooldown=2 prob=1 total=40 invisible=True hidden=True 
+    	sprite20 > PathAltChaser singleton=True stype1=sprite15 stype2=sprite15 cooldown=2 img=oryx/ogre2 randomTarget=True invisible=True hidden=True 
+    	sprite21 > SpaceshipAvatar stype=sprite18 physicstype=CONT img=oryx/spaceship3 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite10
+    	M > sprite13
+    	N > sprite15
+    	O > sprite17
+    	P > sprite18
+    	Q > sprite18
+    	R > sprite20
+    	S > sprite21
+
+    InteractionSet
+    	sprite10 sprite1  > stepBack 
+    	sprite13 sprite15  > collectResourceIfHeld heldResource=inc3 scoreChange=1 
+    	sprite6 sprite6 sprite5  > undoAll 
+    	sprite6 sprite7  > bounceForward 
+    	sprite6 sprite2  > transformTo stype=sprite7 scoreChange=-1 
+    	sprite7 sprite2  > stepBack 
+    	sprite3 sprite5  > spawn stype=sprite8 
+    	sprite6 sprite8  > killSprite 
+    	sprite6 sprite0  > killAll stype=sprite17 
+    	sprite15 sprite3  > stepBack 
+    	sprite15 sprite6  > shieldFrom ftype=killSprite stype=sprite18 
+    	sprite5 sprite6  > transformToAll stype=sprite2 stypeTo=sprite20 
+    	sprite1 sprite7  > killIfOtherHasMore resource=sprite13 limit=1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite3 win=True 
+    	SpriteCounter stype=sprite21 limit=0 win=False 
+    	Timeout win=True limit=50

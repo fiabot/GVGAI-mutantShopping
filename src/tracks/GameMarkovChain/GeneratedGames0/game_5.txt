@@ -1,0 +1,67 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=dirt autotiling=True 
+    	sprite1 > Immovable img=oryx/bush2 
+    	sprite2 > Immovable hidden=True img=oryx/spike3 
+    	sprite3 > Immovable hidden=True img=oryx/dirtWall 
+    	sprite4 > Immovable img=newset/floor6 
+    	sprite5 > Immovable img=oryx/staff2 autotiling=True hidden=True 
+    	sprite6 > Flicker img=oryx/sword1 
+    	sprite6 > ShootAvatar img=oryx/spelunky color=RED stype=sprite6 
+    	sprite8 > Immovable img=oryx/space1 
+    	sprite9 > Immovable img=oryx/backLBrown 
+    	sprite10 > Immovable hidden=True orientation=RIGHT img=oryx/floorTileOrange 
+    	sprite11 > Bomber prob=0.01 cooldown=6 speed=1 img=newset/bandit1 orientation=LEFT spawnorientation=LEFT stype=sprite3 
+    	sprite12 > Missile color=YELLOW shrinkfactor=0.6 speed=0.7 orientation=LEFT img=newset/laser2_1 
+    	sprite13 > Missile orientation=RIGHT color=RED cooldown=5 speed=0.2 img=oryx/cspell1 
+    	sprite14 > OrientedAvatar img=oryx/vampire1 rotateInPlace=false 
+    	sprite16 > Passive img=newset/block3 
+    	sprite18 > MovingAvatar img=oryx/bird1 
+    	sprite19 > Resource color=RED limit=10 
+    	sprite20 > Portal stype=sprite0 color=GREEN img=newset/exit2 
+    	sprite22 > AimedAvatar stype=sprite12 img=newset/lasercannon_1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite6
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite16
+    	Q > sprite18
+    	R > sprite19
+    	S > sprite20
+    	T > sprite22
+
+    InteractionSet
+    	sprite2 sprite14  > killSprite 
+    	sprite12 sprite16 sprite9 sprite5 sprite16  > transformTo stype=sprite18 
+    	sprite13 sprite3  > spawn stype=sprite0 
+    	sprite6 sprite9  > transformToAll stype=sprite3 stypeTo=sprite0 nextExecution=500 timer=500 repeating=False 
+    	sprite8 sprite6  > killIfOtherHasMore resource=sprite19 limit=1 
+    	sprite12 sprite0  > killSprite 
+    	sprite2 sprite6  > killSprite 
+    	sprite12 sprite3 sprite9  > killSprite scoreChange=1 
+    	sprite12 sprite6  > transformTo stype=sprite13 scoreChange=-1 
+    	sprite1 sprite13  > killSprite 
+    	sprite13 sprite20  > transformTo stype=sprite16 
+    	sprite6 sprite9  > stepBack 
+    	sprite12 sprite19  > undoAll 
+    	sprite12 sprite6  > killSprite scoreChange=9 
+    	sprite0 sprite6  > killSprite scoreChange=-1 
+    	sprite13 sprite20  > teleportToExit 
+
+    TerminationSet
+    	SpriteCounter stype=sprite22 limit=0 win=False 
+    	Timeout limit=1000 win=True 
+    	Timeout win=True limit=50

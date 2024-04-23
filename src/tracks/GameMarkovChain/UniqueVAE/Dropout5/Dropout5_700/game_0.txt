@@ -1,0 +1,101 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True 
+              immovable1 > color=LIGHTBLUE img=oryx/backLBlue 
+              immovable2 > color=BLUE img=oryx/seaWater 
+              immovable3 > img=oryx/backGrey 
+  
+          randomnpc0    > RandomNPC     color=WHITE   cons=1 
+          shootavatar0    > ShootAvatar orientation=DOWN color=YELLOW ammo=resource0 stype=missile2 prob=0.05 stype=missile5 
+          missile0 > Missile 
+              missile1   > orientation=UP color=BLUE speed=0.25 img=oryx/bullet1 
+              missile2 > orientation=DOWN color=RED speed=0.5 img=newset/bomb singleton=True shrinkfactor=0.5 
+  
+          missile3   > Missile img=newset/cloud2 
+              missile4   > orientation=LEFT     color=WHITE 
+              missile5   > orientation=LEFT speed=0.2   color=WHITE 
+              missile6   > orientation=RIGHT speed=0.2   color=WHITE 
+              missile6   > orientation=RIGHT speed=0.2   color=WHITE 
+  
+          bomber0    > Bomber stype=missile1   cooldown=5   cooldown=5 missile0 prob=0.05   > orientation=UP 
+                  spawnpoint0   > SpawnPoint 
+              spawnpoint1   >   stype=resource1   prob=0.01 
+  
+          orientedflicker0 > OrientedFlicker limit=1 color=LIGHTGRAY img=oryx/pickaxe 
+  
+          shootavatar0 > ShootAvatar   img=newset/girl3 singleton=True 
+              missile1 >   orientation=RIGHT orientation=DOWN 
+              missile2 > orientation=LEFT stype=immovable2 
+  
+          immovable1 > Immovable invisible=true 
+          immovable2 > Immovable color=BLACK invisible=True hidden=True 
+  
+          immovable4 > Immovable color=PINK img=oryx/sparkle1 
+               
+      TerminationSet 
+          SpriteCounter stype=immovable2   win=True 
+          SpriteCounter stype=immovable1     win=False 
+  
+      InteractionSet 
+          passive1 wizardavatar0 immovable1 > stepBack 
+          randomnpc0 shootavatar0 > killSprite 
+          missile0 immovable2 > missile1 
+          missile1 missile0 > killSprite 
+          missile0 immovable2 > killSprite 
+          missile1 immovable2 > killSprite 
+          missile0 immovable2 > killSprite 
+          missile1 missile0 > killBoth 
+          missile0 immovable2 > killSprite 
+          missile1 missile0 > killBoth 
+          missile0 > killSprite 
+  
+          missile1 EOS > killSprite 
+          missile0 EOS > killSprite 
+  
+          missile1 missile2 > killBoth 
+          missile0 EOS immovable12 > killSprite 
+  
+          missile2 missile1 > killBoth 
+          missile0 EOS immovable12 > killSprite 
+  
+          missile1 missile2 > spawn stype=parent0 
+          missile2 immovable4 > transformTo stype=missile2 
+           
+          missile0 wall > 
+          missile0 wall EOS > killSprite 
+          missile1 wall EOS > killSprite 
+  
+          missile1 missile2 > killSprite 
+          missile1 EOS immovable4 > killSprite 
+  
+          missile1 immovable1 > attractGaze 
+           
+          missile2 > Missile stype=parent1 
+          missile3 parent1 > stepBack 
+          missile3 parent1 > stepBack 
+          parent3 immovable2 > transformTo stype=immovable5 
+          door2 shootavatar0 > transformTo stype=parent6 
+  
+          immovable5 parent0 > attractGaze align=True 
+  
+          parent1 immovable1 > attractGaze 
+          immovable7 immovable12 > killSprite 
+          parent3 immovable2 > transformTo stype=missile2 
+          immovable7          > killSprite 
+          immovable7 immovable9 > transformTo stype=immovable7 
+  
+          immovable9 eos > killSprite 
+          immovable4 immovable5 > transformTo stype=immovable4 
+          immovable3 flicker0 > transformTo stype=immovable5 
+  
+      TerminationSet 
+          MultiSpriteCounter stype1=immovable5 limit=1 win=False 
+          SpriteCounter stype=shootavatar0 limit=0 win=False 
+  
+      LevelMapping 
+          g > immovable0 door0 
+          b > immovable0 missile1 
+          f > immovable0 immovable2 
+          . > immovable0 
+          w > immovable0 immovable2 
+          A > immovable0 avatar 

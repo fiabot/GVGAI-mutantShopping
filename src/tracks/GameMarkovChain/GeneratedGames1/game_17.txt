@@ -1,0 +1,54 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/door2 autotiling=True 
+    	sprite1 > Immovable img=oryx/tree1 
+    	sprite2 > Resource limit=4 value=2 shrinkfactor=0.5 img=oryx/sword4 
+    	sprite3 > Missile healthPoints=10 speed=4 shrinkfactor=0.3 img=oryx/barrel2 color=YELLOW orientation=RIGHT 
+    	sprite3 > Bomber prob=0.1 cooldown=6 speed=1 img=newset/bandit1h orientation=RIGHT spawnorientation=LEFT stype=sprite3 
+    	sprite5 > Bomber stype=sprite3 prob=0.03 cooldown=6 speed=1 img=oryx/alien3 
+    	sprite6 > Immovable color=DARKBLUE img=oryx/sparkle2 randomtiling=0.9 
+    	sprite7 > Immovable img=oryx/gold2 
+    	sprite8 > Immovable img=newset/tile4 
+    	sprite9 > Door img=newset/exit2 
+    	sprite10 > Immovable invisible=True hidden=True orientation=LEFT img=oryx/backOBrown 
+    	sprite11 > Immovable img=newset/cherries2 
+    	sprite12 > Missile color=YELLOW speed=0.35 shrinkfactor=0.5 img=newset/laser1 singleton=True 
+    	sprite13 > MovingAvatar img=newset/man3_satback img=oryx/angel1 
+    	sprite14 > Immovable color=GREEN img=dirt 
+    	sprite15 > MovingAvatar img=newset/man4 
+    	sprite16 > ShootAvatar stype=sprite12 rotateInPlace=false img=newset/man3 
+    	sprite18 > OrientedFlicker limit=5 color=LIGHTGRAY img=oryx/firedown1 
+    	sprite20 > SpawnPoint img=newset/whirlpool2 stype=sprite3 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite3
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite18
+    	S > sprite20
+
+    InteractionSet
+    	sprite16 sprite6  > stepBack 
+    	sprite18 sprite0  > spawnIfHasMore resource=sprite20 stype=sprite2 limit=1 
+    	sprite13 sprite8 EOSsprite20  > stepBack 
+    	sprite3 EOS > killSprite scoreChange=-1 
+    	sprite12 EOS > killSprite scoreChange=-1 
+
+    TerminationSet
+    	SpriteCounter stype=avatar limit=0 win=False 
+    	SpriteCounter stype=sprite13 win=False 
+    	Timeout win=True limit=50

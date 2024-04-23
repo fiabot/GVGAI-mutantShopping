@@ -1,0 +1,15 @@
+LevelMapping
+    a > avatar 
+    b > immovable1 
+
+LevelDescription
+   a      
+          
+          
+          
+          
+          
+          
+          
+          
+         b

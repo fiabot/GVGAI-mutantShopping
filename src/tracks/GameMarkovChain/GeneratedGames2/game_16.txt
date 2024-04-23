@@ -1,0 +1,92 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/grass autotiling=True hidden=True 
+    	sprite1 > Immovable solid=False color=BLACK 
+    	sprite2 > Immovable img=oryx/tombstone1 
+    	sprite3 > Immovable color=GRAY img=oryx/backGrey 
+    	sprite4 > Resource limit=10 img=oryx/gold1 
+    	sprite5 > Immovable img=newset/mirror_l 
+    	sprite6 > RandomNPC cooldown=2 img=newset/butterfly1 
+    	sprite7 > RandomNPC speed=1 color=ORANGE img=newset/cat cons=1 
+    	sprite8 > Resource color=RED limit=2 shrinkfactor=0.9 img=oryx/potion4 
+    	sprite9 > Missile orientation=RIGHT speed=0.5 img=oryx/bullet1 frameRate=5 
+    	sprite10 > Immovable color=GREEN img=newset/table1 
+    	sprite11 > Passive img=newset/blockG 
+    	sprite12 > Passive img=oryx/diamond3 
+    	sprite13 > Passive img=newset/block2 orientation=UP img=newset/block2 
+    	sprite14 > Passive img=newset/block2 orientation=DOWN 
+    	sprite15 > Immovable img=newset/cocoonb2 
+    	sprite16 > Passive speed=0.25 hMult=3 color=GOLD img=newset/blockB 
+    	sprite17 > Passive img=oryx/wall2 
+    	sprite18 > Immovable img=oryx/fire1 
+    	sprite19 > Immovable shrinkfactor=0.6 img=oryx/doorclosed1 img=oryx/backGrey 
+    	sprite20 > MovingAvatar img=newset/girl2 
+    	sprite21 > OrientedFlicker limit=5 singleton=true img=oryx/staff1 
+    	sprite22 > Flicker 
+    	sprite23 > ShootAvatar ammo=pickaxe cooldown=2 stype=sprite22 img=oryx/archer1 
+    	sprite24 > Chaser stype=sprite23 speed=0.9 color=YELLOW img=oryx/sparkle4 
+    	sprite25 > SpawnPoint img=newset/hole5 stype=sprite24 
+    	sprite26 > SpawnPoint cooldown=200 invisible=True prob=0.005 stype=sprite25 hidden=True 
+    	sprite27 > PathChaser img=oryx/wolf1 stype=sprite7 
+    	sprite28 > OngoingShootAvatar speed=0.2 img=newset/camel1 stype=sprite14 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+    	a > sprite25
+    	b > sprite26
+    	c > sprite27
+    	d > sprite28
+
+    InteractionSet
+    	sprite0 sprite1  > transformTo stype=sprite2 scoreChange=-1 killSecond=True 
+    	sprite3 sprite19  > transformTo stype=sprite20 scoreChange=-101 
+    	sprite6 sprite21  > killSprite 
+    	sprite3 sprite18  > killSprite scoreChange=1 
+    	sprite19 sprite2  > transformTo stype=sprite20 scoreChange=4 
+    	sprite21 sprite10  > killSprite scoreChange=-1 
+    	sprite6 sprite2  > stepBack 
+    	sprite5 sprite18  > killSprite scoreChange=2 
+    	sprite19 sprite19  > stepBack 
+    	sprite21 sprite23  > spawn stype=sprite26 
+    	sprite23 sprite0  > spawn stype=sprite10 prob=0.02 
+    	sprite18 sprite0  > stepBack 
+    	sprite1 sprite5  > transformTo stype=sprite27 killSecond=True scoreChange=1 
+    	sprite23 sprite18  > stepBack 
+    	sprite0 sprite15  > killSprite 
+    	sprite0 sprite18  > killSprite scoreChange=2 
+    	sprite6 sprite21  > killSprite scoreChange=-1 
+    	sprite23 sprite2  > killSprite scoreChange=1 
+    	sprite5 sprite1  > transformTo stype=sprite3 
+    	sprite10 sprite5  > killSprite 
+    	sprite10 sprite3  > stepBack 
+    	sprite10 sprite15  > changeResource resource=sprite8 value=-1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite28 limit=0 win=False 
+    	Timeout limit=1500 win=False 
+    	MultiSpriteCounter stype1=sprite2 limit=0 win=False 
+    	Timeout win=True limit=50

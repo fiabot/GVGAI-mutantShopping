@@ -1,0 +1,44 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable hidden=True img=newset/lock1 
+    	sprite1 > MovingAvatar frameRate=8 img=oryx/swordman1 
+    	sprite2 > Chaser stype=sprite0 speed=0.1 img=newset/girl2 singleton=True 
+    	sprite2 > Chaser speed=0.9 img=newset/alienShotgun_1 stype=sprite2 singleton=True 
+    	sprite4 > Missile orientation=LEFT speed=0.35 color=YELLOW img=oryx/orb1 
+    	sprite5 > Immovable img=oryx/backOBrown autotiling=True hidden=True 
+    	sprite6 > Immovable img=oryx/alien1 
+    	sprite7 > RandomNPC cooldown=2 cons=1 img=oryx/bat2 
+    	sprite8 > RandomNPC cooldown=2 cons=2 img=oryx/guard1 
+    	sprite9 > MovingAvatar img=newset/man4 healthPoints=10 
+    	sprite10 > Flicker 
+    	sprite12 > RandomMissile img=oryx/fire1 shrinkfactor=0.5 
+    	sprite12 > SpawnPoint stype=sprite12 prob=1 color=LIGHTGRAY img=newset/hole4 
+    	sprite14 > ShootAvatar stype=sprite4 frameRate=8 img=newset/girl2 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite2
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite12
+    	M > sprite12
+    	N > sprite14
+
+    InteractionSet
+    	sprite8 sprite2  > transformTo stype=sprite6 scoreChange=1 
+    	sprite8 sprite10  > transformTo stype=sprite12 
+    	sprite14 sprite8  > killSprite 
+    	sprite8 sprite10  > transformTo stype=sprite6 
+    	sprite8 sprite14  > transformTo stype=sprite4 
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 win=False 
+    	SpriteCounter stype=sprite1 limit=0 win=False 
+    	Timeout win=True limit=50

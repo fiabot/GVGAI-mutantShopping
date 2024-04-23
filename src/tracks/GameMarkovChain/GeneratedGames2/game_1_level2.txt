@@ -1,0 +1,23 @@
+LevelMapping
+    a > sprite14 
+    b > avatar 
+
+LevelDescription
+ a                
+          a    a a
+     a a   a      
+   a              
+ a  b     a     a 
+aa   a            
+                  
+    a          a  
+  a               
+ a a              
+                  
+      a aaaa   a  
+          aaa     
+    a  a    a     
+     aa         a 
+a a         a     
+  a      a     aaa
+               a  

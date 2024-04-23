@@ -1,0 +1,49 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=YELLOW img=oryx/door2 
+    	sprite1 > Resource img=oryx/shield2 shrinkfactor=0.8 
+    	sprite2 > MovingAvatar speed=1.0 img=newset/man4 img=newset/man4 
+    	sprite3 > Immovable color=DARKGRAY 
+    	sprite4 > Immovable img=oryx/wall1 
+    	sprite5 > OrientedAvatar rotateInPlace=False img=oryx/bullet1 color=ORANGE speed=0.4 frameRate=8 
+    	sprite5 > Fleeing stype=sprite5 color=BLUE img=newset/yellowthug 
+    	sprite7 > RandomPathAltChaser singleton=True stype1=sprite5 stype2=sprite5 cooldown=4 img=oryx/ghost3 cons=4 
+    	sprite8 > Fleeing singleton=True stype=sprite5 maxDistance=500 cooldown=2 img=newset/bossthug 
+    	sprite9 > RandomPathAltChaser singleton=True stype1=sprite5 stype2=sprite5 cooldown=4 img=oryx/ghost3 cons=4 
+    	sprite10 > Fleeing stype=sprite2 speed=0.9 img=oryx/bird1 frameRate=5 
+    	sprite11 > Resource limit=2 img=newset/butter singleton=True shrinkfactor=0.9 
+    	sprite12 > Resource img=oryx/key2 shrinkfactor=0.7 limit=1 
+    	sprite13 > Missile orientation=DLEFT speed=0.5 img=oryx/mineral1 
+    	sprite13 > ShootAvatar stype=sprite13 rotateInPlace=true img=oryx/necromancer1 
+    	sprite16 > Passive img=oryx/diamond3 shrinkfactor=0.8 
+    	sprite17 > Chaser stype=sprite13 color=YELLOW speed=0.1 img=oryx/bat1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite5
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite13
+    	P > sprite16
+    	Q > sprite17
+
+    InteractionSet
+    	sprite13 sprite0  > transformToAll stype=sprite16 stypeTo=sprite0 
+    	sprite1 sprite5  > collectResource scoreChange=3 
+    	sprite17 sprite4 sprite4  > stepBack 
+    	sprite1 sprite13  > collectResource 
+    	sprite13 sprite3  > subtractHealthPoints value=1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite5 win=True 
+    	Timeout win=True limit=50

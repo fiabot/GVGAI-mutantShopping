@@ -1,0 +1,93 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+          immovable2 > Immovable color=BLACK img=oryx/backLBrown 
+          immovable2    > Immovable color=WHITE img=newset/lock1 
+          spawnpoint0    > SpawnPoint cooldown=2   cooldown=10 stype=randommissile0 stype=randommissile0 portal=True 
+          resource0 > Resource color=GOLD limit=4 limit=4 total=1 
+          shootavatar0 > ShootAvatar stype=flicker0 img=newset/girl1 
+          immovable4 > Immovable img=oryx/dirtwall autotiling=True 
+  
+      LevelMapping 
+          x > door0 immovable0 
+          h > immovable1 immovable0 
+          A > movingavatar0 immovable0 
+          k > passive0 immovable0 
+          l > spawnpoint6 immovable0 
+          x > passive2 immovable0 
+          m > passive3 immovable0 
+          n > passive4 immovable0 
+          . > immovable0 
+  
+      InteractionSet 
+  
+          movingavatar0 immovable2 > transformTo stype=parent0 
+          movingavatar0 immovable1 > transformTo stype=parent1 
+          movingavatar0 parent0 > transformTo stype=parent1 
+          movingavatar0 parent0 > transformTo stype=parent1 
+  
+          missileavatar0 door0 > transformTo stype=immovable5 
+          movingavatar0 > transformTo stype=parent2 
+          movingavatar0 > > transformTo stype=immovable7 
+  
+          movingavatar0 > MovingAvatar resource=resource1 
+          movingavatar0 immovable12 > stepBack 
+  
+          movingavatar0 immovable1 > stepBack 
+          movingavatar0 parent0 > killSprite 
+  
+          missileavatar0 immovable1 > transformTo stype=movingavatar0 
+          movingavatar0 immovable1 > stepBack 
+  
+          missileavatar0 immovable1 > transformTo stype=movingavatar0 scoreChange=-1 
+          missile2 immovable1 > transformTo stype=immovable3 scoreChange=-1 
+          missile1 immovable1 > transformTo stype=missile2 
+  
+          missile1 spawnpoint6 > transformTo stype=immovable2 
+          missile2 > > transformTo 
+  
+          missile3 immovable1 > align orient=False 
+          missile4 immovable1 > spawn stype=immovable10 
+  
+          missile3 immovable1 > spawn stype=missile4 
+          immovable7 immovable9 > transformTo stype=immovable5 
+          immovable9 missile5 > spawn stype=immovable10 
+          immovable6 missile5 > spawn stype=immovable6 
+          immovable5 parent0 > spawn stype=immovable9 
+          immovable7 flicker0 > spawn stype=immovable5 
+          immovable7 > > killSprite 
+  
+          immovable9 immovable0 > spawn stype=immovable6 
+          immovable4 immovable0 > killSprite 
+          immovable7 immovable0 > spawn stype=immovable8 
+          immovable6 immovable0 > killSprite 
+          immovable5 immovable0 > spawn stype=immovable6 
+          immovable5 immovable0 > killSprite 
+          immovable4 immovable0 > spawn stype=immovable5 
+          immovable4 immovable0 > killSprite 
+          immovable3 immovable0 > spawn stype=immovable4 
+          immovable3 immovable0 > killSprite 
+          immovable2 immovable0 > spawn stype=immovable3 
+          immovable2 immovable0 > killSprite 
+          immovable1 immovable0 > spawn stype=immovable2 
+          immovable1 immovable0 > killSprite 
+          immovable11 immovable0 > spawn stype=immovable2 
+          immovable11 immovable0 > killSprite 
+          immovable11 immovable0 > killSprite 
+          immovable11 immovable0 > spawn stype=immovable7 
+          immovable11 immovable0 > killSprite 
+          immovable11 immovable0 > spawn 
+          immovable2 immovable0 > killSprite 
+          immovable11 immovable0 > spawn stype=immovable2 
+          immovable1 immovable0 > killSprite 
+          immovable11 immovable0 > spawn stype=immovable2 
+          immovable1 > immovable0 immovable2 
+          t > immovable0 immovable4 
+          c > immovable0 immovable4 
+          0 > immovable0 immovable2 
+          w > immovable0 immovable4 
+          h > immovable0 immovable5 
+          A > immovable0 movingavatar0 
+          w > immovable0 immovable4 
+          A > immovable0 avatar 

@@ -1,0 +1,32 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=GREEN color=GREEN img=oryx/dooropen1 
+          parent0    > 
+              shootavatar0   > ShootAvatar stype=flicker0 img=newset/girl1 
+                  randomnpc0 > RandomNPC speed=1 cooldown=4 cons=8 cooldown=3 
+              chaser0 > Chaser stype=immovable1   color=ORANGE 
+                  immovable3 > Immovable singleton=True 
+          immovable4 > Immovable color=BLACK img=oryx/wall1 
+  
+      LevelMapping 
+          0 > immovable0 door0 
+          . > immovable0 
+          + > immovable0 
+  
+      InteractionSet 
+  
+          shootavatar0 immovable2 > stepBack 
+          shootavatar0 immovable1   > stepBack 
+          shootavatar0 loschaser0 > killSprite 
+          shootavatar0 loschaser0 > killSprite 
+          shootavatar0 parent0 > killSprite 
+          immovable1 shootavatar0 > killSprite scoreChange=1 
+          immovable1 door0 > killSprite scoreChange=1 
+          immovable1 door0 > killSprite scoreChange=1 
+  
+      TerminationSet 
+          SpriteCounter stype=movingavatar0 limit=0 win=False 
+          SpriteCounter stype=door0 limit=0 win=True 

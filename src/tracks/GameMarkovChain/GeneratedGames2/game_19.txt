@@ -1,0 +1,60 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=GREEN img=oryx/bush5 
+    	sprite1 > Immovable img=oryx/floor3 
+    	sprite2 > Immovable invisible=True hidden=True 
+    	sprite3 > Immovable img=oryx/wall3_0 
+    	sprite4 > Immovable orientation=UP color=GRAY img=newset/water 
+    	sprite5 > Immovable shrinkfactor=0.75 img=oryx/door2 img=oryx/wall3 
+    	sprite6 > Missile orientation=RIGHT speed=0.05 img=newset/camel4 
+    	sprite7 > OrientedAvatar img=oryx/yeti2 
+    	sprite8 > RandomPathAltChaser singleton=True stype1=sprite7 stype2=sprite7 cooldown=4 img=oryx/ghost6 cons=4 
+    	sprite9 > SpawnPoint stype=sprite6 prob=0.1 cooldown=50 img=newset/lasercannon_2 stype=sprite8 
+    	sprite10 > Chaser img=oryx/sparkle2 frameRate=8 color=RED stype=sprite3 speed=0.1 maxDistance=200 
+    	sprite11 > SpawnPoint img=oryx/dooropen1 portal=True invisible=True stype=sprite10 
+    	sprite12 > Resource img=oryx/gold1 limit=20 shrinkfactor=0.7 
+    	sprite13 > MovingAvatar img=newset/girl3 
+    	sprite14 > MovingAvatar speed=1.0 img=oryx/axeman1 
+    	sprite15 > Immovable color=WHITE img=oryx/dooropen1 portal=true 
+    	sprite16 > Immovable img=dirt autotiling=True 
+    	sprite17 > Immovable color=BROWN img=oryx/wall3 portal=True 
+    	sprite18 > OrientedFlicker limit=5 speed=0.5 orientation=UP singleton=true img=oryx/pickaxe 
+    	sprite19 > Passive shrinkfactor=0.8 img=newset/block2 
+    	sprite20 > ShootAvatar ammo=bullet stype=sprite18 img=oryx/axeman1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+
+    InteractionSet
+    	sprite18 sprite15  > killSprite scoreChange=1 
+    	sprite17 sprite19  > transformTo stype=sprite2 scoreChange=1 
+    	sprite14 sprite12  > changeResource resource=sprite12 value=-1 
+    	sprite13 sprite17  > spawnIfHasMore resource=sprite11 stype=sprite12 limit=2 
+    	sprite13 sprite4  > stepBack 
+    	sprite13 sprite12  > changeResource resource=sprite12 value=-1 killResource=True 
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False 
+    	SpriteCounter stype=sprite14 win=False 
+    	SpriteCounter stype=sprite20 limit=0 win=False 
+    	Timeout win=True limit=50

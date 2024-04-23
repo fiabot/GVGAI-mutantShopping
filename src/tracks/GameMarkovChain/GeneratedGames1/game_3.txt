@@ -1,0 +1,61 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable invisible=True hidden=True 
+    	sprite1 > Immovable img=oryx/mushroom2 autotiling=True hidden=True 
+    	sprite2 > Immovable color=GRAY img=oryx/backBlack 
+    	sprite3 > Missile orientation=LEFT color=RED cooldown=4 speed=0.7 img=oryx/bullet2 
+    	sprite3 > ShootAvatar stype=sprite3 healthPoints=1 img=oryx/spaceship1 frameRate=8 
+    	sprite5 > Immovable color=DARKBLUE 
+    	sprite6 > Immovable img=oryx/backGrey 
+    	sprite7 > Immovable img=newset/water2 
+    	sprite8 > Flicker 
+    	sprite9 > ShootAvatar stype=sprite8 color=YELLOW img=oryx/axeman1 frameRate=8 
+    	sprite10 > OrientedAvatar healthPoints=20 img=oryx/yeti2 speed=0.5 
+    	sprite10 > Fleeing speed=0.9 stype=sprite10 color=BLUE img=oryx/bird1 
+    	sprite10 > PathChaser img=oryx/bird1 stype=sprite10 
+    	sprite13 > PathChaser stype=sprite5 img=newset/cursedman cooldown=4 
+    	sprite14 > Immovable autotiling=true img=oryx/grass 
+    	sprite15 > Immovable img=oryx/backBiege 
+    	sprite16 > Immovable img=oryx/door2 
+    	sprite17 > Immovable color=GRAY img=oryx/slime3 hidden=True 
+    	sprite18 > Chaser stype=sprite5 cooldown=6 color=PINK img=newset/waiter frameRate=8 shrinkfactor=0.75 
+    	sprite18 > SpawnPoint img=oryx/spike3 stype=sprite18 prob=1 
+    	sprite20 > Immovable img=newset/blockY autotiling=True 
+    	sprite21 > MovingAvatar speed=1.0 img=newset/girl4 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite3
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite10
+    	M > sprite10
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite18
+    	U > sprite20
+    	V > sprite21
+
+    InteractionSet
+    	sprite21 sprite5  > transformTo stype=sprite16 
+    	sprite21 sprite2  > stepBack 
+    	sprite21 sprite17  > killSprite scoreChange=2 
+    	sprite21 sprite6  > transformTo stype=sprite14 
+    	sprite21 sprite1 sprite5 EOSsprite15  > stepBack 
+    	sprite21 sprite1  > stepBack 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite14 limit=2 win=True min=True 
+    	SpriteCounter stype=sprite3 win=False 
+    	Timeout win=True limit=50

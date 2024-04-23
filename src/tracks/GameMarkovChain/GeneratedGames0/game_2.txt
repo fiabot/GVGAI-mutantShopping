@@ -1,0 +1,46 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable orientation=LEFT color=GREEN img=newset/tile1 
+    	sprite1 > Immovable img=oryx/fire1 
+    	sprite2 > Immovable invisible=True 
+    	sprite3 > Immovable img=oryx/bookRight 
+    	sprite4 > Immovable color=GREEN img=oryx/backLBrown 
+    	sprite5 > Immovable img=oryx/slime1 autotiling=True 
+    	sprite6 > Immovable img=oryx/diamond1 
+    	sprite7 > Immovable img=oryx/backGrey 
+    	sprite8 > Flicker limit=5 singleton=True img=oryx/circleEffect1 shrinkfactor=0.5 
+    	sprite8 > ShootAvatar ammo=pickaxe cooldown=2 stype=sprite8 img=oryx/swordman1 
+    	sprite10 > Door color=GREEN img=oryx/dooropen1 
+    	sprite12 > MovingAvatar img=newset/man2 
+    	sprite14 > Passive img=oryx/bookLeft 
+    	sprite16 > Missile orientation=RIGHT speed=0.5 color=RED img=newset/car2 
+    	sprite17 > OrientedAvatar img=newset/girl2 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite8
+    	K > sprite10
+    	L > sprite12
+    	M > sprite14
+    	N > sprite16
+    	O > sprite17
+
+    InteractionSet
+    	sprite10 sprite12  > killSprite 
+    	sprite14 sprite4  > undoAll 
+    	sprite7 sprite3  > transformTo stype=sprite16 
+    	sprite17 sprite14  > shieldFrom ftype=killSprite stype=sprite4 
+    	sprite17 sprite14  > killSprite 
+
+    TerminationSet
+    	Timeout limit=1000 win=False 
+    	SpriteCounter stype=sprite3 limit=0 win=True 
+    	Timeout win=True limit=50

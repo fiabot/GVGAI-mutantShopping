@@ -1,0 +1,60 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/jaildoor1 autotiling=True 
+    	sprite1 > SpawnPointMultiSprite prob=0.8 cooldown=20 stypes=missileU,missileD color=PINK img=newset/lasercannon 
+    	sprite2 > SpawnPointMultiSprite prob=0.8 cooldown=20 stypes=missileU,missileD color=PINK img=newset/lasercannon 
+    	sprite3 > SpawnPointMultiSprite prob=0.8 cooldown=20 stypes=missileU,missileD color=PINK img=newset/lasercannon_1 
+    	sprite4 > Missile img=newset/fuel speed=0.7 shrinkfactor=0.3 
+    	sprite5 > ShootAvatar orientation=LEFT stype=sprite4 img=oryx/spaceship1 
+    	sprite6 > Chaser stype=sprite0 color=YELLOW speed=0.1 img=newset/waiter 
+    	sprite7 > Chaser speed=0.9 color=ORANGE img=oryx/sparkle4 stype=sprite6 
+    	sprite8 > Chaser stype=sprite7 cooldown=5 speed=0.1 color=ORANGE img=newset/man2 
+    	sprite9 > BomberRandomMissile speed=0 img=oryx/bat1 stypeMissile=breakableBarrelL,toughBarrelL prob=0.01 healthPoints=20 limitHealthPoints=10 
+    	sprite10 > BomberRandomMissile invisible=True hidden=True stypeMissile=ability1,ability4 cooldown=20 prob=0.5 total=400 
+    	sprite11 > BomberRandomMissile stypeMissile=ability0,ability4 cooldown=50 invisible=True hidden=True 
+    	sprite12 > SpawnPoint stype=sprite4 total=6 shrinkfactor=0.6 img=oryx/spike3 
+    	sprite13 > SpawnPoint img=oryx/slash1 stype=sprite12 
+    	sprite14 > SpawnPoint invisible=True hidden=True stype=sprite13 cooldown=20 total=5 img=oryx/dooropen1 
+    	sprite15 > SpawnPoint stype=sprite14 total=10 cooldown=2 img=newset/lasercannon_2 
+    	sprite16 > Missile img=newset/block3 speed=0.35 orientation=DLEFT 
+    	sprite17 > Missile color=BROWN speed=0.6 img=oryx/icedown1 
+    	sprite18 > Missile orientation=DOWN color=GRAY speed=0.05 img=newset/block3 
+    	sprite19 > FlakAvatar stype=sprite4 img=oryx/spaceship1 
+    	sprite20 > Bomber prob=0.15 cooldown=6 speed=0.6 orientation=UP spawnorientation=RIGHT stype=sprite17 img=newset/bandit1 
+    	sprite21 > MovingAvatar speed=1.0 img=newset/camel5 frameRate=8 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+
+    InteractionSet
+    	sprite16 EOS > killSprite 
+    	sprite19 sprite16  > killSprite scoreChange=-1 
+    	sprite17 sprite4  > killSprite 
+    	sprite20 EOS > killSprite 
+    	sprite17 sprite19  > killSprite scoreChange=-1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite21 limit=0 win=True 
+    	SpriteCounter stype=sprite21 limit=0 win=False 
+    	Timeout win=True limit=50

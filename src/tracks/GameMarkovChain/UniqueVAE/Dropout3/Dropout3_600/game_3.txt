@@ -1,0 +1,23 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+          immovable2 > Immovable invisible=True hidden=True 
+          immovable3 > Immovable color=PINK img=oryx/sparkle1 
+          movingavatar0 > MovingAvatar MovingAvatar 
+              movingavatar1 > img=newset/girl1 
+              movingavatar2 > img=oryx/wall1 
+  
+      LevelMapping 
+          . > immovable0 
+          A > immovable0 shootavatar0 
+          l > immovable0 spawnpoint4 
+          r > immovable0 spawnpoint3 
+          u > immovable0 spawnpoint1 
+          d > immovable0 spawnpoint2 
+          g > immovable0 immovable2 
+          t > immovable0 immovable1 
+          p > immovable0 immovable1 
+          . > immovable0 
+          w > immovable0 immovable4 
+          A > immovable0 avatar 

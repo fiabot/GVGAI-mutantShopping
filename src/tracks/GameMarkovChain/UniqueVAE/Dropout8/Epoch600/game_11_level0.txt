@@ -1,0 +1,20 @@
+LevelMapping
+    a > missile3 
+    b > avatar 
+
+LevelDescription
+           
+           
+           
+           
+         a 
+           
+           
+           
+           
+           
+           
+           
+        b  
+           
+           

@@ -1,0 +1,57 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=LIGHTGREEN img=oryx/door2 
+    	sprite1 > Spreader img=newset/water color=ORANGE spreadprob=1 stype=sprite0 
+    	sprite2 > Immovable img=newset/lock1 hidden=True 
+    	sprite3 > Immovable singleton=True speed=0.25 img=oryx/doorclosed1 
+    	sprite4 > Immovable img=oryx/floorTileOrange 
+    	sprite5 > Immovable img=oryx/space4 
+    	sprite6 > Flicker shrinkfactor=0.7 color=BLUE limit=5 img=oryx/cspell5 
+    	sprite7 > Missile color=BLUE shrinkfactor=0.5 speed=0.15 orientation=DOWN img=oryx/bullet1 
+    	sprite7 > ShootAvatar stype=sprite7 color=YELLOW img=oryx/spelunky 
+    	sprite9 > Missile color=YELLOW speed=0.5 frameRate=7 orientation=RIGHT img=oryx/firedown1 
+    	sprite10 > Missile img=newset/camel2 orientation=DOWN speed=0.5 color=RED 
+    	sprite11 > SpawnPoint img=newset/lasercannon_3 stype=sprite10 
+    	sprite12 > BomberRandomMissile stypeMissile=ability0,ability4 cooldown=50 invisible=True hidden=True 
+    	sprite12 > Chaser speed=0.1 img=newset/man2 stype=sprite12 singleton=True 
+    	sprite12 > SpawnPoint invisible=True hidden=True img=newset/lasercannon_1 stype=sprite12 cooldown=50 total=5 
+    	sprite15 > Spreader color=ORANGE spreadprob=0.6 stype=sprite3 img=newset/water 
+    	sprite16 > Immovable img=newset/jail 
+    	sprite17 > Immovable invisible=True hidden=True 
+    	sprite18 > Immovable img=oryx/seaWater orientation=DOWN img=newset/dock1 
+    	sprite19 > MovingAvatar speed=1.0 img=newset/man2 
+    	sprite21 > OrientedAvatar rotateInPlace=false speed=0.5 color=YELLOW img=oryx/vampire1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite7
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite12
+    	O > sprite12
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite21
+
+    InteractionSet
+    	sprite9 sprite19  > killSprite 
+    	sprite2 sprite7  > transformToSingleton stype=sprite0 stype_other=sprite2 takeOrientation=True 
+    	sprite9 sprite3  > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite7 limit=0 win=False 
+    	Timeout limit=1500 win=True 
+    	SpriteCounter stype=sprite21 win=False 
+    	Timeout win=True limit=50

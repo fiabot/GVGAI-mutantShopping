@@ -1,0 +1,96 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/space2 
+    	sprite1 > Immovable invisible=True hidden=True orientation=UP img=oryx/slime1 
+    	sprite2 > Missile cooldown=2 img=newset/tank_blueD 
+    	sprite2 > ShootAvatar stype=sprite2 img=newset/man3 frameRate=8 
+    	sprite4 > Missile physicstype=CONT gravity=0.5 speed=0.45 shrinkfactor=0.5 img=newset/camel3 orientation=RIGHT 
+    	sprite5 > Missile img=newset/camel3 shrinkfactor=0.7 speed=0.45 
+    	sprite6 > Missile img=newset/laser1_1 speed=0.1 
+    	sprite7 > Missile orientation=LEFT color=RED speed=0.5 img=newset/laser1 shrinkfactor=0.5 
+    	sprite8 > Missile orientation=DOWN speed=0.5 color=YELLOW img=oryx/barrel1 
+    	sprite9 > Immovable img=oryx/tombstone1 
+    	sprite10 > Resource color=YELLOW limit=8 img=oryx/key2 shrinkfactor=0.9 
+    	sprite11 > Resource limit=10 value=1 shrinkfactor=0.7 img=oryx/boots2 
+    	sprite12 > Missile color=YELLOW speed=0.5 img=newset/exit2 shrinkfactor=0.5 
+    	sprite13 > Flicker limit=5 img=oryx/staff1 
+    	sprite13 > ShootAvatar stype=sprite13 img=oryx/yeti1 
+    	sprite15 > ShootAvatar stype=sprite12 img=oryx/axeman1 
+    	sprite16 > Chaser stype=sprite0 color=YELLOW speed=0.1 img=oryx/bat1 
+    	sprite17 > Chaser speed=0.9 stype=sprite1 img=newset/waiter 
+    	sprite18 > MovingAvatar shrinkfactor=0.8 img=oryx/spelunky_0 
+    	sprite19 > Immovable invisible=True hidden=True orientation=UP img=oryx/wall3 
+    	sprite20 > SpawnPoint stype=sprite6 cooldown=10 img=newset/whirlpool2 portal=True 
+    	sprite21 > Spreader color=ORANGE spreadprob=1.0 stype=sprite9 img=oryx/fire1 
+    	sprite21 > SpawnPoint total=5 cooldown=10 stype=sprite21 img=newset/whirlpool2 portal=True 
+    	sprite23 > SpawnPoint img=oryx/dooropen1 stype=sprite2 
+    	sprite24 > MovingAvatar img=oryx/spelunky_0 
+    	sprite25 > Immovable img=oryx/wall3 autotiling=True hidden=True 
+    	sprite26 > Immovable img=dirt 
+    	sprite27 > Immovable img=oryx/seaWater autotiling=True 
+    	sprite28 > Resource limit=1 img=oryx/diamond2 singleton=True 
+    	sprite29 > Passive img=newset/tuna 
+    	sprite31 > Door color=GREEN img=oryx/doorclosed1 
+    	sprite32 > Fleeing stype=sprite18 speed=0.9 img=newset/yellowthug frameRate=5 
+    	sprite33 > Bomber prob=0.05 cooldown=6 speed=1 img=newset/whale orientation=LEFT spawnorientation=LEFT stype=sprite6 
+    	sprite34 > FlakAvatar stype=sprite5 physicstype=CONT friction=0.2 img=oryx/floor3 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite2
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite13
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite21
+    	Y > sprite23
+    	Z > sprite24
+    	a > sprite25
+    	b > sprite26
+    	c > sprite27
+    	d > sprite28
+    	e > sprite29
+    	f > sprite31
+    	g > sprite32
+    	h > sprite33
+    	i > sprite34
+
+    InteractionSet
+    	sprite9 sprite23  > killSprite 
+    	sprite29 sprite8  > stepBack 
+    	sprite23 sprite29 sprite1  > killSprite scoreChange=1 
+    	sprite7 sprite21  > attractGaze 
+    	sprite20 sprite13  > transformTo stype=sprite7 
+    	sprite2 sprite27  > transformToAll stype=sprite27 stypeTo=sprite31 
+    	sprite8 sprite31  > transformTo stype=sprite24 scoreChange=5 
+    	sprite18 sprite1  > transformToAll stype=sprite29 stypeTo=sprite32 
+    	sprite24 sprite19  > transformTo stype=sprite19 
+    	sprite6 sprite27 sprite0  > stepBack 
+    	sprite18 sprite9  > stepBack 
+    	sprite24 sprite27  > spawnIfHasMore resource=sprite20 limit=2 stype=sprite11 
+    	sprite18 sprite1  > stepBack 
+    	sprite8 sprite31  > transformTo stype=sprite33 scoreChange=-1 
+    	sprite20 sprite13  > transformTo stype=sprite0 
+    	sprite29 sprite15  > killSprite scoreChange=-10 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite9 limit=1 win=True 
+    	SpriteCounter stype=sprite13 limit=0 win=False 
+    	SpriteCounter stype=sprite34 limit=0 win=True 
+    	Timeout win=True limit=50

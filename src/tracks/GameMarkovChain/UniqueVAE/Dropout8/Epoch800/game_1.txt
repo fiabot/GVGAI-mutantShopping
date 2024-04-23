@@ -1,0 +1,93 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=RED   color=ORANGE 
+              immovable4   >   color=ORANGE 
+  
+          bomber0    > Bomber    stype=bomber1    total=20   cooldown=3  
+              missileavatar0    > orientation=RIGHT speed=0.3   img=newset/camel2 
+              chaser3 > speed=0.4 
+                      missile8 > Chaser speed=0.3 speed=0.25 speed=0.6 speed=0.4 
+              missileavatar0 > MissileAvatar img=oryx/bat1 
+                  missileavatar1   > color=RED 
+  
+          immovable2   > SpawnPoint    stype=bomber2   cooldown=10   cooldown=10 invisible=True hidden=True 
+          spawnpoint1   > SpawnPoint    stype=bomber2   cooldown=10 prob=0.15 invisible=True hidden=True 
+  
+          resource0   > Resource color=GOLD limit=4  
+          immovable2 > Immovable 
+              immovable3 > Immovable img=newset/bomb 
+              immovable4 > Immovable img=newset/bomb 
+              immovable5 > Immovable img=newset/bomb 
+              immovable6 > Immovable img=newset/bomb 
+              immovable8 > Immovable img=newset/bomb 
+              immovable11 > Immovable img=newset/bomb 
+              immovable9 > Immovable img=newset/bomb 
+              immovable10 > Immovable img=newset/bomb 
+              immovable11 > Immovable img=newset/bomb 
+          orientedflicker0 > OrientedFlicker limit=5 speed=0.5 
+              spawnpoint2 > orientation=LEFT 
+              immovable12 > orientation=LEFT 
+  
+  
+          parent0 > 
+              parent0 > 
+              parent2 > orientation=LEFT 
+                  missile3 > orientation=LEFT 
+  
+  
+          immovable18 > SpawnPoint stype=movingavatar0 
+              spawnpoint6   > orientation=UP 
+              spawnpoint2 > img=newset/lasercannon_2 stype=missile4 
+              chaser2 > orientation=UP 
+              parent3 > img=newset/lasercannon_4 
+  
+          missile4 > Missile orientation=DOWN speed=0.25 img=oryx/goldsack shrinkfactor=0.5 
+          missile3 > Missile orientation=DOWN 
+          missile3 > Missile orientation=DOWN 
+          missile3 > Missile 
+              missile3 > orientation=UP 
+              missile4 > orientation=RIGHT 
+              missile5 > orientation=RIGHT 
+              missile5 > orientation=LEFT 
+              parent4 > 
+              movingavatar0 > MovingAvatar 
+                  missile2 
+      immovable4 > Immovable 
+          immovable2   > color=YELLOW   shrinkfactor=0.5 
+          immovable3 > Immovable img=oryx/wall3 autotiling=True 
+  
+      LevelMapping 
+          . > immovable0 
+          b > passive0 immovable0 
+          c > parent6 immovable0 
+          c > parent7 immovable0 
+          u > immovable3 immovable8 
+          g > immovable3 immovable4 
+          A > movingavatar0 immovable0 
+          w > immovable4 immovable0 
+          A > movingavatar0 immovable0 
+  
+      InteractionSet 
+  
+          movingavatar0 immovable4 > stepBack 
+          movingavatar1 immovable5 > bounceForward 
+          platformeravatar0 immovable4 immovable0 > wallStop 
+          platformeravatar0 immovable4 > stepBack 
+           
+          resource0 orientedavatar0 > stepBack 
+          passive0 orientedavatar0 > bounceForward 
+          passive0 passive0 immovable11 spawnpoint0    immovable2 immovable3 passive1  
+          passive0 immovable7 passive0 immovable3 missile0 > undoAll 
+           
+          passive1 immovable2 > killBoth scoreChange=1 
+          immovable3 immovable2 > transformTo stype=movingavatar2 
+          passive0 immovable1 > killBoth 
+          immovable1 movingavatar0 > killSprite scoreChange=5 
+  
+      TerminationSet 
+          SpriteCounter stype=immovable3 limit=0 win=False 
+          SpriteCounter stype=immovable2 limit=0 win=True 
+          Timeout limit=1000 win=False 

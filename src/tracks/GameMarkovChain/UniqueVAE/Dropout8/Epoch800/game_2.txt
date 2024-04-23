@@ -1,0 +1,52 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=RED   color=ORANGE 
+              immovable4   >   color=ORANGE   
+  
+          orientedflicker0 > OrientedFlicker limit=5 singleton=True img=oryx/bullet1 
+              parent0 > 
+              parent1 > 
+                  missile2 > RandomNPC cooldown=5 stype=movingavatar0 
+                  missile8 > orientation=RIGHT 
+              missile5 > orientation=LEFT 
+                  missile8 > orientation=LEFT 
+                  missile8 > orientation=LEFT 
+              missile5 > orientation=LEFT speed=0.3 
+  
+          bomber0 > Bomber 
+              bomber1 > orientation=LEFT spawnorientation=DOWN speed=0.25 stype=missile2 
+  
+          missile3 > Missile orientation=DOWN 
+          missile3 > Missile orientation=DOWN 
+              immovable4 > Immovable img=newset/bomb 
+              
+              > Passive   orientation=DOWN 
+              missile3 > Missile orientation=DOWN   speed=0.5 
+              missile3 > orientation=RIGHT 
+              missile4 > orientation=LEFT img=newset/laser3 
+  
+          missile5 > Missile color=BLUE singleton=True img=oryx/orb2 shrinkfactor=0.3 
+          immovable2 > Immovable img=oryx/dirtwall autotiling=True 
+  
+      LevelMapping 
+          . > immovable0 
+          A > immovable0 shootavatar0 
+          b > immovable0 passive0 
+          c > immovable0 randomnpc1 
+          + > immovable0 
+          A > immovable0 shootavatar0 
+          l > immovable0 spawnpoint4 
+          l > immovable0 spawnpoint4 
+          l > immovable0 spawnpoint4 
+          1 > immovable0 spawnpoint1 
+          3 > immovable0 spawnpoint1 
+          4 > immovable0 passive4 
+          k > immovable0 resource0 
+          w > immovable0 immovable2 
+          w > immovable0 
+          + > immovable0 
+          A > immovable0 movingavatar0 
+          w > wall 

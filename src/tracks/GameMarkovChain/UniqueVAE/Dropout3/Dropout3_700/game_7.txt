@@ -1,0 +1,57 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True img=oryx/grass autotiling=True 
+          immovable1 > Immovable color=BROWN img=oryx/backLBrown 
+              parent0 > 
+              parent1    > 
+                  randomnpc0   > Chaser stype=immovable1 color=ORANGE 
+                  chaser0   > Chaser speed=0.5 color=ORANGE 
+                  missile0    > Missile orientation=LEFT 
+                  missile2 > orientation=LEFT 
+                  missile3 > speed=1.0 
+                  missile4 > orientation=LEFT 
+  
+  
+          parent0 > 
+              parent1 > 
+                  ongoingshootavatar0   > speed=0.2   color=ORANGE   color=ORANGE 
+                  randomnpc3 > RandomNPC cooldown=2 cons=2 invisible=True hidden=True 
+                  randomnpc3 > orientation=DOWN color=RED cooldown=2 cons=2 
+                  missileavatar2 > orientation=UP 
+                  missileavatar2 > orientation=DOWN 
+                  parent2 > 
+                  parent2 > 
+                  parent4 > 
+                  parent5 > 
+                  parent6 > speed=0.25 
+  
+  
+          parent0 > 
+              parent1 > 
+                  ongoingshootavatar0 > speed=1.0 
+                  shootavatar0 > ShootAvatar stype=flicker0 img=newset/man3 
+                  parent1 > 
+  
+      TerminationSet 
+          SpriteCounter stype=flakavatar0 limit=0 win=True 
+          SpriteCounter stype=passive1   win=True 
+          Timeout limit=1000 win=True 
+  
+      InteractionSet 
+          parent0     > reverseDirection 
+          parent0 immovable12 > stepBack 
+          parent0 immovable13 > stepBack 
+          parent0 parent1 > stepBack 
+  
+          parent0 orientedflicker0 > killSprite scoreChange=1 
+          immovable13 orientedflicker0 > killSprite scoreChange=1 
+          orientedflicker0 immovable12 > killSprite 
+          immovable2 movingavatar0 > killSprite scoreChange=1 
+  
+          door0 movingavatar0 > killSprite scoreChange=1 
+          movingavatar0 immovable3 > stepBack 
+  
+      TerminationSet 
+          SpriteCounter stype=movingavatar0 limit=0 win=False 
+          SpriteCounter stype=door0 limit=0 win=True 
+          Timeout limit=1000 win=False 

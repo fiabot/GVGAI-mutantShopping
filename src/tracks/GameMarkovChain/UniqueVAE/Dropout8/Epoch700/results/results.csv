@@ -1,0 +1,26 @@
+game, level, playable, do nothing steps, advanced wins, one step wins, random wins, advanced score, one step score, random score
+game_4,game_4_level0, true,2000.0,0,0,0,0.0,0.0,0.0
+game_4,game_4_level1, true,2000.0,0,0,0,0.0,0.0,0.0
+game_4,game_4_level2, true,2000.0,0,0,0,0.0,0.0,0.0
+game_4,game_4_level3, true,2000.0,0,0,0,0.0,0.0,0.0
+game_4,game_4_level4, true,2000.0,0,0,0,0.0,0.0,0.0
+game_3,game_3_level0, true,2000.0,0,0,0,0.0,0.0,0.0
+game_3,game_3_level1, true,2000.0,0,0,0,0.0,0.0,0.0
+game_3,game_3_level2, true,2000.0,0,0,0,0.0,0.0,0.0
+game_3,game_3_level3, true,2000.0,0,0,0,0.0,0.0,0.0
+game_3,game_3_level4, true,2000.0,0,0,0,0.0,0.0,0.0
+game_0,game_0_level0, true,2000.0,0,0,0,0.0,0.0,0.0
+game_0,game_0_level1, true,2000.0,0,0,0,0.0,0.0,0.0
+game_0,game_0_level2, true,2000.0,0,0,0,0.0,0.0,0.0
+game_0,game_0_level3, true,2000.0,0,0,0,0.0,0.0,0.0
+game_0,game_0_level4, true,2000.0,0,0,0,0.0,0.0,0.0
+game_1,game_1_level0, true,2000.0,0,0,0,0.0,0.0,0.0
+game_1,game_1_level1, true,2000.0,0,0,0,0.0,0.0,0.0
+game_1,game_1_level2, true,2000.0,0,0,0,0.0,0.0,0.0
+game_1,game_1_level3, true,2000.0,0,0,0,0.0,0.0,0.0
+game_1,game_1_level4, true,2000.0,0,0,0,0.0,0.0,0.0
+game_2,game_2_level0, true,2000.0,0,0,0,0.0,0.0,0.0
+game_2,game_2_level1, true,2000.0,0,0,0,0.0,0.0,0.0
+game_2,game_2_level2, true,2000.0,0,0,0,0.0,0.0,0.0
+game_2,game_2_level3, true,2000.0,0,0,0,0.0,0.0,0.0
+game_2,game_2_level4, true,2000.0,0,0,0,0.0,0.0,0.0

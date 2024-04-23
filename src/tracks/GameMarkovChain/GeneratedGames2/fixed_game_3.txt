@@ -1,0 +1,47 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/backOBrown hidden=True 
+		avatar > 
+			sprite17 > OrientedAvatar healthPoints=20 img=oryx/spelunky speed=0.5 
+			sprite2 > MovingAvatar speed=1.0 img=newset/man3_satright img=newset/man2 
+    	sprite7 > Immovable img=oryx/treasure2 hidden=True 
+    	sprite9 > Immovable solid=False color=DARKBLUE 
+    	sprite19 > Passive img=newset/block2 
+		enemy > 
+			enemy1 > 
+				sprite18 > RandomPathAltChaser singleton=True stype1=sprite17 stype2=sprite2 cooldown=4 img=oryx/ghost5 cons=4 
+				sprite20 > Fleeing stype=avatar speed=0.9 img=newset/bossthug frameRate=12 
+			enemy2 > 
+				sprite13 > Missile orientation=RIGHT color=RED speed=0.2 img=newset/laser3 shrinkfactor=1.2 
+				sprite14 > Bomber prob=0.04 cooldown=6 speed=1 orientation=RIGHT spawnorientation=UP stype=sprite13 img=newset/bandit1 
+		sprite15 > SpawnPoint invisible=True hidden=True stype=sprite14 cooldown=20 total=10 
+		
+
+    LevelMapping
+    	w > sprite0
+    	C > sprite2
+    	H > sprite7
+    	J > sprite9
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+
+    InteractionSet
+    	avatar sprite0  > stepBack 
+		enemy sprite0 > killSprite  
+    	sprite2 sprite9  > transformTo stype=sprite17 scoreChange=1
+    	sprite17 sprite7  > stepBack 
+    	sprite17 sprite9  > transformTo stype=sprite2 scoreChange=-2 
+    	sprite7 avatar  > killSprite scoreChange=5
+    	sprite17 sprite9  > addTimer timer=200 ftype=transformToAll stype=sprite20 stypeTo=sprite18 killSecond=True 
+    	avatar sprite7  > transformToAll stype=enemy1 stypeTo=sprite19 
+		avatar sprite7  > addTimer timer=200 ftype=transformToAll stype=sprite19 stypeTo=sprite20 killSecond=True
+		avatar enemy  > killSprite scoreChange=-5
+
+    TerminationSet
+    	Timeout limit=1500 win=True
+    	SpriteCounter stype=avatar limit=0 win=False

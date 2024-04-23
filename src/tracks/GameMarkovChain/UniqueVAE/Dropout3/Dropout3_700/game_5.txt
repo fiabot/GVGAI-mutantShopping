@@ -1,0 +1,71 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True img=oryx/grass autotiling=True 
+          immovable1 > Immovable color=BROWN img=oryx/backLBrown 
+              parent0 > 
+              parent1    > 
+                  randomnpc0   > Chaser stype=immovable1 color=ORANGE 
+                  chaser0   > Chaser speed=0.5 
+                  missile0    > Missile orientation=LEFT 
+  
+          spawnpoint0 > SpawnPoint stype=chaser0   cooldown=16 img=oryx/dooropen1 portal=True 
+          immovable3 > Immovable img=oryx/dooropen1 portal=True 
+          immovable3 > Immovable invisible=True hidden=True 
+           
+          immovable2    > Immovable color=DARKBLUE img=oryx/cspell4 
+          passive0     > Passive img=newset/block3 
+          immovable4 > Immovable img=oryx/spike2 
+          parent0 > 
+  
+          parent1 > 
+              parent1 > 
+                  ongoingshootavatar0   > speed=0.2   color=ORANGE 
+                  fleeing0 > orientation=LEFT speed=0.2 color=ORANGE   singleton=True 
+                  immovable2 > Immovable color=BLUE 
+              parent3 > 
+                  parent4 > 
+  
+          immovable6 > Immovable img=oryx/dooropen1 
+          immovable7 > Immovable color=GREEN img=oryx/dooropen1 portal=True 
+          door0 > Door color=GREEN img=newset/exit2 
+  
+          resource0 > Resource img=oryx/gold1 shrinkfactor=0.5 
+              movingavatar0 > MovingAvatar 
+              movingavatar2 > speed=0.25 
+              missileavatar0 > speed=0.25 img=oryx/goldsack 
+              missileavatar0 > speed=0.0 
+                  missileavatar2 > img=newset/block3 
+  
+          movingavatar0 > MovingAvatar img=newset/girl1 
+          movingavatar0 > MovingAvatar 
+              movingavatar1 > movingavatar1 
+              movingavatar2 > img=newset/girl2 
+              movingavatar3 > img=newset/girl1 
+  
+  
+      TerminationSet 
+          SpriteCounter stype=immovable1    win=False 
+          SpriteCounter stype=door0    win=True 
+  
+      InteractionSet 
+          shootavatar0 wall EOS > stepBack 
+          immovable0 randomnpc0 > stepBack 
+  
+          shootavatar0 immovable0 > killSprite scoreChange=-10 
+  
+          immovable10 flicker0 > killSprite 
+  
+          spawnpoint2 flicker0 > transformTo stype=spawnpoint5 
+          spawnpoint4 flicker0 > transformTo stype=spawnpoint2 
+          spawnpoint1 flicker0 > transformTo stype=spawnpoint4 
+          spawnpoint3 flicker0 > transformTo stype=spawnpoint4 
+          spawnpoint3 flicker0 > transformTo stype=spawnpoint1 
+          missile5 flicker0 > transformTo stype=spawnpoint3 
+          flicker0 spawnpoint0 > killSprite 
+  
+      TerminationSet 
+          MultiSpriteCounter stype1=immovable5 limit=1 win=False 
+          SpriteCounter stype=shootavatar0     limit=0 win=False 
+          Timeout limit=1000 win=False 
+          MultiSpriteCounter stype1=immovable5 limit=1 win=False 
+          Timeout limit=1500 win=False 

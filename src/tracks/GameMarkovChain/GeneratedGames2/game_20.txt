@@ -1,0 +1,97 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=LIGHTBLUE img=oryx/backLBrown 
+    	sprite1 > Missile speed=0.5 img=newset/camel2L orientation=RIGHT 
+    	sprite2 > FlakAvatar stype=sprite1 physicstype=CONT friction=0.2 img=newset/girl3 
+    	sprite3 > Missile speed=0.5 color=RED img=newset/piranha1 speed=0.5 img=newset/block3 
+    	sprite4 > Missile orientation=UP speed=0.5 color=BROWN img=newset/laser1 
+    	sprite5 > FlakAvatar rotateInPlace=False stype=sprite1 img=oryx/spaceship1 
+    	sprite6 > Missile color=YELLOW speed=0.1 frameRate=10 orientation=RIGHT img=newset/car4R 
+    	sprite7 > Missile orientation=RIGHT physicstype=CONT img=oryx/barrel1 shrinkfactor=0.8 speed=0.07 
+    	sprite8 > Immovable img=oryx/cspell4 hidden=True 
+    	sprite9 > RandomNPC color=BLUE img=newset/butterfly1 speed=0.25 cons=1 
+    	sprite10 > SpawnPoint img=newset/lasercannon_3 stype=sprite9 
+    	sprite11 > Immovable img=newset/win1 
+    	sprite12 > Immovable img=oryx/backGrey 
+    	sprite13 > MovingAvatar img=newset/girl1 
+    	sprite14 > PathChaser singleton=True stype=sprite9 img=oryx/bird1 cooldown=2 
+    	sprite15 > Door img=oryx/doorclosed1 
+    	sprite16 > Resource limit=1 img=key singleton=True 
+    	sprite17 > MissileAvatar img=oryx/bat1 orientation=UP color=YELLOW 
+    	sprite18 > Portal stype=sprite0 color=LIGHTBLUE img=newset/exit2 
+    	sprite19 > Flicker 
+    	sprite20 > ShootAvatar ammo=weapon cooldown=2 stype=sprite19 img=newset/girl2_c 
+    	sprite21 > OrientedAvatar physicstype=CONT friction=0.02 img=newset/girl2 
+    	sprite22 > Passive img=oryx/gold2 
+    	sprite23 > Fleeing singleton=True stype=sprite21 maxDistance=500 cooldown=2 img=oryx/ghost1 
+    	sprite24 > RandomPathAltChaser singleton=True stype1=sprite21 stype2=sprite21 cooldown=4 img=oryx/ghost4 cons=4 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+
+    InteractionSet
+    	sprite13 sprite12  > transformTo stype=sprite14 
+    	sprite13 sprite0  > stepBack 
+    	sprite13 sprite15  > transformTo stype=sprite13 
+    	sprite13 sprite0  > spawnIfHasMore resource=sprite16 limit=1 stype=sprite11 
+    	sprite17 sprite12  > transformTo stype=sprite1 
+    	sprite13 sprite8  > killAll stype=sprite15 scoreChange=8 
+    	sprite18 sprite13  > killSprite scoreChange=-1 
+    	sprite13 sprite8  > killIfHasLess resource=sprite16 limit=0 
+    	sprite13 sprite11  > killAll stype=sprite15 scoreChange=8 
+    	sprite17 sprite8  > transformTo stype=sprite20 scoreChange=1 
+    	sprite21 sprite7  > subtractHealthPoints scoreChange=-1 
+    	sprite21 sprite4 sprite7  > pullWithIt pixelPerfect=True 
+    	sprite0 sprite21  > killSprite scoreChange=1 
+    	sprite21 sprite8  > killSprite scoreChange=250 
+    	sprite0 sprite21  > killSprite scoreChange=1 
+    	sprite21 sprite1  > subtractHealthPoints value=1 
+    	sprite21 sprite12  > transformToAll stype=sprite22 stypeTo=sprite22 nextExecution=300 timer=500 repeating=False 
+    	sprite0 sprite21  > killSprite 
+    	sprite3 sprite12  > transformTo stype=sprite13 
+    	sprite21 sprite11  > transformToAll stype=sprite22 stypeTo=sprite8 
+    	sprite21 sprite8  > addTimer timer=2 ftype=transformToAll stype=sprite23 stypeTo=sprite24 killSecond=True 
+    	sprite1 sprite15  > transformTo stype=sprite7 
+    	sprite7 sprite15  > transformTo stype=sprite11 
+    	sprite7 sprite8 sprite11  > stepBack 
+    	sprite13 sprite0  > killSprite scoreChange=-1 
+    	sprite7 sprite15  > transformTo stype=sprite4 scoreChange=-1 
+    	sprite13 sprite0  > changeResource resource=sprite16 value=1 killResource=True 
+    	sprite7 sprite15  > transformTo stype=sprite7 
+    	sprite6 sprite15  > transformTo stype=sprite10 scoreChange=-1 
+    	sprite1 sprite15  > transformTo stype=sprite22 
+    	sprite13 sprite11  > stepBack 
+    	sprite7 sprite15  > transformTo stype=sprite11 
+    	sprite3 sprite15  > transformTo stype=sprite11 
+    	sprite4 sprite15  > transformTo stype=sprite17 scoreChange=100 
+    	sprite1 sprite11 sprite12  > stepBack 
+
+    TerminationSet
+    	SpriteCounterMore stype=sprite12 limit=1 win=False 
+    	SpriteCounter stype=sprite22 limit=0 win=True 
+    	SpriteCounter stype=sprite5 limit=0 win=True 
+    	Timeout win=True limit=50

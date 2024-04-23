@@ -1,0 +1,68 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/backBlack autotiling=True 
+    	sprite1 > Immovable img=oryx/wall6 
+    	sprite2 > Immovable color=BLUE img=oryx/space1 
+    	sprite3 > Missile speed=0.25 img=newset/cloud2 orientation=LEFT 
+    	sprite4 > SpawnPoint stype=sprite3 total=40 shrinkfactor=0.6 img=newset/whirlpool2 
+    	sprite5 > ShootAvatar stype=sprite3 frameRate=8 img=newset/girl2 
+    	sprite6 > Immovable color=LIGHTBLUE img=oryx/key1 
+    	sprite7 > Passive img=newset/block3 
+    	sprite8 > Passive color=BLUE portal=True img=newset/block2 
+    	sprite9 > Immovable color=LIGHTORANGE shrinkfactor=0.7 img=newset/street2 
+    	sprite10 > Immovable color=ORANGE img=oryx/floor3 img=oryx/dirtwall 
+    	sprite11 > ShootAvatar stype=sprite3 img=oryx/axeman1 rotateInPlace=False 
+    	sprite12 > Missile physicstype=CONT gravity=0.5 speed=0.25 img=oryx/bush1 orientation=RIGHT 
+    	sprite13 > Missile color=GRAY speed=0.7 frameRate=10 orientation=UP img=newset/laser1_1 
+    	sprite14 > Missile img=oryx/gold1 shrinkfactor=0.5 speed=0.5 
+    	sprite15 > Missile orientation=LEFT speed=0.1 color=YELLOW shrinkfactor=0.3 img=oryx/bullet1 
+    	sprite16 > Missile img=newset/laser1_1 orientation=LEFT speed=0.25 color=BROWN 
+    	sprite17 > MovingAvatar img=newset/man3_satright 
+    	sprite18 > Portal color=LIGHTBLUE img=oryx/circleEffect1 singleton=True portal=True stype=sprite2 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+
+    InteractionSet
+    	sprite13 EOS > killSprite 
+    	sprite17 sprite13  > subtractHealthPoints 
+    	sprite17 sprite13  > addHealthPoints value=10 
+    	sprite18 sprite17  > killSprite 
+    	sprite17 sprite2 sprite0  > stepBack 
+    	sprite17 sprite3  > spawn stype=sprite9 
+    	sprite17 sprite2 sprite2  > stepBack 
+    	sprite17 sprite18  > teleportToExit 
+    	sprite17 sprite16  > spawn stype=sprite10 
+    	sprite18 sprite17  > killSprite scoreChange=2 
+    	sprite17 sprite18  > teleportToExit 
+    	sprite17 sprite13  > transformTo stype=sprite6 killSecond=True 
+    	sprite17 sprite18  > teleportToExit scoreChange=1 
+    	sprite17 sprite18  > teleportToExit 
+    	sprite17 sprite12  > subtractHealthPoints value=10 
+    	sprite17 sprite18  > teleportToExit 
+    	sprite17 sprite3  > subtractHealthPoints value=1 
+    	sprite17 sprite18  > teleportToExit 
+    	sprite17 sprite18  > teleportToExit 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite2 stype2=sprite4 limit=0 win=False 
+    	SpriteCounter stype=sprite9 limit=0 win=True 
+    	Timeout win=True limit=50

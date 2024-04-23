@@ -1,0 +1,14 @@
+LevelMapping
+    a > immovable2 
+    b > avatar 
+    c > door0 
+    d > movingavatar0 
+    e > immovable1 
+
+LevelDescription
+aaaaaaaaa
+ab c    a
+a     d a
+a  eaa  a
+a    a  a
+aaaaaaaaa

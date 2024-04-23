@@ -1,0 +1,84 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/chair1 
+    	sprite1 > Immovable img=oryx/backGrey 
+    	sprite2 > Immovable color=LIGHTBLUE img=newset/chair2 orientation=LEFT color=DARKBLUE 
+    	sprite3 > Immovable img=newset/bomb 
+    	sprite4 > Passive img=newset/bomb 
+    	sprite5 > MovingAvatar healthPoints=10 img=newset/girl2 
+    	sprite6 > MovingAvatar img=oryx/knight1 
+    	sprite7 > MissileAvatar img=oryx/bat1 orientation=DOWN color=ORANGE 
+    	sprite8 > MissileAvatar img=oryx/ghost1 orientation=LEFT 
+    	sprite9 > MissileAvatar img=oryx/bat1 orientation=DOWN color=GREEN 
+    	sprite10 > RandomNPC color=ORANGE speed=0.001 img=newset/cursedman cons=6 
+    	sprite11 > RandomNPC speed=0.25 cooldown=2 img=newset/monkey2 cons=12 
+    	sprite12 > Missile healthPoints=10 speed=0.1 shrinkfactor=0.7 img=newset/cloud2 color=RED orientation=LEFT 
+    	sprite13 > Door color=GREEN img=oryx/doorclosed1 
+    	sprite14 > Fleeing singleton=True stype=sprite5 maxDistance=500 cooldown=2 img=oryx/ghost1 
+    	sprite15 > OrientedFlicker limit=5 color=LIGHTGRAY img=oryx/firedown1 shrinkfactor=0.4 
+    	sprite17 > Resource color=LIGHTBLUE 
+    	sprite18 > OrientedAvatar rotateInPlace=false img=newset/pacman color=ORANGE speed=0.4 
+    	sprite18 > RandomPathAltChaser singleton=True stype1=sprite18 stype2=sprite18 cooldown=4 img=oryx/ghost4 cons=4 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite17
+    	R > sprite18
+    	S > sprite18
+
+    InteractionSet
+    	sprite5 sprite1  > killAll stype=sprite13 scoreChange=2 
+    	sprite5 sprite2  > stepBack 
+    	sprite6 sprite1  > stepBack 
+    	sprite5 sprite2  > stepBack 
+    	sprite6 sprite3  > transformTo stype=sprite2 
+    	sprite5 sprite0  > transformToAll stype=sprite4 stypeTo=sprite1 nextExecution=500 timer=500 repeating=False 
+    	sprite5 sprite1  > transformToAll stype=sprite11 stypeTo=sprite14 
+    	sprite11 sprite11  > killSprite scoreChange=1 
+    	sprite11 sprite15  > killSprite 
+    	sprite5 sprite1  > transformTo stype=sprite5 
+    	sprite9 sprite2  > transformTo stype=sprite12 
+    	sprite6 sprite2  > changeResource resource=sprite17 value=1 scoreChange=5 killResource=True 
+    	sprite0 sprite6  > killIfOtherHasMore resource=sprite17 limit=1 scoreChange=2 
+    	sprite1 sprite5  > killSprite 
+    	sprite5 sprite3  > transformToAll stype=sprite3 stypeTo=sprite14 
+    	sprite5 sprite1  > killSprite 
+    	sprite5 sprite1  > killIfHasLess resource=sprite17 limit=0 
+    	sprite6 sprite2  > spawn stype=sprite3 
+    	sprite6 sprite2  > transformTo stype=sprite1 
+    	sprite5 sprite0  > stepBack 
+    	sprite5 sprite2  > killSprite 
+    	sprite5 sprite0  > addHealthPoints value=10 
+    	sprite6 sprite2  > teleportToExit 
+    	sprite9 sprite2  > transformTo stype=sprite12 scoreChange=-5 
+    	sprite5 sprite0  > transformTo stype=sprite0 
+    	sprite2 sprite6  > killSprite 
+    	sprite6 sprite1  > transformToAll stype=sprite18 stypeTo=sprite10 
+    	sprite5 sprite0  > killSprite scoreChange=1 
+    	sprite6 eos > stepBack 
+    	sprite5 sprite2  > stepBack 
+    	sprite6 eos > stepBack 
+    	sprite6 sprite0  > spawnIfHasMore resource=sprite17 limit=4 stype=sprite4 
+    	sprite5 sprite1  > stepBack 
+    	sprite6 sprite1  > transformToAll stype=sprite2 stypeTo=sprite4 nextExecution=300 timer=300 repeating=False 
+    	sprite5 sprite2  > transformTo stype=sprite1 killSecond=True 
+
+    TerminationSet
+    	SpriteCounter stype=sprite3 limit=0 win=False 
+    	SpriteCounter stype=sprite13 win=False 
+    	Timeout win=True limit=50

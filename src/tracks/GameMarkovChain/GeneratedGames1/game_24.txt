@@ -1,0 +1,68 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable invisible=True hidden=True 
+    	sprite1 > Portal color=GREEN img=newset/exit2 singleton=True portal=True stype=sprite0 
+    	sprite2 > Portal color=GREEN img=oryx/circleEffect1 singleton=True portal=True stype=sprite0 
+    	sprite3 > Portal stype=sprite0 color=LIGHTBLUE img=oryx/circleEffect1 
+    	sprite4 > Immovable color=GRAY img=oryx/backLBrown 
+    	sprite5 > Immovable invisible=True hidden=True orientation=RIGHT img=newset/chair3 
+    	sprite6 > Immovable img=oryx/backOBrown 
+    	sprite7 > Immovable img=newset/chair1 hidden=True 
+    	sprite8 > Immovable color=LIGHTGREEN img=newset/floor2 
+    	sprite9 > Immovable color=LIGHTGREEN img=newset/floor6 portal=true 
+    	sprite10 > Immovable img=oryx/cloak3 autotiling=True 
+    	sprite11 > Immovable img=oryx/backGrey 
+    	sprite12 > Immovable img=oryx/backLBrown 
+    	sprite13 > Immovable color=LIGHTGREEN img=newset/tile4 
+    	sprite14 > Immovable img=dirt hidden=True 
+    	sprite15 > Passive img=newset/blockG shrinkfactor=0.7 
+    	sprite17 > Door color=GREEN img=newset/exit2 
+    	sprite18 > MovingAvatar img=oryx/axeman1 frameRate=8 
+    	sprite20 > Resource color=GOLD limit=1 shrinkfactor=0.5 img=newset/egg 
+    	sprite21 > Missile speed=0.5 singleton=True orientation=UP physicstype=CONT img=oryx/bullet2 
+    	sprite22 > OrientedAvatar img=oryx/spelunky rotateInPlace=false speed=1 color=YELLOW 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite17
+    	R > sprite18
+    	S > sprite20
+    	T > sprite21
+    	U > sprite22
+
+    InteractionSet
+    	sprite15 sprite8  > killAll stype=sprite17 scoreChange=1 
+    	sprite18 sprite9  > stepBack 
+    	sprite18 sprite11  > spawn stype=sprite13 
+    	sprite11 sprite18  > killSprite 
+    	sprite0 sprite18  > killIfOtherHasMore resource=sprite20 limit=11 
+    	sprite18 sprite4  > spawn stype=sprite7 prob=0.02 
+    	sprite20 sprite18  > killSprite scoreChange=-10 
+    	sprite18 sprite9  > transformTo stype=sprite21 
+    	sprite6 sprite18  > killIfOtherHasMore resource=sprite20 limit=2 
+    	sprite8 sprite18  > transformTo stype=sprite22 scoreChange=-3 
+    	sprite6 sprite18  > killIfOtherHasMore resource=sprite20 limit=10 
+    	sprite7 sprite18  > killSprite scoreChange=1 
+    	sprite18 sprite13  > killSprite 
+    	sprite7 sprite18  > killIfOtherHasMore resource=sprite20 limit=1 scoreChange=2 
+    	sprite8 sprite18  > killIfOtherHasMore resource=sprite20 limit=9 scoreChange=2 
+
+    TerminationSet
+    	Timeout limit=500 win=True 
+    	SpriteCounter stype=sprite8 limit=0 win=True 
+    	Timeout win=True limit=50

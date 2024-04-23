@@ -1,0 +1,74 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=ORANGE img=oryx/floor3 
+    	sprite1 > Immovable img=newset/blockG 
+    	sprite2 > RandomNPC color=RED speed=0.5 cons=12 img=oryx/bullet1 frameRate=6 
+    	sprite3 > RandomNPC cooldown=2 cons=3 img=newset/monkey2 
+    	sprite4 > Immovable img=newset/blockG hidden=True 
+    	sprite5 > Immovable invisible=True 
+    	sprite6 > Immovable color=RED img=oryx/dooropen1 
+    	sprite7 > Immovable invisible=True hidden=True orientation=LEFT img=oryx/grass 
+    	sprite8 > Immovable color=BROWN img=newset/block3 portal=true 
+    	sprite9 > Immovable color=LIGHTBLUE img=oryx/gold1 
+    	sprite10 > Immovable img=oryx/orb2 autotiling=True 
+    	sprite11 > Door img=oryx/doorclosed1 
+    	sprite12 > Immovable img=newset/chair1 stype=sprite4 color=BLACK 
+    	sprite13 > Immovable img=oryx/spike2 hidden=True 
+    	sprite14 > Immovable autotiling=True img=oryx/tree2 
+    	sprite15 > Immovable img=newset/chair3 autotiling=True 
+    	sprite16 > Missile shrinkfactor=0.3 timeToLive=20 speed=0.15 orientation=DOWN img=newset/block3 
+    	sprite16 > Bomber stype=sprite16 prob=0.4 cooldown=6 speed=0.1 img=newset/bandit1h 
+    	sprite18 > RandomMissile color=ORANGE speed=0.25 invisible=True 
+    	sprite18 > SpawnPoint invisible=True hidden=True prob=0.1 cooldown=20 stype=sprite18 
+    	sprite20 > SpawnPoint stype=sprite16 prob=1 color=LIGHTGRAY img=newset/jaildoor1 
+    	sprite21 > MovingAvatar img=oryx/knight1 
+    	sprite23 > Resource limit=10000 
+    	sprite25 > OrientedAvatar rotateInPlace=false img=oryx/rogue 
+    	sprite27 > Fleeing singleton=True stype=sprite25 maxDistance=500 cooldown=2 img=oryx/ghost1 
+    	sprite28 > RandomPathAltChaser singleton=True stype1=sprite25 stype2=sprite25 cooldown=4 img=oryx/ghost4 cons=4 
+    	sprite29 > WizardAvatar physicstype=CONT gravity=1.0 friction=0.02 color=YELLOW stype=sprite15 img=newset/chef jump_strength=16 mass=1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite16
+    	S > sprite18
+    	T > sprite18
+    	U > sprite20
+    	V > sprite21
+    	X > sprite23
+    	Y > sprite25
+    	Z > sprite27
+    	a > sprite28
+    	b > sprite29
+
+    InteractionSet
+    	sprite21 sprite23  > changeResource resource=sprite23 value=-1 
+    	sprite16 sprite25 sprite16  > killSprite 
+    	sprite25 sprite15  > transformTo stype=sprite16 scoreChange=-1 
+    	sprite16 sprite14  > reverseDirection 
+    	sprite25 sprite9  > addTimer timer=200 ftype=transformToAll stype=sprite27 stypeTo=sprite28 
+    	sprite16 sprite25 sprite16  > killSprite 
+    	sprite25 sprite16  > pullWithIt pixelPerfect=True 
+    	sprite9 sprite16  > killSprite 
+
+    TerminationSet
+    	SpriteCounter stype=sprite21 limit=0 win=False 
+    	SpriteCounter stype=sprite29 win=False 
+    	Timeout limit=1500 win=False 
+    	Timeout win=True limit=50

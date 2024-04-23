@@ -1,0 +1,50 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/cspell4 autotiling=True 
+    	sprite1 > OrientedFlicker limit=1 color=LIGHTGRAY img=oryx/firedown1 shrinkfactor=0.6 
+    	sprite2 > Immovable img=newset/cursedman hidden=True 
+    	sprite3 > Immovable color=DARKBLUE img=oryx/bush5 
+    	sprite4 > MovingAvatar img=newset/girl4 
+    	sprite5 > MovingAvatar speed=0.25 img=oryx/rogue 
+    	sprite6 > MovingAvatar speed=1.0 img=newset/girl3 
+    	sprite7 > Door color=GREEN img=newset/exit2 
+    	sprite9 > OrientedAvatar rotateInPlace=false speed=0.5 color=YELLOW img=newset/pacman 
+    	sprite9 > PathAltChaser singleton=True stype1=sprite9 stype2=sprite9 cooldown=2 img=oryx/ogre2 invisible=True hidden=True 
+    	sprite11 > Resource color=YELLOW limit=1 
+    	sprite12 > Passive img=oryx/gold2 frameRate=8 
+    	sprite14 > Missile shrinkfactor=0.5 speed=0.0 color=WHITE orientation=DLEFT img=newset/block3 
+    	sprite14 > SpawnPoint img=oryx/dooropen1 stype=sprite14 
+    	sprite14 > SpawnPoint img=portal stype=sprite14 
+    	sprite17 > Bomber orientation=RIGHT stype=sprite14 prob=0.1 cooldown=2 speed=1 img=oryx/bird1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite9
+    	J > sprite9
+    	K > sprite11
+    	L > sprite12
+    	M > sprite14
+    	N > sprite14
+    	O > sprite14
+    	P > sprite17
+
+    InteractionSet
+    	sprite7 sprite4  > killSprite 
+    	sprite4 sprite2  > transformToAll stype=sprite9 stypeTo=sprite2 
+    	sprite4 EOS > stepBack 
+    	sprite4 sprite0  > changeResource resource=sprite11 value=-1 killResource=True scoreChange=1 
+    	sprite12 sprite2  > killAll stype=sprite0 
+    	sprite12 sprite6  > bounceForward 
+    	sprite4 sprite2  > killIfHasLess resource=sprite11 limit=0 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite14 stype2=sprite17 limit=0 win=False 
+    	SpriteCounter stype=sprite0 limit=0 win=False 
+    	Timeout win=True limit=50

@@ -1,0 +1,81 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/floor3 
+    	sprite1 > Immovable solid=True color=BLACK 
+    	sprite2 > MovingAvatar shrinkfactor=0.8 img=oryx/rogue 
+    	sprite3 > Passive img=newset/blockR2 
+    	sprite4 > Passive img=oryx/diamond3 shrinkfactor=0.8 
+    	sprite5 > Immovable autotiling=True img=oryx/wall3 
+    	sprite6 > Immovable img=newset/cheese hidden=True 
+    	sprite7 > Immovable hidden=True img=oryx/backBiege 
+    	sprite8 > Door color=GREEN img=oryx/dooropen1 
+    	sprite9 > Door img=oryx/door2 
+    	sprite10 > Missile img=newset/camel2L shrinkfactor=0.75 speed=0.05 
+    	sprite11 > Chaser stype=sprite2 color=ORANGE speed=0.1 img=oryx/freak2 
+    	sprite12 > SpawnPoint img=newset/lasercannon stype=sprite11 
+    	sprite13 > Resource color=BLUE limit=4 value=0 
+    	sprite14 > Immovable img=oryx/wall3 hidden=True 
+    	sprite15 > Immovable hidden=True img=oryx/wall4 
+    	sprite16 > Door color=GREEN img=oryx/door2 
+    	sprite17 > MovingAvatar img=newset/girl3 
+    	sprite18 > Immovable img=newset/win4 
+    	sprite19 > Immovable img=oryx/backGrey 
+    	sprite20 > Immovable img=oryx/explosion2 
+    	sprite21 > Immovable img=newset/tile3 
+    	sprite22 > CarAvatar physicstype=CONT friction=0.02 img=newset/car_redR 
+    	sprite23 > Immovable img=newset/hole1 autotiling=True 
+    	sprite24 > OrientedAvatar rotateInPlace=false img=newset/pacman frameRate=8 
+    	sprite25 > PathAltChaser singleton=True stype1=sprite24 stype2=sprite24 cooldown=2 img=oryx/ogre1 
+    	sprite26 > LanderAvatar physicstype=CONT img=oryx/spaceship3 angle_diff=0.2 gravity=0.3 speed=0.5 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+    	a > sprite25
+    	b > sprite26
+
+    InteractionSet
+    	sprite1 sprite17  > spawnBelow stype=sprite1 stepBack=True 
+    	sprite17 sprite1  > killSprite 
+    	sprite17 sprite7  > transformToAll stype=sprite1 stypeTo=sprite4 
+    	sprite2 sprite1  > transformToAll stype=sprite4 stypeTo=sprite25 nextExecution=500 timer=300 repeating=False 
+    	sprite17 sprite7  > changeResource resource=sprite13 value=-1 killResource=True scoreChange=2 
+    	sprite2 sprite0  > stepBack 
+    	sprite13 sprite17  > killSprite scoreChange=40 
+    	sprite7 sprite2  > killIfOtherHasMore resource=sprite13 limit=1 
+    	sprite2 sprite19  > stepBack 
+    	sprite23 sprite2  > killIfOtherHasMore resource=sprite13 limit=1 
+    	sprite13 sprite17  > collectResource scoreChange=1 
+    	sprite2 sprite5  > stepBack 
+    	sprite19 sprite4  > transformTo stype=sprite13 
+    	sprite17 sprite0 sprite1  > stepBack 
+    	sprite1 sprite17  > killSprite 
+
+    TerminationSet
+    	SpriteCounter stype=sprite26 limit=0 win=True 
+    	MultiSpriteCounter stype1=sprite3 stype2=sprite17 limit=0 win=True 
+    	SpriteCounter stype=sprite2 limit=0 win=False 
+    	Timeout win=True limit=50

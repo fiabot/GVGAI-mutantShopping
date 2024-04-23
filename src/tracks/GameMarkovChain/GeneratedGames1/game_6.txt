@@ -1,0 +1,72 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable shrinkfactor=0.8 img=oryx/backOBrown img=oryx/dirtwall 
+    	sprite1 > Immovable img=oryx/dirtWall orientation=UP hidden=True 
+    	sprite2 > Immovable singleton=True speed=0.25 img=oryx/spike2 
+    	sprite3 > Immovable orientation=RIGHT color=GRAY img=oryx/floorTileOrange 
+    	sprite4 > Immovable img=oryx/backOBrown hidden=True 
+    	sprite5 > Immovable img=newset/linedown 
+    	sprite6 > Portal invisible=True singleton=True portal=True stype=sprite4 
+    	sprite7 > Missile shrinkfactor=0.5 speed=0.5 color=BLUE orientation=RIGHT img=oryx/axe2 
+    	sprite8 > SpawnPoint prob=0.15 healthPoints=100 limitHealthPoints=100 img=newset/lasercannon_2 stype=sprite7 
+    	sprite9 > Immovable hidden=True invisible=True 
+    	sprite10 > Immovable color=GOLD img=oryx/floorTileGreen img=oryx/slime2 
+    	sprite11 > MovingAvatar speed=1.0 img=newset/girl2 
+    	sprite12 > MovingAvatar img=newset/man4 frameRate=8 
+    	sprite13 > MovingAvatar speed=1.0 img=newset/girl3 frameRate=8 
+    	sprite14 > Resource shrinkfactor=0.5 img=oryx/belt2 
+    	sprite16 > OrientedAvatar rotateInPlace=false speed=0.5 color=YELLOW img=oryx/vampire1 
+    	sprite16 > RandomPathAltChaser singleton=True stype1=sprite16 stype2=sprite16 cooldown=4 img=oryx/ghost6 cons=4 
+    	sprite18 > Fleeing stype=sprite16 speed=1.0 img=oryx/ghost1 frameRate=9 
+    	sprite19 > RandomNPC speed=0.4 cooldown=4 cons=12 invisible=True hidden=True 
+    	sprite20 > Passive img=newset/block1 
+    	sprite22 > Door img=oryx/dooropen1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite16
+    	Q > sprite16
+    	R > sprite18
+    	S > sprite19
+    	T > sprite20
+    	U > sprite22
+
+    InteractionSet
+    	sprite11 sprite10  > stepBack 
+    	sprite11 sprite14  > changeResource resource=sprite14 value=-1 killResource=True scoreChange=5 
+    	sprite12 sprite10  > transformToAll stype=sprite16 stypeTo=sprite18 
+    	sprite12 sprite5  > transformToAll stype=sprite19 stypeTo=sprite19 
+    	sprite20 sprite5  > transformTo stype=sprite9 
+    	sprite13 sprite1  > stepBack 
+    	sprite20 sprite11 sprite13 sprite12  > undoAll 
+    	sprite13 sprite9  > transformTo stype=sprite20 scoreChange=3 
+    	sprite20 sprite12  > bounceForward 
+    	sprite22 sprite13  > killSprite 
+    	sprite11 sprite1  > stepBack 
+    	sprite20 sprite13  > bounceForward 
+    	sprite20 sprite12  > bounceForward 
+    	sprite20 sprite1  > killSprite scoreChange=1 
+    	sprite20 sprite11 sprite13 sprite12  > undoAll 
+    	sprite13 sprite9  > transformTo stype=sprite20 
+    	sprite20 sprite4 sprite10 sprite22 sprite20  > undoAll 
+    	sprite20 sprite5 sprite5 sprite22 sprite20  > undoAll 
+    	sprite20 sprite11  > bounceForward 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite8 stype2=sprite8 limit=0 win=True 
+    	SpriteCounter stype=sprite12 limit=0 win=True 
+    	Timeout win=True limit=50

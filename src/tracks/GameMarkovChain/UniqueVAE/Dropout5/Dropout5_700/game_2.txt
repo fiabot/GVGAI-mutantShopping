@@ -1,0 +1,113 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable hidden=True 
+              immovable1 > color=LIGHTBLUE img=oryx/backLBlue 
+              immovable2 > color=BLUE img=oryx/seaWater 
+              immovable3 > img=oryx/backGrey 
+  
+          randomnpc0    > RandomNPC     color=WHITE   cons=1 
+          shootavatar0    > ShootAvatar orientation=DOWN color=YELLOW ammo=resource0 stype=missile2 prob=0.05 stype=missile5 
+          missile0 > Missile 
+              missile1   > orientation=UP color=BLUE speed=0.25 img=oryx/bullet1 
+              missile2 > orientation=DOWN color=RED speed=0.5 img=newset/bomb singleton=True shrinkfactor=0.5 
+  
+          missile3   > Missile img=newset/cloud2 
+              missile4   > orientation=LEFT     color=WHITE 
+              missile5   > orientation=LEFT speed=0.2   color=WHITE 
+              missile6   > orientation=RIGHT speed=0.2   color=WHITE 
+              missile6   > orientation=RIGHT speed=0.2   color=WHITE 
+  
+          bomber0    > Bomber stype=missile1   cooldown=5   cooldown=5 missile0 prob=0.05   > orientation=UP 
+                  spawnpoint0   > SpawnPoint 
+              spawnpoint1   >   stype=resource1   prob=0.01 
+  
+          orientedflicker0 > OrientedFlicker limit=1 color=LIGHTGRAY limit=1 
+  
+          shootavatar0 > ShootAvatar speed=0.4 
+              immovable4   > Immovable 
+              immovable5 > color=GREEN 
+  
+          immovable6 > Immovable img=newset/whirlpool2 
+  
+          spawnpoint1 > SpawnPoint invisible=True 
+              spawnpoint2 > orientation=LEFT singleton=true stype=missile0 img=newset/bandit1h 
+              spawnpoint3 > orientation=RIGHT spawnorientation=DOWN stype=missile0 img=newset/bandit1 
+  
+          missile1 > Missile img=oryx/orb1 shrinkfactor=0.5 speed=0.6 
+          door0 > Door color=GREEN 
+  
+          door1 > Door 
+              parent4 > 
+              movingavatar0 > MovingAvatar 
+              missileavatar0 > MissileAvatar 
+                  missileavatar1 > orientation=UP 
+                  missileavatar2 > orientation=DOWN 
+                  immovable8 > orientation=DOWN 
+  
+          immovable18 > Immovable 
+              movingavatar1 > img=newset/block3 
+              movingavatar2 > img=newset/girl2 
+              movingavatar3 > img=newset/girl1 
+  
+          immovable6 > Immovable 
+              immovable7 > Immovable img=oryx/slime3 
+              immovable9 > Immovable img=oryx/slime1 
+              immovable10 > Immovable img=oryx/slime2 
+              immovable11 > Immovable img=oryx/slime1 
+  
+          resource5 > Resource limit=1 
+              resource6 > color=RED 
+              parent0 > 
+  
+          randomnpc0 > Immovable 
+              immovable5 > color=GREEN 
+              immovable5 > color=GREEN 
+              immovable6 > color=YELLOW 
+  
+          immovable7 > Immovable img=oryx/wall3 autotiling=True 
+  
+      LevelMapping 
+          0 > immovable0 immovable1 
+          l > immovable0 bomber2 
+          r > immovable0 bomber4 
+          . > immovable0 bomber4 
+          , > immovable0 bomber3 
+          A > immovable0 orientedavatar0 
+          1 > immovable0 immovable5 
+          2 > immovable0 immovable3 
+          3 > immovable0 immovable6 
+          4 > immovable0 immovable4 
+          n > immovable0 chaser0 
+          e > immovable0 door2 
+          p > immovable0 bomber0 
+          g > immovable0 immovable7 
+          h > immovable0 immovable9 
+          a > immovable0 parent0 
+          b > immovable0 parent1 
+          _ > immovable0 
+          x > immovable0 bomber0 immovable3 
+  
+  
+      TerminationSet 
+          SpriteCounter       stype=orientedavatar0              limit=0 win=False 
+          SpriteCounter       stype=immovable1                limit=0 win=False 
+          Timeout limit=1000 win=True 
+           
+      InteractionSet 
+          shootavatar0   EOS immovable1 immovable2   > stepBack 
+  
+          bomber0    EOS   > killSprite 
+          missile0 EOS immovable1 > killSprite 
+  
+          immovable1 missile2 > killSprite scoreChange=-1 
+          immovable1 missile1 bomber0 > killSprite 
+  
+          missile3 bomber0 > killSprite 
+          bomber0   missile1    > killBoth scoreChange=2 
+  
+          missile3 missile3 > transformTo stype=resource0 
+          missile2 immovable4 > transformTo stype=missile2 
+           
+      TerminationSet 
+          SpriteCounter stype=shootavatar0 limit=0 win=False 
+          SpriteCounter stype=door0 limit=0 win=True 

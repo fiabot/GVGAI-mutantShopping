@@ -1,0 +1,42 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=RED   color=RED 
+              immovable2   >     color=RED 
+              immovable2   >   color=RED 
+  
+          passive0   > Passive color=GOLD limit=11 
+              passive2 > Passive invisible=True hidden=True 
+  
+              parent1 > 
+                  parent2 > speed=0.25 invisible=True hidden=True 
+                  missile4 > orientation=LEFT speed=0.2 
+                  immovable4 > speed=0.25  
+  
+              parent6 > Passive 
+                  passive6 > Immovable img=oryx/doorclosed1 
+                  immovable7 > Immovable img=oryx/dooropen1 
+          immovable2 > Immovable color=BLACK img=oryx/tree2 
+          resource0 > Resource img=oryx/wall1 
+      immovable2 > Immovable invisible=true 
+          immovable11 > Immovable img=oryx/wall1 
+  
+      InteractionSet 
+          shootavatar0 immovable6 > stepBack 
+          shootavatar0 immovable2 > stepBack 
+          shootavatar0 immovable2 > stepBack 
+          parent0 immovable4 > stepBack 
+          parent0 immovable13 > stepBack 
+          ongoingshootavatar0 EOS > wrapAround 
+  
+          randomnpc0 randomnpc0 > killSprite scoreChange=-1 
+  
+          resource0 shootavatar0 > killSprite scoreChange=1 
+          immovable2 orientedavatar0 > killSprite scoreChange=1 
+          missile6 immovable2 > killSprite scoreChange=-1 
+          missile6 immovable4 > killSprite scoreChange=-1 
+          orientedavatar0 missile1 > killSprite scoreChange=-1 
+          passive0 ongoingavatar0   > killSprite scoreChange=-1 
+          passive1 movingavatar0   > killSprite scoreChange=1 

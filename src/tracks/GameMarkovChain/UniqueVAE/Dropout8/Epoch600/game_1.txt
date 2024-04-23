@@ -1,0 +1,37 @@
+BasicGame 
+      SpriteSet 
+          immovable0 > Immovable img=oryx/grass autotiling=True hidden=True 
+          immovable1 > Immovable color=BLUE img=oryx/seaWater 
+              immovable2 > orientation=DOWN   color=RED 
+              immovable3 > color=RED   color=RED 
+              immovable2   >     color=RED 
+              immovable2   >   color=RED 
+  
+          passive0   > Passive color=GOLD limit=11 
+              passive2 > Passive invisible=True hidden=True 
+  
+              parent1 > 
+                  parent2 > speed=0.25 img=oryx/barrel1 
+                  parent3 > 
+                  parent1 > speed=0.25 
+                  parent1 > 
+  
+      TerminationSet 
+          SpriteCounter stype=shootavatar0     win=False > attractGaze align=True img=oryx/spaceship1 
+          missile0 immovable1 missile0    > killSprite 
+          missile0 orientedavatar0   > killSprite 
+          missile0 immovable3     > killSprite  
+          immovable1 missile0 > killSprite 
+          missile1 missile0 > killSprite scoreChange=1 
+          immovable1 missile0 > killSprite 
+          missile1 missile0 > killSprite scoreChange=1 
+          spaceshipavatar0 wall > killSprite 
+          spaceshipavatar0 immovable1 > killSprite 
+          spaceshipavatar0 immovable1 > killSprite scoreChange=-5 
+          missile1 immovable2 > killSprite scoreChange=1 
+          door0 movingavatar0 > killSprite scoreChange=1 
+          immovable1 movingavatar0 > killSprite scoreChange=5 
+  
+      TerminationSet 
+          SpriteCounter stype=door0    limit=0 win=True 
+          SpriteCounter stype=movingavatar0 limit=0 win=False 

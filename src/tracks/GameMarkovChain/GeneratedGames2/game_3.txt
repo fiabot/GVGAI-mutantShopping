@@ -1,0 +1,70 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/backOBrown hidden=True 
+    	sprite1 > MovingAvatar img=newset/camel5L frameRate=8 
+    	sprite2 > MovingAvatar speed=1.0 img=newset/man3_satright img=newset/man2 
+    	sprite3 > MissileAvatar img=oryx/bat1 orientation=LEFT color=RED 
+    	sprite4 > MissileAvatar img=oryx/bat1 orientation=RIGHT 
+    	sprite5 > MissileAvatar img=oryx/ghost1 orientation=UP color=ORANGE 
+    	sprite6 > MissileAvatar speed=1.0 img=oryx/bat1 orientation=RIGHT color=ORANGE 
+    	sprite7 > Immovable img=oryx/treasure2 hidden=True 
+    	sprite8 > Immovable img=oryx/slash1 hidden=True 
+    	sprite9 > Immovable solid=False color=DARKBLUE 
+    	sprite10 > Spreader color=ORANGE spreadprob=1.0 stype=sprite9 img=newset/water 
+    	sprite11 > ShootAvatar stype=sprite10 img=oryx/spaceship1 
+    	sprite12 > Resource color=RED limit=10 img=spaceship shrinkfactor=0.7 
+    	sprite13 > Missile orientation=RIGHT color=RED speed=0.2 img=newset/laser3 shrinkfactor=1.2 
+    	sprite14 > Bomber prob=0.04 cooldown=6 speed=1 orientation=RIGHT spawnorientation=UP stype=sprite13 img=newset/bandit1 
+    	sprite15 > SpawnPoint invisible=True hidden=True stype=sprite14 cooldown=20 total=10 
+    	sprite16 > SpawnPoint img=newset/lasercannon_1 stype=sprite15 
+    	sprite17 > OrientedAvatar healthPoints=20 img=oryx/spelunky speed=0.5 
+    	sprite18 > RandomPathAltChaser singleton=True stype1=sprite17 stype2=sprite17 cooldown=4 img=oryx/ghost5 cons=4 
+    	sprite19 > Passive img=newset/block2 
+    	sprite20 > Fleeing stype=sprite17 speed=0.9 img=newset/bossthug frameRate=12 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+
+    InteractionSet
+    	sprite2 sprite9  > changeResource resource=sprite12 value=-8 scoreChange=1 killResource=True 
+    	sprite1 sprite7  > stepBack 
+    	sprite7 sprite1  > killIfOtherHasMore resource=sprite12 limit=1 
+    	sprite2 sprite0  > stepBack 
+    	sprite2 sprite9  > stepBack 
+    	sprite1 sprite9  > changeResource resource=sprite16 value=1 killResource=True scoreChange=1 
+    	sprite17 sprite7  > addTimer timer=200 ftype=transformToAll stype=sprite17 stypeTo=sprite18 killSecond=True 
+    	sprite17 sprite15  > killIfFrontal 
+    	sprite17 sprite8  > transformToAll stype=sprite18 stypeTo=sprite19 
+    	sprite17 sprite7  > stepBack 
+    	sprite4 sprite9 sprite13  > transformTo stype=sprite2 
+    	sprite17 sprite9  > transformTo stype=sprite2 scoreChange=-2 
+    	sprite7 sprite17  > killSprite 
+    	sprite17 sprite9  > addTimer timer=200 ftype=transformToAll stype=sprite20 stypeTo=sprite18 killSecond=True 
+    	sprite7 sprite17  > killSprite 
+    	sprite17 sprite8  > addTimer timer=200 ftype=transformToAll stype=sprite20 stypeTo=sprite17 killSecond=True 
+    	sprite17 sprite0  > transformToAll stype=sprite18 stypeTo=sprite19 
+
+    TerminationSet
+    	Timeout limit=1500 win=False 
+    	SpriteCounter stype=sprite2 limit=0 win=True 
+    	Timeout win=True limit=50

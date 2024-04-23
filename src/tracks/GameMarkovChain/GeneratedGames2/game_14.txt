@@ -1,0 +1,83 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable hidden=True img=oryx/staff3 
+    	sprite1 > Immovable hidden=True img=newset/floor6 
+    	sprite2 > Immovable img=oryx/backGrey hidden=True 
+    	sprite3 > Immovable img=oryx/fire1 
+    	sprite4 > Missile orientation=DLEFT speed=1 color=BROWN img=newset/blockR2 
+    	sprite5 > SpawnPoint img=oryx/fire1 stype=sprite4 
+    	sprite6 > MovingAvatar img=newset/cop2 
+    	sprite7 > Immovable img=oryx/wall3 shrinkfactor=0.6 
+    	sprite8 > Resource limit=1 
+    	sprite9 > Immovable color=RED img=oryx/diamond1 
+    	sprite10 > Bomber prob=0.01 cooldown=6 speed=0.8 img=oryx/angel1 orientation=DOWN spawnorientation=UP stype=sprite4 
+    	sprite11 > OrientedAvatar rotateInPlace=false speed=0.5 color=ORANGE img=newset/pacman 
+    	sprite12 > RandomPathAltChaser singleton=True stype1=sprite11 stype2=sprite11 cooldown=4 img=oryx/ghost6 cons=4 
+    	sprite13 > SpawnPoint invisible=true hidden=True stype=sprite12 cooldown=700 total=16 orientation=RIGHT 
+    	sprite14 > SpawnPoint img=portal stype=sprite4 prob=0.1 img=newset/lasercannon_3 
+    	sprite15 > SpawnPoint img=newset/hole1 stype=sprite5 
+    	sprite16 > Immovable invisible=True hidden=True orientation=RIGHT img=oryx/wall1 
+    	sprite17 > Immovable invisible=True 
+    	sprite18 > MovingAvatar speed=1.0 img=newset/girl1 
+    	sprite19 > Passive solid=True img=newset/block1 physicstype=CONT gravity=1.0 friction=0.02 
+    	sprite20 > RandomNPC cooldown=4 cons=3 img=newset/camel1 
+    	sprite21 > Flicker img=oryx/sword1 shrinkfactor=0.7 singleton=True 
+    	sprite22 > ShootAvatar stype=sprite21 frameRate=8 img=oryx/axeman1 
+    	sprite23 > Chaser stype=sprite22 img=newset/hotdog speed=0.5 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+
+    InteractionSet
+    	sprite8 sprite7  > killSprite 
+    	sprite8 sprite7  > killSprite 
+    	sprite4 sprite17  > transformTo stype=sprite0 
+    	sprite4 sprite7  > transformTo stype=sprite19 
+    	sprite18 sprite8  > changeResource resource=sprite8 value=-1 
+    	sprite18 EOS > stepBack 
+    	sprite8 sprite18  > collectResource 
+    	sprite6 sprite7  > spawnIfHasMore resource=sprite8 limit=1 stype=sprite0 
+    	sprite18 sprite1  > spawnIfHasMore resource=sprite8 limit=1 stype=sprite3 
+    	sprite6 sprite8  > addHealthPoints value=15 killSecond=True 
+    	sprite6 sprite8  > changeResource resource=sprite8 value=-1 
+    	sprite6 sprite17  > changeResource resource=sprite8 value=-1 killResource=True 
+    	sprite18 sprite8  > changeResource resource=sprite8 value=1 killResource=True scoreChange=10 
+    	sprite6 EOS > stepBack 
+    	sprite18 sprite7  > spawnIfHasMore resource=sprite13 limit=2 stype=sprite8 
+    	sprite6 sprite3  > spawnIfHasMore resource=sprite5 limit=1 stype=sprite8 
+    	sprite18 sprite0  > spawnIfHasMore resource=sprite14 stype=sprite8 limit=2 
+    	sprite18 sprite8  > changeResource resource=sprite8 value=1 killResource=True 
+    	sprite18 sprite8  > transformTo stype=sprite9 
+    	sprite18 sprite2  > transformTo stype=sprite9 scoreChange=1 
+    	sprite18 sprite9  > stepBack 
+    	sprite6 sprite8  > changeResource resource=sprite8 value=-1 killResource=True scoreChange=5 
+
+    TerminationSet
+    	SpriteCounter stype=sprite20 limit=0 win=False 
+    	SpriteCounter stype=sprite23 limit=0 win=True 
+    	SpriteCounter stype=sprite6 limit=0 win=True 
+    	SpriteCounter stype=sprite22 win=False 
+    	Timeout win=True limit=50

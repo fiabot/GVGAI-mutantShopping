@@ -1,0 +1,29 @@
+LevelMapping
+    a > sprite16 
+    b > sprite8 
+    c > sprite10 
+    d > sprite20 
+    e > sprite11 
+    f > sprite9 
+    g > sprite18 
+    h > sprite6 
+
+LevelDescription
+  a  b     abc  b 
+a            a    
+d      b        b 
+           a      
+           a e    
+    f             
+  b               
+    a         c   
+        a  e c   e
+           b      
+ fd           e  c
+      c  a  b aaa 
+     g c b     a  
+a                 
+c   cb     c      
+     a            
+  e               
+       a a h   e  

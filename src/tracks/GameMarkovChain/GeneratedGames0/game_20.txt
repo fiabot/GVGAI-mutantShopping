@@ -1,0 +1,69 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=BLUE img=newset/water2_1 
+    	sprite1 > OrientedAvatar rotateInPlace=false img=newset/man4 frameRate=8 
+    	sprite2 > Passive color=BLUE portal=True img=newset/block3 
+    	sprite3 > ShootAvatar stype=sprite0 img=oryx/spelunky 
+    	sprite4 > Immovable img=newset/floor5 autotiling=True 
+    	sprite5 > Immovable color=BLACK img=oryx/wall1 img=newset/block2 
+    	sprite6 > OrientedFlicker invisible=True hidden=True limit=5 singleton=true 
+    	sprite7 > OrientedFlicker limit=1 color=LIGHTGRAY img=oryx/axe2 
+    	sprite8 > Immovable color=DARKBLUE img=oryx/tree2 
+    	sprite9 > Missile orientation=DOWN speed=1.0 img=oryx/circleEffect1 portal=True 
+    	sprite9 > Bomber color=GREEN img=newset/bandit1h speed=0.5 orientation=UP stype=sprite9 prob=0.1 
+    	sprite9 > SpawnPoint invisible=True hidden=True prob=1 cooldown=10 stype=sprite9 
+    	sprite9 > Spreader color=ORANGE spreadprob=1.0 stype=sprite9 img=oryx/fire1 
+    	sprite9 > SpawnPoint stype=sprite9 total=20 cooldown=50 img=portal orientation=DOWN 
+    	sprite14 > RandomNPC color=YELLOW img=oryx/spider2 cons=8 
+    	sprite14 > SpawnPoint stype=sprite14 prob=1 total=10 invisible=True 
+    	sprite16 > SpawnPoint invisible=True hidden=True cooldown=10 total=20 img=newset/lasercannon stype=sprite14 
+    	sprite17 > SpawnPoint stype=sprite9 prob=0.15 color=LIGHTGRAY img=portal 
+    	sprite18 > RandomPathAltChaser singleton=True stype1=sprite1 stype2=sprite1 cooldown=4 img=oryx/ghost4 cons=4 
+    	sprite18 > SpawnPoint img=oryx/seaWater stype=sprite18 
+    	sprite20 > SpawnPoint invisible=True hidden=True stype=sprite9 cooldown=10 total=10 orientation=RIGHT 
+    	sprite21 > SpawnPoint stype=sprite9 img=newset/lasercannon_3 prob=0.0001 
+    	sprite22 > SpawnPoint stype=sprite18 prob=0.05 color=LIGHTGRAY img=newset/lasercannon_1 
+    	sprite23 > MovingAvatar img=newset/blockB3 
+    	sprite25 > Flicker invisible=True 
+    	sprite27 > Resource img=oryx/potion3 limit=11 shrinkfactor=0.9 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite9
+    	L > sprite9
+    	M > sprite9
+    	N > sprite9
+    	O > sprite14
+    	P > sprite14
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite18
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite25
+    	a > sprite27
+
+    InteractionSet
+    	sprite23 sprite17  > subtractHealthPoints value=1 
+    	sprite23 sprite9  > killSprite 
+    	sprite23 sprite0 sprite16  > shieldFrom ftype=killSprite stype=sprite17 
+    	sprite23 sprite25  > subtractHealthPoints value=2 scoreChangeIfKilled=50 
+    	sprite23 sprite4  > transformTo stype=sprite4 killSecond=True 
+    	sprite27 sprite23  > collectResource 
+
+    TerminationSet
+    	Timeout limit=1000 win=False 
+    	SpriteCounter stype=sprite14 limit=0 win=True 
+    	Timeout win=True limit=50

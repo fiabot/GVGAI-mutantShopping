@@ -46,8 +46,10 @@ public class TestLevelGeneration {
 		// Other settings
 		int seed = new Random().nextInt();
 		int gameIdx = 11;
-		String recordLevelFile = generateLevelPath + games[gameIdx] + "_glvl.txt";
-		String game = generateLevelPath + games[gameIdx] + ".txt";
+		//String recordLevelFile = generateLevelPath + games[gameIdx] + "_glvl.txt";
+		//String game = generateLevelPath + games[gameIdx] + ".txt";
+		String recordLevelFile = "testLevel1";
+		String game = "src/tracks/GameMarkovChain/GeneratedGames2/fixed_game_3.txt"; 
 
 
 		// 1. This starts a game, in a generated level created by a specific level generator

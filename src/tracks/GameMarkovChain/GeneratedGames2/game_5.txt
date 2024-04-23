@@ -1,0 +1,70 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable autotiling=True img=oryx/wall4 
+    	sprite1 > Missile orientation=RIGHT speed=0.1 img=newset/block3 frameRate=6 
+    	sprite2 > Missile img=oryx/cspell1 speed=0.1 orientation=UP 
+    	sprite3 > Missile orientation=LEFT color=RED cooldown=5 speed=0.6 img=newset/cloud2 
+    	sprite4 > ShootAvatar stype=sprite3 frameRate=8 img=oryx/swordman1 
+    	sprite5 > RandomNPC speed=1 color=YELLOW img=oryx/spider2 cons=1 
+    	sprite6 > RandomNPC color=RED img=oryx/spelunky_0 cons=8 shrinkfactor=0.5 
+    	sprite7 > RandomNPC cooldown=8 cons=1 img=oryx/scorpion1 
+    	sprite8 > Flicker limit=20 singleton=True img=newset/cigarette 
+    	sprite9 > ShootAvatar img=oryx/swordman1 frameRate=8 stype=sprite8 
+    	sprite10 > Missile speed=0.25 img=newset/bomb orientation=DOWN 
+    	sprite11 > Immovable img=oryx/floor3 
+    	sprite12 > Immovable img=oryx/wall3 orientation=LEFT hidden=True 
+    	sprite13 > Immovable img=oryx/wall6 
+    	sprite14 > Door img=newset/exit2 
+    	sprite15 > Immovable hidden=True orientation=DOWN img=oryx/grass 
+    	sprite16 > Immovable solid=False singleton=True img=newset/win2 
+    	sprite17 > Immovable img=newset/chair1 
+    	sprite18 > Immovable img=oryx/slime2 
+    	sprite19 > Resource color=GREEN limit=1 img=oryx/key2 shrinkfactor=0.7 
+    	sprite20 > Resource color=YELLOW value=0 limit=10 img=oryx/goldsack 
+    	sprite21 > Resource limit=11 
+    	sprite22 > Immovable hidden=True img=oryx/backGrey autotiling=True 
+    	sprite23 > SpawnPoint stype=sprite1 cooldown=100 prob=0.25 img=newset/lasercannon_3 portal=True 
+    	sprite24 > Portal color=LIGHTBLUE img=oryx/circleEffect1 singleton=True portal=True stype=sprite17 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+
+    InteractionSet
+    	sprite22 sprite9  > killIfOtherHasMore resource=sprite20 limit=1 scoreChange=2 
+    	sprite2 sprite11  > transformTo stype=sprite20 
+    	sprite4 sprite0  > transformTo stype=sprite23 scoreChange=4 
+    	sprite15 sprite9  > bounceForward 
+    	sprite10 sprite16 sprite22  > stepBack 
+    	sprite1 sprite9  > transformTo stype=sprite15 
+    	sprite1 sprite24  > transformTo stype=sprite22 scoreChange=4 
+    	sprite10 sprite9  > killSprite 
+    	sprite9 sprite18  > transformToAll stype=sprite22 stypeTo=sprite6 
+
+    TerminationSet
+    	Timeout limit=500 win=False 
+    	SpriteCounter stype=sprite9 limit=0 win=True 
+    	Timeout win=True limit=50

@@ -1,0 +1,73 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/floor4 
+    	sprite1 > Passive img=newset/block3 
+    	sprite2 > MovingAvatar shrinkfactor=0.8 img=newset/man4 
+    	sprite3 > MovingAvatar img=oryx/axeman1 frameRate=8 
+    	sprite4 > MovingAvatar img=newset/man3_satfront 
+    	sprite5 > MissileAvatar img=newset/blockB3 orientation=LEFT 
+    	sprite6 > RandomNPC cooldown=4 img=oryx/guard1 
+    	sprite7 > RandomNPC cooldown=2 cons=12 img=newset/man4 
+    	sprite8 > Door img=oryx/doorclosed1 
+    	sprite8 > Chaser stype=sprite8 color=RED speed=0.9 img=newset/girl2 
+    	sprite10 > BomberRandomMissile speed=0 img=oryx/bat1 stypeMissile=breakableBarrelL,toughBarrelL prob=0.6 healthPoints=10 limitHealthPoints=10 
+    	sprite11 > SpawnPoint stype=sprite8 total=40 cooldown=500 img=oryx/fire1 orientation=LEFT 
+    	sprite12 > Missile color=RED img=oryx/fireup1 shrinkfactor=0.6 
+    	sprite12 > SpawnPoint img=newset/lasercannon_1 stype=sprite12 
+    	sprite14 > Flicker limit=2 img=oryx/pickaxe shrinkfactor=0.5 
+    	sprite16 > ShootAvatar color=ORANGE ammo=treats stype=sprite14 img=oryx/spaceship1 rotateInPlace=False 
+    	sprite18 > OrientedAvatar rotateInPlace=false img=oryx/spelunky 
+    	sprite18 > PathAltChaser singleton=True stype1=sprite1 stype2=sprite18 cooldown=2 img=oryx/ogre2 invisible=True hidden=True 
+    	sprite20 > Resource img=oryx/wall4 limit=1 value=0 color=GREEN 
+    	sprite21 > RandomPathAltChaser singleton=True stype1=sprite18 stype2=sprite18 cooldown=4 img=oryx/ghost3 cons=4 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite8
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite12
+    	O > sprite14
+    	P > sprite16
+    	Q > sprite18
+    	R > sprite18
+    	S > sprite20
+    	T > sprite21
+
+    InteractionSet
+    	sprite7 sprite14  > transformTo stype=sprite4 
+    	sprite16 sprite6  > killSprite scoreChange=-1 
+    	sprite6 sprite7 sprite0  > transformTo stype=sprite12 scoreChange=1 killSecond=True 
+    	sprite16 sprite7 sprite0  > transformTo stype=sprite0 scoreChange=1 killSecond=True 
+    	sprite16 sprite7  > subtractHealthPoints 
+    	sprite6 sprite0  > cloneSprite 
+    	sprite16 sprite0  > transformToAll stype=sprite1 stypeTo=sprite1 
+    	sprite16 sprite0  > transformToAll stype=sprite6 stypeTo=sprite18 
+    	sprite6 sprite6  > transformTo stype=sprite4 
+    	sprite16 sprite7 sprite0  > transformTo stype=sprite12 
+    	sprite16 sprite7 sprite0  > transformTo stype=sprite4 
+    	sprite7 sprite14  > killSprite 
+    	sprite16 sprite7  > transformTo stype=sprite12 
+    	sprite16 sprite0  > spawnIfHasMore resource=sprite11 limit=1 stype=sprite20 spend=4 
+    	sprite18 sprite0  > transformToAll stype=sprite0 stypeTo=sprite0 
+    	sprite18 sprite0  > stepBack 
+    	sprite18 sprite0  > transformToAll stype=sprite21 stypeTo=sprite1 
+    	sprite12 sprite18  > transformTo stype=sprite12 
+    	sprite12 sprite18  > transformTo stype=sprite12 
+    	sprite12 sprite18  > attractGaze 
+    	sprite18 sprite0  > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite18 win=True 
+    	SpriteCounter stype=sprite0 limit=0 win=False 
+    	SpriteCounter stype=sprite3 limit=0 win=True 
+    	Timeout win=True limit=50

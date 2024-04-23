@@ -1,0 +1,52 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/wall3 autotiling=True hidden=True 
+    	sprite1 > Immovable img=newset/floor6 
+    	sprite2 > Immovable img=newset/chair1 
+    	sprite3 > Immovable color=BLUE img=oryx/grass orientation=RIGHT color=GRAY 
+    	sprite4 > Immovable invisible=True hidden=True 
+    	sprite5 > Immovable shrinkfactor=0.7 img=oryx/grass img=oryx/wall3 
+    	sprite6 > Spreader color=ORANGE spreadprob=0.6 stype=sprite5 img=oryx/fire1 
+    	sprite6 > ShootAvatar stype=sprite6 frameRate=8 img=oryx/archer1 
+    	sprite8 > MovingAvatar speed=0.25 img=oryx/axeman1 img=oryx/angel1 
+    	sprite8 > Chaser stype=sprite8 cooldown=5 speed=0.1 color=RED img=oryx/bird3 
+    	sprite10 > Missile color=RED speed=1 shrinkfactor=0.5 img=oryx/bullet2 singleton=True 
+    	sprite10 > SpawnPoint img=newset/lasercannon_3 stype=sprite10 
+    	sprite10 > SpawnPoint img=oryx/cloak3 stype=sprite10 
+    	sprite13 > SpawnPoint invisible=True hidden=True stype=sprite10 prob=0.02 total=2 cooldown=50 
+    	sprite14 > SpawnPoint img=newset/whirlpool2 stype=sprite10 
+    	sprite15 > Bomber prob=0.01 cooldown=3 speed=0.9 img=newset/bandit1 orientation=LEFT spawnorientation=LEFT stype=sprite10 
+    	sprite17 > Door img=oryx/stairsdown4 
+    	sprite19 > OrientedAvatar healthPoints=20 img=oryx/vampire1 speed=1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite6
+    	I > sprite8
+    	J > sprite8
+    	K > sprite10
+    	L > sprite10
+    	M > sprite10
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite17
+    	R > sprite19
+
+    InteractionSet
+    	sprite15 sprite10  > killBoth 
+    	sprite15 sprite5  > stepBack 
+    	sprite15 sprite17  > transformTo stype=sprite15 scoreChange=-1 
+    	sprite10 EOS > wrapAround 
+    	sprite15 sprite4  > transformTo stype=sprite10 
+
+    TerminationSet
+    	Timeout limit=1000 win=True 
+    	SpriteCounter stype=sprite19 win=False 
+    	Timeout win=True limit=50

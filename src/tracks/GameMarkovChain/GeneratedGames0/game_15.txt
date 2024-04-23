@@ -1,0 +1,53 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/bush1 
+    	sprite1 > Immovable invisible=True hidden=True 
+    	sprite2 > Immovable color=ORANGE img=oryx/diamond1 
+    	sprite3 > Immovable img=newset/water autotiling=True 
+    	sprite4 > Immovable hidden=True img=newset/bomb 
+    	sprite5 > Missile speed=0.2 img=oryx/bullet1 orientation=RIGHT 
+    	sprite6 > Flicker limit=5 invisible=TRUE 
+    	sprite7 > OrientedFlicker limit=5 speed=0.5 orientation=DOWN singleton=True img=oryx/slash1 
+    	sprite7 > ShootAvatar ammo=bullet cooldown=2 stype=sprite7 img=oryx/axeman1 
+    	sprite9 > Missile healthPoints=5 speed=0.2 img=newset/tank_blue color=WHITE orientation=DOWN 
+    	sprite10 > Missile orientation=DOWN speed=0.25 color=ORANGE shrinkfactor=0.6 img=oryx/bullet2 
+    	sprite11 > Missile color=YELLOW speed=0.2 img=newset/cloud2 
+    	sprite12 > Missile color=RED orientation=LEFT cooldown=2 img=oryx/firedown1 
+    	sprite13 > Missile speed=0.5 img=newset/camel2 orientation=UP 
+    	sprite14 > Missile img=newset/laser1 speed=0 
+    	sprite15 > Missile color=YELLOW speed=0.2 img=oryx/bush1 
+    	sprite16 > OrientedAvatar img=oryx/yeti2 rotateInPlace=false speed=0.5 color=ORANGE 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite7
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+
+    InteractionSet
+    	sprite9 sprite3  > stepBack 
+    	sprite13 sprite14  > killBoth scoreChange=-1 
+    	sprite13 sprite2  > killSprite 
+    	sprite14 sprite11  > killBoth scoreChange=1 
+    	sprite5 sprite1  > killSprite 
+    	sprite7 sprite0 eos > stepBack 
+    	sprite5 sprite3  > transformTo stype=sprite10 
+    	sprite11 sprite10  > attractGaze 
+
+    TerminationSet
+    	SpriteCounter stype=sprite7 limit=0 win=False 
+    	SpriteCounter stype=sprite16 limit=0 win=False 
+    	Timeout win=True limit=50

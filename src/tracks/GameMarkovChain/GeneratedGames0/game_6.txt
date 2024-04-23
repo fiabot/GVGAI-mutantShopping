@@ -1,0 +1,90 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile speed=0 img=newset/fuel singleton=True 
+    	sprite0 > FlakAvatar rotateInPlace=False stype=sprite0 img=oryx/spaceship1 
+    	sprite2 > Missile img=oryx/axe2 speed=0.1 shrinkfactor=0.5 
+    	sprite3 > Missile orientation=UP img=newset/laser3 speed=0.3 
+    	sprite4 > Immovable img=oryx/planet autotiling=True 
+    	sprite5 > Immovable color=DARKBLUE img=newset/bomb 
+    	sprite6 > Immovable img=oryx/wall3 
+    	sprite7 > Immovable color=GREEN img=newset/floor2 autotiling=True 
+    	sprite8 > Passive img=oryx/wall2 shrinkfactor=0.7 
+    	sprite9 > Immovable solid=True color=RED 
+    	sprite10 > MovingAvatar speed=1.0 img=newset/man3_satfront 
+    	sprite11 > Immovable img=oryx/wall3 
+    	sprite12 > Passive img=newset/block1 
+    	sprite13 > Passive img=oryx/wall2 orientation=UP img=newset/block3 
+    	sprite14 > Immovable img=oryx/wall5 
+    	sprite15 > Immovable img=newset/eggcracked hidden=True 
+    	sprite16 > Immovable color=BLUE img=newset/win2 
+    	sprite17 > Immovable img=newset/chair1 
+    	sprite18 > Immovable img=oryx/diamond3 
+    	sprite19 > Immovable img=oryx/diamond3 autotiling=true 
+    	sprite20 > SpawnPoint invisible=True hidden=True prob=0.25 cooldown=30 stype=sprite2 
+    	sprite21 > Flicker color=LIGHTGRAY limit=60 singleton=True img=oryx/sword3 
+    	sprite21 > ShootAvatar ammo=bullet cooldown=2 stype=sprite21 img=oryx/swordman1 
+    	sprite21 > Chaser speed=0.5 img=oryx/sparkle1 stype=sprite21 singleton=True 
+    	sprite21 > SpawnPoint invisible=True hidden=True prob=0.0001 cooldown=10 stype=sprite21 
+    	sprite25 > Missile color=BLUE shrinkfactor=0.3 speed=0.5 orientation=DOWN img=oryx/bullet2 
+    	sprite26 > Immovable color=YELLOW img=oryx/wall3_0 portal=True 
+    	sprite27 > Immovable color=LIGHTYELLOW img=newset/bomb 
+    	sprite28 > Passive img=newset/block2 shrinkfactor=0.8 
+    	sprite29 > Missile shrinkfactor=0.3 orientation=LEFT speed=0.5 img=newset/laser1 
+    	sprite30 > Missile img=oryx/bullet1 speed=0.1 
+    	sprite31 > Missile orientation=UP color=RED speed=25 img=oryx/slime2 
+    	sprite32 > Missile orientation=RIGHT speed=7 img=newset/laser1_1 frameRate=6 
+    	sprite33 > ShootAvatar stype=sprite30 img=oryx/swordman1 
+    	sprite34 > Door color=GREEN img=oryx/doorclosed1 
+    	sprite36 > Resource color=RED limit=1 img=oryx/key2 shrinkfactor=0.7 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite0
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite21
+    	Y > sprite21
+    	Z > sprite21
+    	a > sprite25
+    	b > sprite26
+    	c > sprite27
+    	d > sprite28
+    	e > sprite29
+    	f > sprite30
+    	g > sprite31
+    	h > sprite32
+    	i > sprite33
+    	j > sprite34
+    	k > sprite36
+
+    InteractionSet
+    	sprite7 sprite18  > killSprite 
+    	sprite4 sprite31  > killBoth 
+    	sprite34 sprite21  > killIfOtherHasMore resource=sprite36 limit=1 scoreChange=4 
+    	sprite31 EOS > wrapAround 
+    	sprite34 sprite30  > killBoth 
+    	sprite0 sprite11  > transformTo stype=sprite26 
+
+    TerminationSet
+    	Timeout limit=1000 win=True 
+    	Timeout limit=1000 win=True 
+    	Timeout limit=1000 win=False 
+    	Timeout win=True limit=50
