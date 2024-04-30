@@ -1,20 +1,21 @@
 LevelMapping
-    a > avatar 
-    b > missile3 
+    a > missile3 
+    b > avatar 
 
 LevelDescription
             
             
             
-          a 
+            
+            
+    a       
             
             
             
             
             
             
-       b    
             
             
             
-            
+     b      

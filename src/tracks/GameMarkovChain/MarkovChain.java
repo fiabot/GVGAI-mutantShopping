@@ -37,12 +37,8 @@ public class MarkovChain {
     HashMap<String, ArrayList<ArrayList<String>>> terminationParams; 
 
 
-    // dimensions of levels 
-    ArrayList<int[]> levelSizes; 
-    // sprite context ->  base probabilities of characters 
-    HashMap<String, ArrayList<Character>> characterProps; 
-    // generatlized level context -> generatlized level char 
-    HashMap<String, ArrayList<Character>> levelChain; 
+    //sprite context --> level chain  
+    HashMap<String, LevelChain> levelChains; 
 
     Random random; 
 
@@ -75,6 +71,8 @@ public class MarkovChain {
         numTerminations = new ArrayList<Integer>(); 
         terminationTypes = new HashMap<String, ArrayList<String>>();
         terminationParams = new HashMap<String, ArrayList<ArrayList<String>>>();
+
+        levelChains = new HashMap<String, LevelChain>();
 
         random = new Random(); 
      }
@@ -261,6 +259,20 @@ public class MarkovChain {
 
      }
 
+     public static ArrayList<String> buildLevelMapping(ArrayList<String> sprites){
+        ArrayList<String> levelMapping = new ArrayList<String>(); 
+        // 4.1 for each sprite 
+        for(int i = 0; i < sprites.size(); i++){
+            // add a level mapping with next char in char list 
+                //TODO: if there is a floor sprite, add that before each char 
+                String sprite = sprites.get(i); 
+                String name = sprite.split(">")[0].strip(); 
+                levelMapping.add(levelChars[i] + " > " + name); 
+        }
+
+        return levelMapping;
+     }
+
     public String buildGame(){
         nextSpriteInt = 0;
         //1: build sprite set 
@@ -338,25 +350,21 @@ public class MarkovChain {
         // 4: repair 
 
         // 5: Build Level mapping 
-        ArrayList<String> levelMapping = new ArrayList<String>(); 
-            // 4.1 for each sprite 
-            for(int i = 0; i < sprites.size(); i++){
-                // add a level mapping with next char in char list 
-                    //TODO: if there is a floor sprite, add that before each char 
-                    String sprite = sprites.get(i); 
-                    String name = sprite.split(">")[0].strip(); 
-                    levelMapping.add(levelChars[i] + " > " + name); 
-            }
+        ArrayList<String> levelMapping = buildLevelMapping(sprites);
         
-        // 6: Build level 
-            // 5.1 Select Level Dimensions 
-            // 5.2 intialize level based on base probabilities 
-            // 5.3 for n cycles swap characters as done previously 
-        
-        //7: change wall and floor sprites to Immovable 
-        
-
         return buildGameDescription("BasicGame \n", sprites, interactions, terminations, levelMapping); 
+    }
+
+    public String buildLevel(String game, int trials){
+        ArrayList<ArrayList<String>> parts = parseInteractions(game); 
+        ArrayList<String> sprites = parts.get(0); 
+        int[] spriteVector = getSpriteVector(sprites); 
+        String spriteContext = getClosestSpriteContext(spriteVector); 
+        LevelChain chain = levelChains.get(spriteContext); 
+        char[][] generalLevel = chain.generate(trials); 
+        String level = LevelChain.specifyLevel(game, generalLevel); 
+
+        return level; 
     }
 
     /*
@@ -509,14 +517,17 @@ public class MarkovChain {
         return str;
     }
 
-    private static String findSpriteWithName(String name, ArrayList<String> sprites) {
+    public static String findSpriteWithName(String name, ArrayList<String> sprites) {
         
         for (String sprite : sprites) {
           
             String[] lines = sprite.split("\n"); 
 
             for(String line: lines){
-                if (line.split(">")[0].contains(name)) {
+                String thisName = line.split(">")[0];
+                thisName = thisName.strip();  
+                
+                if (thisName.equals(name)) {
                
                     return sprite;
                 }
@@ -552,7 +563,14 @@ public class MarkovChain {
         for(String[] game: games){
             String file = game[0]; 
             String desc = getFileAsString(file); 
-            trainOneExample(desc, new String[0]);
+            String[] levels = new String[5];
+            for(int i =0; i < 5; i ++){
+                String levelFile = file.replace(".txt", "_lvl" + i +".txt"); 
+                levels[i] = getFileAsString(levelFile); 
+
+
+            }
+            trainOneExample(desc, levels);
         }
 
     }
@@ -692,13 +710,23 @@ public class MarkovChain {
                 updateParams(termType, params.get(0), params.get(1));
             }
         
-        // 5: update level hashmaps 
-            // for each level 
-                // 5.1 generalize level characters 
-                // 5.2 add deminsions to base 
-                // 5.3 add base probabilities based on sprite context 
-                // 5.4 add neighbor information 
+        // 5: update level chains
+            // 5.1: get / create level chain 
+        LevelChain chain; 
+        if(levelChains.containsKey(spriteContext)){ 
+            chain = levelChains.get(spriteContext); 
+             
+        }else{
+            chain = new LevelChain(); 
+            levelChains.put(spriteContext, chain); 
+        }
+
+        //5.2 update level chain based on new levels 
+        chain.train(example, levels);
+
+
     }
+
 
     public String manualRepair(String game){
         // 1. check if there is an avatar sprite 
@@ -725,7 +753,14 @@ public class MarkovChain {
 
     public ArrayList<String> removeSprite(ArrayList<String> oldList, String name, String type, HashMap<String, ArrayList<String>> spriteMap){
         name = name.strip(); 
-        boolean remove= spriteMap.containsKey(name) || spriteMap.get(name) == null; 
+        try{
+            spriteMap.get(type).remove(name); 
+        }catch (Throwable e){
+            // do nothing 
+        }
+        
+        //boolean remove= !spriteMap.containsKey(type) || spriteMap.get(type) == null || spriteMap.get(type).size() == 0; 
+        boolean remove = true; 
         ArrayList<String> newList = new ArrayList<String>();
                     for(String str: oldList){
                         if(str.contains(name)){
@@ -740,6 +775,38 @@ public class MarkovChain {
                     }
 
             return newList; 
+    }
+
+    public ArrayList<ArrayList<String>> removeSpriteFromAll(ArrayList<String> sprites, ArrayList<String> interactions, ArrayList<String> terminations,  String name, String type){
+        HashMap<String, ArrayList<String>> spriteMap = getTypeMapping(sprites); 
+        ArrayList<ArrayList<String>> returnLi =  new ArrayList<ArrayList<String>>();
+
+        ArrayList<String> newSprites = removeSprite(sprites, name, type, spriteMap);
+        
+        spriteMap = getTypeMapping(newSprites); 
+        spriteMap = getTypeMapping(newSprites); 
+
+        ArrayList<String[]> removedSprites = new ArrayList<String[]>();
+        String[] items = {name, type}; 
+        removedSprites.add(items);  
+        for(String sprite: sprites){
+            if (!newSprites.contains(sprite)){
+                String[] spriteItems = {sprite.split(">" )[0].strip(), getSpriteType(sprite)}; 
+                removedSprites.add(spriteItems);
+            }
+        }
+        ArrayList<String> newTerminations = terminations; 
+        ArrayList<String> newInteractions = interactions; 
+        for(String[] sprite: removedSprites){
+            newTerminations = removeSprite(newTerminations, sprite[0],sprite[1], spriteMap);
+            newInteractions = removeSprite(newInteractions, sprite[0],sprite[1], spriteMap);
+        }
+
+        returnLi.add(newSprites); 
+        returnLi.add(newInteractions); 
+        returnLi.add(newTerminations);
+
+        return returnLi; 
     }
     
 
@@ -756,6 +823,7 @@ public class MarkovChain {
          // choose mutation type 
         String mutationType = mutationTypes[random.nextInt(mutationTypes.length)]; 
         String mutationSubType = mutationSubTypes[random.nextInt(mutationSubTypes.length)]; 
+        //System.out.println(mutationType + "," + mutationSubType);
 
         nextSpriteInt = Integer.valueOf(sprites.get(sprites.size() - 1).split(">")[0].replace("sprite", "").strip()) + 1;
         
@@ -772,7 +840,7 @@ public class MarkovChain {
                     addSprite((buildSpriteFromType(nextType, sprites)), sprites);
                 
                 // 1.2 modifify sprite 
-                }else if (mutationSubType == "modify"){
+                }else if (mutationSubType == "modify" &&  sprites.size() > 0){
                     int subsubtype = random.nextInt(3); 
                     String sprite = selectFromList(sprites); 
                     if(subsubtype == 0){
@@ -822,21 +890,22 @@ public class MarkovChain {
                         sprites.set(index, newSprite );
                         }
                         
-                    } 
-                }
+                    }  
                 // 1.3 remove sprite 
-                else{
+                }else if (sprites.size() > 1){
+                    
                     String sprite = selectFromList(sprites);  
-                    String spriteName = sprite.split(">")[0].strip(); // assumes sprite isn't nested 
+                    String spriteName = sprite.split(">" )[0].strip(); // assumes sprite isn't nested 
                     sprites.remove(sprite); 
 
-                    HashMap<String, ArrayList<String>> spriteMap = getTypeMapping(sprites); 
+                    //HashMap<String, ArrayList<String>> spriteMap = getTypeMapping(sprites); 
                     String type = getSpriteType(sprite);
 
                     // consquences 
-                    sprites = removeSprite(sprites, spriteName, type, spriteMap); 
-                    interactions = removeSprite(interactions, spriteName, type, spriteMap); 
-                    terminations = removeSprite(terminations, spriteName, type, spriteMap); 
+                    ArrayList<ArrayList<String>> newRules = removeSpriteFromAll(sprites, interactions, terminations, spriteName, type); 
+                    sprites = newRules.get(0); 
+                    interactions = newRules.get(1); 
+                    terminations = newRules.get(2);  
                     
                 }
         // 2 mutate interaction
@@ -867,7 +936,7 @@ public class MarkovChain {
                     
                     interactions.add(interaction);
                 // 2.2 modify interaction 
-                }else if (mutationSubType == "modify"){
+                }else if (mutationSubType == "modify" && interactions.size() > 0){
                     String interaction = selectFromList(interactions); 
                     int subsubtype = random.nextInt(3);
                     int index = interactions.indexOf(interaction);  
@@ -889,7 +958,6 @@ public class MarkovChain {
                             System.out.println("COULD NOT MODIFY INTERACTION TYPE"); 
                             System.out.println(interaction); 
                             System.out.println(spriteTypes);
-                            System.out.println(game);
                         }
                       
                         
@@ -924,7 +992,7 @@ public class MarkovChain {
                             }
                         
                     }
-                }else{
+                }else if(interactions.size() > 1){
                     // 2.3 delete interaction 
                     String interaction = selectFromList(interactions); 
                     interactions.remove(interaction); 
@@ -945,7 +1013,7 @@ public class MarkovChain {
                  terminations.add(termination); 
              }
             // 3.2 modify termination 
-            else if (mutationSubType == "modify"){
+            else if (mutationSubType == "modify"  && terminations.size() > 0){
                 String termination = selectFromList(terminations); 
                 int index = terminations.indexOf(termination); 
                 int subsubtype = random.nextInt(2); 
@@ -981,12 +1049,13 @@ public class MarkovChain {
                     terminations.set(index, newTermination);
                 }
             // remove termination 
-            }else{
+            }else if (terminations.size() > 1){
                 String termination = selectFromList(terminations); 
-                //System.out.println("removing termingation: " + termination); 
-                terminations.remove(termination); 
-            }
+        
+                terminations.remove(termination);
+            } 
         }
+        
         String newGame = buildGameDescription(parts.get(4).get(0), sprites, interactions, terminations, levelMapping); 
 
          return newGame;
@@ -1312,7 +1381,7 @@ public class MarkovChain {
 		for(String line: termination){
 			stringBuilder.append(terminationSpace + "\t" + line + "\n"); 
 		}
-        stringBuilder.append(terminationSpace + "\t" + "Timeout win=True limit=50" + "\n");
+        
 	
 
           return stringBuilder.toString();

@@ -9,6 +9,7 @@ a        a
 a        a
 a        a
 a        a
-ab       a
+a        a
+a  b     a
 a        a
 aaaaaaaaaa

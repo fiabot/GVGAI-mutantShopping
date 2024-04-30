@@ -3,12 +3,11 @@ LevelMapping
     b > avatar 
 
 LevelDescription
-         
-         
-         
-         
-         
-         
-         
-       ab
-         
+        
+ a      
+        
+ b      
+        
+        
+        
+        

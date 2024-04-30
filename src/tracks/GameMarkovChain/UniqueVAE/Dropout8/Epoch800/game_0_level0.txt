@@ -1,15 +1,17 @@
 LevelMapping
     a > immovable2 
-    b > door0 
-    c > movingavatar0 
-    d > immovable1 
-    e > avatar 
+    b > movingavatar0 
+    c > door0 
+    d > avatar 
+    e > immovable1 
 
 LevelDescription
-aaaaaaaaaa
-a b a    a
-a   aa c a
-a        a
-ab     dda
-a e      a
-aaaaaaaaaa
+aaaaaaaa
+a      a
+a      a
+ab c c a
+a  a   a
+ad ae  a
+a  a   a
+a  a  ea
+aaaaaaaa

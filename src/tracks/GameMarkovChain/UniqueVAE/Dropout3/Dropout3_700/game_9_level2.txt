@@ -7,9 +7,8 @@ aaaaaaaaaa
 a        a
 a        a
 a        a
-a       ba
 a        a
-a        a
+a   b    a
 a        a
 a        a
 aaaaaaaaaa

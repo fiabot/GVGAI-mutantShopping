@@ -1,20 +1,18 @@
 LevelMapping
-    a > missile3 
+    a > immovable2 
     b > avatar 
 
 LevelDescription
-           
-           
-           
-           
-         a 
-           
-           
-           
-           
-           
-           
-           
-        b  
-           
-           
+          
+          
+          
+          
+          
+          
+          
+        a 
+          
+          
+          
+        b 
+          

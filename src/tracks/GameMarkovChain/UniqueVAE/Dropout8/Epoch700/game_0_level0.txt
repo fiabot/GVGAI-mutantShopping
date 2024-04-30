@@ -3,13 +3,11 @@ LevelMapping
     b > avatar 
 
 LevelDescription
-aaaaaaa
-a     a
-a     a
-a     a
-a     a
-a     a
-a  b  a
-a     a
-a     a
-aaaaaaa
+aaaaaaaaaa
+a        a
+a        a
+a        a
+a        a
+a        a
+a       ba
+aaaaaaaaaa

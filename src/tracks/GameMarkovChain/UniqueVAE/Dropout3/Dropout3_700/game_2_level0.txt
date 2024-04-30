@@ -1,15 +1,13 @@
 LevelMapping
-    a > avatar 
-    b > immovable1 
+    a > immovable1 
+    b > avatar 
 
 LevelDescription
-   a      
-          
-          
-          
-          
-          
-          
-          
-          
-         b
+      
+      
+      
+     a
+      
+      
+      
+b     
