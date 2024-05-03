@@ -1,0 +1,58 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/tombstone1
+    	sprite1 > Passive shrinkfactor=0.7 img=oryx/gold2
+    	sprite2 > Immovable color=BLUE img=dirt portal=True
+    	sprite3 > Portal invisible=True portal=True stype=sprite4
+    	sprite4 > Immovable img=oryx/diamond2 hidden=True
+    	sprite5 > Missile speed=0.5 img=newset/bomb orientation=LEFT
+    	sprite6 > ShootAvatar color=RED stype=sprite7 speed=1.0 img=oryx/archer1 rotateInPlace=False
+    	sprite7 > Missile color=WHITE img=newset/block3
+    	sprite8 > Immovable color=DARKBLUE img=oryx/space4
+    	sprite9 > Immovable color=YELLOW img=oryx/circleEffect1
+    	sprite10 > Bomber stype=sprite7 prob=0.1 cooldown=6 speed=1 img=oryx/angel1
+    	sprite11 > MovingAvatar img=newset/girl3
+    	sprite12 > Door color=GREEN img=oryx/dooropen1
+    	sprite13 > OrientedAvatar img=oryx/alien1 rotateInPlace=false speed=0.5 color=ORANGE
+    	sprite15 > Flicker limit=1 invisible=TRUE
+    	sprite16 > SpawnPoint img=newset/hole4 portal=True cooldown=16 total=10 stype=sprite5
+    	sprite17 > SpawnPoint img=newset/lasercannon_3 stype=sprite5
+    	sprite18 > Immovable img=oryx/tree2
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+
+    InteractionSet
+    	sprite2 sprite7  > transformToSingleton stype=sprite3 stype_other=sprite4
+    	sprite8 sprite5   > transformToSingleton > transformToSingleton stype=sprite3 stype_other=sprite8
+    	sprite5 sprite4  > attractGaze
+    	sprite7 sprite4  > transformTo stype=sprite13
+    	sprite6 sprite5  > killSprite
+    	sprite5 EOS  > killSprite scoreChange=-10
+    	sprite5 sprite8   > wallBounce > wallBounce
+    	sprite12 sprite6  > killSprite
+    	sprite9 sprite8  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite5 win=False
+    	MultiSpriteCounter stype1=sprite8 stype2=sprite7 limit=1 win=True
+    	MultiSpriteCounter stype1=sprite8 limit=1 win=True
+    	SpriteCounter stype=sprite12 limit=0 win=True

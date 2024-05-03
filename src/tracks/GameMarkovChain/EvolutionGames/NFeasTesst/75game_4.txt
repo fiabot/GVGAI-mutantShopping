@@ -1,0 +1,21 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile orientation=DOWN speed=0 color=ORANGE img=newset/camel1
+    	sprite1 > ShootAvatar color=RED stype=sprite0 img=oryx/spelunky
+    	sprite2 > Immovable img=newset/block3
+    	sprite3 > OrientedAvatar rotateInPlace=false img=oryx/vampire1 color=YELLOW speed=0.5
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite2 sprite1  > transformTo stype=sprite0
+    	sprite2 sprite3  > killSprite scoreChange=1
+
+    TerminationSet
+    	Timeout limit=1000 win=False
+    	Timeout limit=1000 win=True
+    	MultiSpriteCounter stype1=sprite2 limit=1 win=True 

@@ -1,0 +1,10 @@
+AAC  CCD ADC  A  DCA
+  AD DAC        C   
+                D  A
+                    
+C               D  C
+                    
+D                  A
+                   D
+                   D
+C    AB             

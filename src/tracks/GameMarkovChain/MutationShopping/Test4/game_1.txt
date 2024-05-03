@@ -1,0 +1,14 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl1 frameRate=8 
+    	sprite1 > Immovable img=oryx/dirtwall 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+
+    InteractionSet
+    	sprite1 sprite0  > killSprite 
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 limit=0 win=False 

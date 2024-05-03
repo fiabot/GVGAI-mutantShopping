@@ -1,0 +1,29 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl2
+    	sprite1 > Immovable color=GREEN color=GRAY
+    	sprite2 > Resource img=oryx/sword4 shrinkfactor=0.9
+    	sprite4 > RandomNPC speed=0.25 cooldown=2 cons=3 img=newset/satellite
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	Timeout limit=1000 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=2000 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True

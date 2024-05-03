@@ -83,6 +83,55 @@ public class LevelGenMachine
         return true;
     }
 
+    /**
+     * Generate a level for a certain described game and test it against a
+     * supplied agent
+     *
+     * @param gameFile game description file.
+     * @param levelGenerator level generator class path.
+     * @param levelFile file to save the generated level in it
+     */
+    public static String generateOneLevelAsString(String game, String levelGenerator) {
+        //VGDLFactory.GetInstance().init(); // This always first thing to do.
+        //VGDLRegistry.GetInstance().init();
+
+       
+
+        // First, we create the game to be played..
+        Game toPlay = new VGDLParser().parseGameAsString(game);
+        GameDescription description = new GameDescription(toPlay);
+        AbstractLevelGenerator generator = createLevelGenerator(levelGenerator, description);
+        String level = getGeneratedLevel(description, toPlay, generator);
+        if (level == "" || level == null) {
+            System.out.println("Empty Level Disqualified");
+            toPlay.disqualify();
+
+            // Get the score for the result.
+            toPlay.handleResult();
+            toPlay.printResult();
+            return "false";
+        }
+
+        HashMap<Character, ArrayList<String>> charMapping = generator.getLevelMapping();
+        if (charMapping != null) {
+            toPlay.setCharMapping(charMapping);
+        }
+
+        try {
+            toPlay.buildStringLevel(level.split("\n"), 0);
+        } catch (Exception e) {
+            System.out.println("Undefined symbols or wrong number of avatars Disqualified ");
+            toPlay.disqualify();
+
+            // Get the score for the result.
+            toPlay.handleResult();
+            toPlay.printResult();
+            return "false";
+        }
+
+        return getLevel(level, toPlay.getCharMapping()); 
+    }
+
 
     /**
      * Generate multiple levels for a certain game
@@ -452,6 +501,33 @@ public class LevelGenMachine
             e.printStackTrace();
         }
     }
+
+        /**
+     * Saves a level string to a file
+     * @param level current level to save
+     * @param levelFile saved file
+     */
+    private static String getLevel(String level, HashMap<Character, ArrayList<String>> charMapping) {
+       
+            StringBuilder str = new StringBuilder(); 
+            str.append("LevelMapping");
+            str.append("\n"); 
+            for (Map.Entry<Character, ArrayList<String>> e : charMapping.entrySet()) {
+                str.append("    " + e.getKey() + " > ");
+                for (String s : e.getValue()) {
+                    str.append(s + " ");
+                }
+                str.append("\n");
+            }
+            str.append("\n");
+            str.append("LevelDescription");
+            str.append("\n");
+            str.append(level);
+            return str.toString(); 
+            
+      
+    }
+
 
     /**
      * Load a generated level file.

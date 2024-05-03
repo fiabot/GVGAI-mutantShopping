@@ -1,0 +1,14 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=oryx/angel1 
+    	sprite1 > Immovable invisible=True hidden=True img=newset/log 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+
+    InteractionSet
+    	sprite1 sprite0  > spawnBelow stype=sprite1 stepBack=True 
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 win=True 

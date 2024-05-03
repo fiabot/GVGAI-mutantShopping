@@ -1,0 +1,24 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=oryx/knight1
+    	sprite1 > Immovable img=oryx/dooropen1 autotiling=True
+    	sprite2 > Immovable img=oryx/seaWater
+    	sprite3 > LanderAvatar physicstype=CONT img=oryx/spaceship3 angle_diff=0.2 gravity=0.3 speed=0.5
+    	sprite4 > Passive img=newset/cloud2 shrinkfactor=0.8
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite1 sprite0    > killIfOtherHasMore > killIfOtherHasMore resource=a7 limit=1 scoreChange=4
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=True
+    	SpriteCounter stype=sprite1 win=False
+    	Timeout limit=1000 win=True

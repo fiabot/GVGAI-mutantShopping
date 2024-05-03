@@ -1,0 +1,22 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=oryx/knight1
+    	sprite1 > Immovable img=oryx/backOBrown
+    	sprite2 > OrientedFlicker invisible=True hidden=True limit=1 singleton=true
+    	sprite3 > ShootAvatar stype=sprite2 img=oryx/archer1
+    	sprite4 > Immovable invisible=True hidden=True orientation=DOWN img=newset/win2
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+
+    InteractionSet
+    	sprite0 sprite1  > killSprite scoreChange=1
+    	sprite4 sprite3   > killSprite > killSprite
+
+    TerminationSet
+    	SpriteCounter stype=sprite4 limit=0 win=True 
+    	SpriteCounter stype=sprite3 win=False

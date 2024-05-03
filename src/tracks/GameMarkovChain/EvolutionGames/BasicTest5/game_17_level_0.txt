@@ -1,0 +1,10 @@
+CCD   AC  AC  DC ACA
+  CA ACD        A   
+                D  C
+                    
+A                  A
+                    
+A                  A
+    C               
+                   A
+D    AB             

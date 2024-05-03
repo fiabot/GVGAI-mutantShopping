@@ -1,0 +1,18 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile orientation=UP img=newset/block3 speed=0.25 
+    	sprite1 > ShootAvatar stype=sprite0 img=newset/shooter1 
+    	sprite2 > Passive img=oryx/key3 orientation=UP img=newset/block3 
+    	sprite3 > Resource color=YELLOW limit=2 shrinkfactor=0.5 img=oryx/potion1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite1 sprite2  > changeResource resource=sprite3 value=1 scoreChange=1 killResource=True 
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 limit=0 win=True 

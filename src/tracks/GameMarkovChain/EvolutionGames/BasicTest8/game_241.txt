@@ -1,0 +1,38 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar speed=1.0 img=newset/girl4
+    	sprite1 > Immovable img=oryx/gold1 hidden=True
+    	sprite2 > MovingAvatar img=oryx/angel1
+    	sprite3 > Missile speed=1.0 img=newset/cloud2 orientation=RIGHT
+    	sprite4 > Immovable orientation=UP color=BLUE img=oryx/backLBrown
+    	sprite5 > Immovable color=GREEN img=oryx/wall3 orientation=UP color=RED
+    	sprite6 > Door img=oryx/door2
+    	sprite7 > Immovable
+    	sprite8 > Immovable img=newset/dock2
+    	sprite9 > Immovable img=newset/floor6
+    	sprite10 > Missile physicstype=CONT gravity=0.5 speed=0.25 shrinkfactor=0.5 img=newset/car4R orientation=DOWN
+    	sprite11 > Immovable img=newset/lasercannon_4 hidden=True
+    	sprite12 > RandomNPC speed=0.5 cooldown=3 cons=1 invisible=True hidden=True
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+
+    InteractionSet
+    	sprite2 sprite4  > transformTo stype=sprite3
+    	sprite4 sprite2  > killIfOtherHasMore resource=b14 limit=1
+    	sprite5 sprite2    > killSprite > killSprite scoreChange=5
+    	sprite6 sprite2  > killSprite scoreChange=-15
+    	sprite12 sprite5 sprite7  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	SpriteCounter stype=sprite2 limit=0 win=True
+    	SpriteCounter stype=sprite4 limit=0 win=False
+    	SpriteCounter stype=sprite6 limit=0 win=True
+    	Timeout limit=500 win=True

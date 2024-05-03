@@ -1,0 +1,25 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/backBlack
+    	sprite1 > MovingAvatar img=newset/girl2
+    	sprite2 > Immovable color=GREEN color=GRAY
+    	sprite3 > Resource img=oryx/sword4 shrinkfactor=0.9
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite1 sprite2   > transformTo > transformTo stype=sprite2 scoreChange=-3
+    	sprite3 sprite1   > killSprite > killSprite scoreChange=2
+    	sprite2 sprite1  > killSprite scoreChange=-1
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1500 win=False
+    	Timeout limit=1000 win=True

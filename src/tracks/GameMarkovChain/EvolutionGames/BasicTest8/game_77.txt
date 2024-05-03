@@ -1,0 +1,24 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl2
+    	sprite1 > Immovable color=GREEN color=GRAY
+    	sprite2 > Resource img=newset/egg shrinkfactor=0.9
+    	sprite3 > Resource value=1 limit=10 img=oryx/boots3
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite0 sprite1  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=False

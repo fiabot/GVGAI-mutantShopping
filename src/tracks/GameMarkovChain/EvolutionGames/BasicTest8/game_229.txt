@@ -1,0 +1,29 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl2
+    	sprite1 > Immovable color=ORANGE img=oryx/doorclosed1
+    	sprite2 > Passive img=newset/block1
+    	sprite3 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+    	sprite4 > Resource value=1 limit=10 img=oryx/boots3
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite0 sprite1  > spawnIfHasMore resource=sprite4 limit=2 stype=sprite4
+    	sprite2 sprite1  > killBoth scoreChange=2
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite1 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=True
+    	Timeout limit=1500 win=True
+    	Timeout limit=1000 win=True

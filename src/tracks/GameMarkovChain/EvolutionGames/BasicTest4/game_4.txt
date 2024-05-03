@@ -1,0 +1,66 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable invisible=True hidden=True orientation=UP img=newset/chair4
+    	sprite1 > Missile orientation=RIGHT speed=0.3 color=RED img=oryx/icedown1
+    	sprite2 > Immovable img=oryx/fire1 autotiling=True
+    	sprite3 > Immovable color=LIGHTORANGE img=newset/hole1 orientation=DOWN color=DARKBLUE
+    	sprite4 > RandomMissile color=ORANGE speed=0.25 img=oryx/axe1
+    	sprite5 > SpawnPointMultiSprite prob=0.8 cooldown=20 stypes=missileL,missileR color=PINK img=newset/lasercannon_1
+    	sprite6 > Immovable img=oryx/space1
+    	sprite7 > Flicker limit=1 invisible=TRUE
+    	sprite8 > ShootAvatar stype=sprite7 healthPoints=20 img=newset/humanShotgun
+    	sprite9 > Resource value=10000 limit=11 img=oryx/heart1 color=YELLOW
+    	sprite10 > Door img=oryx/door2
+    	sprite11 > Immovable img=oryx/dirtwall hidden=True
+    	sprite12 > SpawnPoint img=oryx/seaWater portal=True stype=sprite13 cooldown=100 prob=0.01
+    	sprite13 > Missile img=newset/camel3 speed=7 shrinkfactor=0.5
+    	sprite14 > MissileAvatar img=oryx/ghost1 orientation=RIGHT color=ORANGE
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+
+    InteractionSet
+    	sprite4 sprite11 sprite3  > killSprite
+    	sprite4 sprite11 sprite3  > killSprite
+    	sprite8 sprite3 sprite3  > stepBack
+    	sprite3 sprite8  > killSprite
+    	sprite8 sprite3  > killSprite scoreChange=-1
+    	sprite4 sprite3 sprite11  > killSprite
+    	sprite6 sprite4  > transformTo stype=sprite5 timer=100 repeating=True scoreChange=-1
+    	sprite11 sprite4  > killSprite
+    	sprite4 sprite6 sprite11  > killSprite
+    	sprite4 sprite6 sprite6  > killSprite
+    	sprite6 sprite4  > transformTo stype=sprite11
+    	sprite6 sprite4  > killSprite scoreChange=10
+    	sprite6 sprite4  > killSprite
+    	sprite11 sprite4  > transformTo stype=sprite14
+    	sprite6 sprite7  > killBoth
+    	sprite11 sprite8  > transformTo stype=sprite6 scoreChange=-1
+    	sprite8 sprite6  > stepBack
+    	sprite6 sprite8  > bounceForward
+    	sprite6 sprite8  > killSprite
+    	sprite9 sprite8  > collectResource scoreChange=1
+    	sprite10 sprite8  > killSprite
+    	sprite10 sprite8  > killSprite
+    	sprite10 sprite8  > killSprite
+    	sprite10 sprite8  > killSprite
+    	sprite9 sprite8  > collectResource killResource=False
+    	sprite8 sprite11 sprite12  > shieldFrom ftype=killSprite stype=sprite3
+    	sprite10 sprite8  > killIfOtherHasMore resource=sprite9 limit=1
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite11 stype2=sprite6 limit=1 win=False

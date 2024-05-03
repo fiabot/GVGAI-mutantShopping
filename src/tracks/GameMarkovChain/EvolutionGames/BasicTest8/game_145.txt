@@ -1,0 +1,32 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MissileAvatar img=oryx/ghost1 orientation=DOWN
+    	sprite1 > Immovable img=dirt
+    	sprite2 > MovingAvatar speed=1.0 img=newset/camel5
+    	sprite3 > Immovable color=GREEN color=GRAY
+    	sprite5 > Immovable img=oryx/seaWater 
+    	sprite6 > Passive img=newset/block2 shrinkfactor=0.8
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+
+    InteractionSet
+    	sprite2 sprite3   > transformTo > transformTo stype=sprite3 scoreChange=-3
+    	sprite5 sprite2   > killSprite > killSprite scoreChange=1
+    	sprite3 sprite2  > killSprite scoreChange=-1
+    	sprite6 sprite2  > bounceForward
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	SpriteCounter stype=sprite2 limit=0 win=True
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	SpriteCounter stype=sprite2 win=False
+    	Timeout limit=1000 win=True
+    	Timeout limit=1000 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=False

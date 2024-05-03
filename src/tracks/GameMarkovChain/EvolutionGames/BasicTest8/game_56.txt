@@ -1,0 +1,25 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl2
+    	sprite1 > Immovable img=oryx/backLBrown
+    	sprite2 > Immovable img=oryx/diamond3
+    	sprite3 > Door color=GREEN img=oryx/dooropen1
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite1 sprite0    > killIfOtherHasMore > killIfOtherHasMore resource=a7 limit=1 scoreChange=4
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite3 sprite0  > killSprite
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=True
+    	Timeout limit=500 win=True

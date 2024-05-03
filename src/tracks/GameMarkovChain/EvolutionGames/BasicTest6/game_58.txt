@@ -1,0 +1,32 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Passive img=oryx/diamond3
+    	sprite1 > Passive img=newset/whirlpool3 shrinkfactor=0.8
+    	sprite2 > Portal stype=sprite1 color=LIGHTBLUE img=newset/exit2
+    	sprite3 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite4 > MovingAvatar img=oryx/spelunky_0 frameRate=8
+    	sprite5 > Immovable img=oryx/backBlack
+    	sprite6 > Portal stype=sprite5 color=LIGHTBLUE img=newset/exit2
+    	sprite7 > Passive img=oryx/diamond3
+    	sprite8 > Immovable img=newset/floor6 shrinkfactor=0.6 singleton=False
+    	sprite9 > Immovable img=oryx/bullet1
+    	sprite10 > Immovable img=oryx/wall3
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+
+    InteractionSet
+    	sprite3 sprite4  > killSprite scoreChange=1
+
+    TerminationSet
+    	SpriteCounter stype=sprite3 limit=0 win=True

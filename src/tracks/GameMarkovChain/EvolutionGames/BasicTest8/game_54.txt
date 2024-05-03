@@ -1,0 +1,35 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MissileAvatar img=oryx/ghost1 orientation=DOWN
+    	sprite1 > MovingAvatar img=newset/girl2
+    	sprite2 > Immovable color=ORANGE img=oryx/doorclosed1
+    	sprite3 > Passive img=newset/block1
+    	sprite4 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=GREEN
+    	sprite5 > Resource value=1 limit=10 img=oryx/boots3
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+
+    InteractionSet
+    	sprite1 sprite2   > transformTo > transformTo stype=sprite2 scoreChange=-3
+    	sprite4 sprite1   > killSprite > killSprite scoreChange=1
+    	sprite2 sprite1  > killSprite scoreChange=-1
+    	sprite3 sprite2  > killBoth scoreChange=2
+    	sprite1 sprite4  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	SpriteCounter stype=sprite2 win=False
+    	MultiSpriteCounter stype1=sprite4 limit=2 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=False
+    	Timeout limit=1500 win=True
+    	Timeout limit=1000 win=False
+    	SpriteCounter stype=sprite2 limit=0 win=False 

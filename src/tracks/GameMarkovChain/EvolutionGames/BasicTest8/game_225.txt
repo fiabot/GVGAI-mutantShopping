@@ -1,0 +1,29 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=newset/hole1 autotiling=True
+    	sprite1 > Immovable color=DARKBLUE img=newset/chair1 img=oryx/cspell4
+    	sprite2 > MovingAvatar speed=1.0 img=oryx/angel1
+    	sprite3 > Immovable img=dirt autotiling=True
+    	sprite4 > Immovable img=newset/snowmanheadinplace2
+    	sprite5 > Passive img=oryx/bookUp
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+
+    InteractionSet
+    	sprite2 sprite3   > transformTo > transformTo stype=sprite3 scoreChange=-3
+    	sprite3 sprite2    > killIfOtherHasMore > killIfOtherHasMore resource=a7 limit=1 scoreChange=4
+    	sprite4 sprite2   > killSprite > killSprite scoreChange=1
+    	sprite3 sprite2  > killSprite scoreChange=-1
+    	sprite5 sprite2  > bounceForward
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	SpriteCounter stype=sprite2 limit=0 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True

@@ -1,6 +1,10 @@
 package tracks.GameMarkovChain;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import tracks.ArcadeMachine;
@@ -9,11 +13,130 @@ import tracks.levelGeneration.LevelGenMachine;
 public class Test {
 
     public static void main(String[] args) throws IOException {
+        // 
 
         MarkovChain chain = new MarkovChain(); 
-        //chain.trainFromCsvFile( "examples/all_games_sp.csv");
+        chain.trainFromCsvFile( "examples/all_games_sp.csv");
 
-        String game1 = MarkovChain.getFileAsString("examples/gridphysics/zelda.txt");
+
+        System.out.println("GAME 1");
+        String game = chain.buildGame(); 
+        System.out.println(game);
+
+        System.out.println("\n\n");
+        game = chain.mutateGame(game);
+        System.out.println(game);
+
+        System.out.println("\n\n");
+        game = chain.mutateGame(game);
+        System.out.println(game);
+
+        System.out.println("\n\n");
+        game = chain.mutateGame(game);
+        System.out.println(game);
+
+
+
+        /*String game = MarkovChain.getFileAsString("src/tracks/GameMarkovChain/EvolutionGames/BasicTest8/game_0.txt");
+        String level = MarkovChain.getFileAsString("src/tracks/GameMarkovChain/EvolutionGames/BasicTest8/game_0_level_0.txt"); 
+        MutantInterface mutant = new GrammarMutant(game, level , new MarkovChain()); 
+        mutant.getFitness(); */ 
+        //ArcadeMachine.playOneGame("src/tracks/GameMarkovChain/EvolutionGames/BasicTest8/game_0.txt", "src/tracks/GameMarkovChain/EvolutionGames/BasicTest5/game_8_level_0.txt", null, 0);  
+
+        /*String folder = "src/tracks/GameMarkovChain/EvolutionGames/NFeasTesst"; 
+        String historyFile = folder + "/history50.txt";  
+
+        MarkovChain chain = new MarkovChain(); 
+        chain.trainFromCsvFile( "examples/all_games_sp.csv");
+        SimpleMutantConstructor constructor = new SimpleMutantConstructor(chain); 
+
+        Evolution evolution = new Evolution(constructor, historyFile); 
+        double startTime = System.currentTimeMillis(); 
+        evolution.evolveUntilNFeasible(4, 50,  4, 2, 0, true);
+        double endTime = System.currentTimeMillis();
+
+        System.out.println("TIME TAKEN: " + (endTime - startTime));
+
+        int i = 0; 
+        for(MutantInterface mutant: evolution.feasiblePop){
+            PrintWriter out = new PrintWriter(folder + "/50game_" + i + ".txt");
+            out.write(mutant.getGame());
+            out.close();
+
+            out = new PrintWriter(folder + "/50game_" + i + "_level_0" + ".txt");
+            out.write(mutant.getLevel());
+            out.close();
+
+            i++;
+        }
+
+        historyFile = folder + "/history75.txt";  
+        evolution = new Evolution(constructor, historyFile); 
+        startTime = System.currentTimeMillis(); 
+        evolution.evolveUntilNFeasible(4, 75,  4, 2, 0, true);
+        endTime = System.currentTimeMillis();
+
+        System.out.println("TIME TAKEN: " + (endTime - startTime));
+
+        i = 0; 
+        for(MutantInterface mutant: evolution.feasiblePop){
+            PrintWriter out = new PrintWriter(folder + "/75game_" + i + ".txt");
+            out.write(mutant.getGame());
+            out.close();
+
+            out = new PrintWriter(folder + "/75game_" + i + "_level_0" + ".txt");
+            out.write(mutant.getLevel());
+            out.close();
+
+            i++;
+        }
+
+        historyFile = folder + "/history100.txt";
+        evolution = new Evolution(constructor, historyFile); 
+        startTime = System.currentTimeMillis(); 
+        evolution.evolveUntilNFeasible(4, 100,  4, 2, 0, true);
+        endTime = System.currentTimeMillis();
+        System.out.println("TIME TAKEN: " + (endTime - startTime));
+
+        i = 0; 
+        for(MutantInterface mutant: evolution.feasiblePop){
+            PrintWriter out = new PrintWriter(folder + "/100game_" + i + ".txt");
+            out.write(mutant.getGame());
+            out.close();
+
+            out = new PrintWriter(folder + "/100game_" + i + "_level_0" + ".txt");
+            out.write(mutant.getLevel());
+            out.close();
+
+            i++;
+        }
+
+
+        FileInputStream fi = new FileInputStream(new File(historyFile));
+        ObjectInputStream oi = new ObjectInputStream(fi);
+
+        // Read objects
+        EvolutionHistory hist;
+        try {
+            hist = (EvolutionHistory) oi.readObject();
+            System.out.println(hist.infeasibleSize); 
+            System.out.println(hist.topInfeasibleFitness); 
+            //System.out.println(hist.topFeasGameDescriptions.get());
+            //System.out.println(hist.topFeasLevels.get(40));
+
+            //GrammarMutant mutant = new GrammarMutant(hist.topFeasGameDescriptions.get(40), hist.topFeasLevels.get(40), chain);
+            //System.out.println(mutant.getFitness()); 
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+
+        oi.close();
+        fi.close();  */ 
+
+        /*String game1 = MarkovChain.getFileAsString("examples/gridphysics/zelda.txt");
         String level1 = MarkovChain.getFileAsString("examples/gridphysics/zelda_lvl0.txt");
         
         GrammarMutant mutant = new GrammarMutant(game1, level1, chain); 
@@ -23,7 +146,7 @@ public class Test {
         System.out.println(mutant.getLevel());
         System.out.println(mutant.getOptimizeFitness());
         String recordActionsFile = null;
-        //ArcadeMachine.playOneGame(mutant.getGame(), mutant.getLevel(), recordActionsFile, 42, false);
+        //ArcadeMachine.playOneGame(mutant.getGame(), mutant.getLevel(), recordActionsFile, 42, false);*/ 
 
 
         

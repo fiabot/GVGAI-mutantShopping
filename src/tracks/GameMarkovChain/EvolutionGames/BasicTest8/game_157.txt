@@ -1,0 +1,27 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl2
+    	sprite1 > Immovable color=GREEN color=GRAY
+    	sprite2 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+    	sprite3 > Fleeing stype=sprite4 color=BLUE img=oryx/ghost1
+    	sprite4 > ShootAvatar stype=sprite5 rotateInPlace=true img=newset/man3
+    	sprite5 > OrientedFlicker invisible=True hidden=True limit=5 singleton=True
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-1
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite3 sprite0  > killSprite scoreChange=-1
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=True
+    	Timeout limit=500 win=True

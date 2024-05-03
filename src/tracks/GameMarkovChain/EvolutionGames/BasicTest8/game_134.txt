@@ -1,0 +1,29 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/man3_satleft
+    	sprite1 > Immovable hidden=True invisible=True
+    	sprite2 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+    	sprite3 > LanderAvatar physicstype=CONT img=oryx/spaceship3 angle_diff=0.2 gravity=0.3 speed=0.5
+    	sprite4 > Passive invisible=True hidden=True
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite1 sprite0    > killIfOtherHasMore > killIfOtherHasMore resource=a7 limit=1 scoreChange=2
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite3 sprite4  > killSprite
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 win=True
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True

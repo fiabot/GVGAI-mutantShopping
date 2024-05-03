@@ -1,0 +1,20 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl1 frameRate=8
+    	sprite1 > Missile orientation=UP speed=0.5 physicstype=CONT img=oryx/bullet2 shrinkfactor=0.7 singleton=True
+    	sprite2 > Immovable invisible=true hidden=True
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite1 sprite0  > killSprite
+    	sprite0 sprite2  > killSprite scoreChange=100
+    	sprite0 sprite2  > transformTo stype=sprite2
+    	sprite0 sprite2 sprite2 EOS sprite2  > stepBack 
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	Timeout limit=1000 win=False

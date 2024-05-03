@@ -1,0 +1,16 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > OrientedFlicker limit=5 speed=0.5 orientation=LEFT singleton=True img=oryx/fireright1 
+    	sprite1 > ShootAvatar rotateInPlace=False ammo=weapon speed=1 frameRate=8 stype=sprite0 img=newset/girl2_c 
+    	sprite2 > Immovable hidden=True orientation=RIGHT img=newset/tile1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite2 sprite1  > transformTo stype=sprite2 scoreChange=1 
+
+    TerminationSet
+    	SpriteCounterMore stype=sprite2 limit=1 win=False 

@@ -1,0 +1,10 @@
+ADC  AAC DCD  CD CAC
+  DA DDC            
+                A  C
+                    
+D                   
+                   C
+C                  A
+                   D
+     D             C
+     AB             

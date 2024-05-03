@@ -180,6 +180,13 @@ public class LevelTester {
         
     }
 
+    public static void main(String[] args) {
+
+        LevelTester tester = new LevelTester("src/tracks/GameMarkovChain/EvolutionGames/BasicTest3/game_0_level_0.txt", "src/tracks/GameMarkovChain/EvolutionGames/BasicTest3/game_0.txt"); 
+
+        System.out.println(tester.testLevel(false)); 
+    }
+
    
 
     

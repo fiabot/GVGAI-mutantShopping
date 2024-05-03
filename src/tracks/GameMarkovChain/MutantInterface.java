@@ -18,7 +18,7 @@ import core.game.GameDescription.SpriteData;
 import core.game.GameDescription.TerminationData;
 import core.player.AbstractPlayer;
 import core.vgdl.VGDLParser;
-import serialization.Vector2d;
+import tools.Vector2d;
 import tools.ElapsedCpuTimer;
 import tools.GameAnalyzer;
 import ontology.Types;
@@ -47,11 +47,11 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
     public double getFitness(){
         if(!isFeasible()){
             return -1; 
-        }else if (fitness == -1){
-            fitness = getOptimizeFitness(); 
+        }else if (feasible_fitness == -1){
+            feasible_fitness  = getOptimizeFitness(); 
         }
 
-        return fitness; 
+        return feasible_fitness; 
     }
     
 
@@ -65,7 +65,7 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
         }else if(getInfeasibleFitness() >= FEASIBLE_THRESHOLD && o.getInfeasibleFitness() >= FEASIBLE_THRESHOLD){
             return Double.valueOf(getFitness()).compareTo(Double.valueOf(o.getFitness())); 
        }
-       else if(getInfeasibleFitness() >= 1 ){ // just this is feasible 
+       else if(getInfeasibleFitness() >= FEASIBLE_THRESHOLD ){ // just this is feasible 
             return 1;  
        }else{ // just them are feasible 
             return -1; 
@@ -74,13 +74,18 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
     }
 
 
-    int TRIAL_LENGTH = 4;
+    
+
+
+    int TRIAL_LENGTH = 3;
     int FEASIBILITY_STEP_LIMIT = 15;
     int EVALUATION_STEP_COUNT = 400; 
     int TIMESTEP = 10; 
     double FEASIBLE_THRESHOLD = 0.9; 
     double infeasible_fitness = -1; 
     double feasible_fitness = -1; 
+    double MAX_SIZE = 40; // max size for sprites + interactions 
+    double LOG_BASE = 4; 
     public  AbstractPlayer doNothingAgent;
     public AbstractPlayer randomAgent; 
     public AbstractPlayer simpleAgent; 
@@ -92,22 +97,30 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
     //SLDescription sl; 
 
     StateObservation state;
+    GameDescription gameDescription; 
+    GameAnalyzer gameAnalyzer;
     Game toPlay; 
     int humanEval;
 
     public void setUp() {
-        //width = mutant.level_array[0].length;
-        //height = mutant.level_array.length;
+        
 
         badFrames = 0;
+        char[][] level_array = LevelChain.getLevelArrayFromString(getLevel()); 
+        width = level_array[0].length;
+        height = level_array.length;
         
         
         try{
             toPlay =  new VGDLParser().parseGameAsString(getGame()); 
             toPlay.buildLevelFromString(getLevel(), 42);
             state = toPlay.getObservation();
+           
+            gameDescription = new GameDescription(toPlay); 
+            gameAnalyzer = new GameAnalyzer(gameDescription); 
+
         }catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             state = null;
         }
     
@@ -123,7 +136,7 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
                 randomAgent = (AbstractPlayer) new tracks.singlePlayer.simple.sampleRandom.Agent(state, null);
             } catch (Exception e) {
                 System.out.println("Can't make random");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
     
             try {
@@ -131,18 +144,46 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
                 simpleAgent = (AbstractPlayer) new tracks.singlePlayer.simple.sampleonesteplookahead.Agent(state, null);
             } catch (Exception e) {
                 System.out.println("Can't make simple");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
     
             try {
                 advancedAgent =(AbstractPlayer) new tracks.singlePlayer.advanced.olets.Agent(state, null);
             } catch (Exception e) {
                 System.out.println("Can't make advanced");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
         }
        
+    }
+
+    /**
+     * Calculate size of sprites + interactions 
+     * and return the fitness for it (smaller size = larger fitness)
+     * @return
+     */
+    public double getSizeFitness(){
+        ArrayList<ArrayList<String>> parts = MarkovChain.parseInteractions(getGame()); 
+        int size = parts.get(0).size() + parts.get(1).size(); 
+
+        double logFunction = Math.log(MAX_SIZE / size ) /Math.log(LOG_BASE) ;  
+        logFunction = Math.min(1, logFunction); 
+
+        return logFunction; 
+    }
+
+    public double percentSpritesInInteraction(GameDescription game){
+        double total = 0; 
+        double correct = 0; 
+        for(SpriteData sprite: game.getAllSpriteData()){
+            if(checkSprite(sprite.name, game)){
+                correct ++; 
+            }
+            total ++; 
+        }
+
+        return correct / total; 
     }
 
         /**
@@ -180,6 +221,9 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
 				StateObservation tempState = state.copy();
 				cleanOpenloopAgents();
 				int temp = getAgentResult(tempState, EVALUATION_STEP_COUNT, advancedAgent, TIMESTEP);
+                if(temp == -1 ){
+                    return 0; 
+                }
 				// add temp to framesCount
 				frameCount += temp;
 				
@@ -215,6 +259,9 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
 			for(int i=0; i<TRIAL_LENGTH; i++){
 				StateObservation tempState = state.copy();
 				int temp = getAgentResult(tempState, bestSolutionSize, randomAgent, TIMESTEP);
+                if(temp == -1 ){
+                    return 0; 
+                }
 				// add temp to framesCount
 				frameCount += temp;
 				randomState = tempState;
@@ -233,6 +280,7 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
 				Iterator<Event> iter1 = s1.iterator();
 				while(iter1.hasNext()) {
 					Event e = iter1.next();
+                    
 					events.add(e.activeTypeId + "" + e.passiveTypeId);
 				}
 				score = -200;
@@ -247,6 +295,9 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
 			for(int i=0; i<TRIAL_LENGTH; i++){
 				StateObservation tempState = state.copy();
 				int temp = getAgentResult(tempState, bestSolutionSize, simpleAgent, TIMESTEP);
+                if(temp == -1 ){
+                    return 0; 
+                }
 				// add temp to framesCount
 				frameCount += temp;
 				naiveState = tempState;
@@ -296,9 +347,9 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
 				double sigRandom = avgRandomScore / (scoreSum);
 				
 				// sum weighted win and sig-score values
-				double summedBest = 0.9 * avgBestWin + 0.1 * sigBest;
-				double summedNaive = 0.9 * avgNaiveWin + 0.1 * sigNaive;
-				double summedRandom = 0.9 * avgRandomWin + 0.1 * sigRandom;
+				double summedBest = 0.6 * avgBestWin + 0.4 * sigBest;
+				double summedNaive = 0.6 * avgNaiveWin + 0.4 * sigNaive;
+				double summedRandom = 0.6 * avgRandomWin + 0.4 * sigRandom;
 	
 				// calc game score differences
 				double gameScore = 0.5* (summedBest - summedNaive) + 0.5 * (summedNaive - summedRandom);
@@ -310,18 +361,30 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
 				}
 				// reward fitness for each unique interaction triggered
 				int uniqueCount = events.size();
+
+                
 				// add a normalized unique count to the fitness
 				double rulesTriggered = uniqueCount / (getInteractionSize() * 1.0f + 1);
 				
 				// fitness is calculated by weight summing the 2 variables together
-				
-				double fitness = 0.5 * (gameScore) +  0.5 * (rulesTriggered);
 
-                //System.out.println("Optimized Fitness: " + fitness);
-                //System.out.println("game score:" +  gameScore); 
-                //System.out.println("avg best:" +  sigBest); 
-                //System.out.println("avg best:" +  sigNaive); 
-                //System.out.println("rules Triggered: " + uniqueCount);
+                double sizeFitness = getSizeFitness(); 
+
+                double spriteInteraction = percentSpritesInInteraction(gameDescription); 
+            
+				
+				double fitness = 0.5 * (gameScore) +  0.1 * (rulesTriggered) + 0.1 * sizeFitness  + 0.1 * spriteInteraction + 0.2 * (1 - badFramePercent);
+
+                /*System.out.println("Optimized Fitness: " + fitness);
+                System.out.println("game score:" +  gameScore); 
+                System.out.println("avg best:" +  sigBest); 
+                System.out.println("avg best:" +  sigNaive); 
+                System.out.println("rules count: " + uniqueCount);
+                System.out.println("rules Triggered: " + rulesTriggered);
+                System.out.println("size fitness: " + sizeFitness); 
+                System.out.println("bad frame:" + badFrames); 
+                System.out.println("bad frame percent:" + badFramePercent);
+                System.out.println("Sprite interaction: " + spriteInteraction);*/ 
 				
 				return fitness;
 		} 
@@ -365,10 +428,20 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
     public double feasibility() {
 
         double feas = 0; 
-        Game toPlay = new VGDLParser().parseGameAsString(getGame()); 
-        toPlay.buildLevelFromString(getLevel(),42);
-        GameDescription gameDescription = new GameDescription(toPlay); 
-        GameAnalyzer gameAnalyzer = new GameAnalyzer(gameDescription); 
+        Game toPlay;
+        GameDescription gameDescription; 
+        GameAnalyzer gameAnalyzer; 
+        //setUp();
+        try{
+            toPlay= new VGDLParser().parseGameAsString(getGame()); 
+            toPlay.buildLevelFromString(getLevel(),42);
+            gameDescription = new GameDescription(toPlay); 
+            gameAnalyzer = new GameAnalyzer(gameDescription); 
+        }catch(Throwable t){
+            //System.out.println(getGame());
+            return 0; 
+        }
+        
 
         //test 1: has an avatar 
         if(gameAnalyzer.getAvatarSprites().size() > 0){
@@ -379,25 +452,26 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
             }
         }
 
-        System.out.println("fitness after avatar: " + feas); 
+        //System.out.println("fitness after avatar: " + feas); 
 
         //test 2: could make state 
         if(state != null){
             feas += 0.2; 
         }
 
-        System.out.println("fitness after state: " + feas); 
+        //System.out.println("fitness after state: " + feas); 
 
          //test 3: do nothing steps 
          if(feas >= 0.4){
             int doNothingLength = this.getAgentResult(state.copy(), FEASIBILITY_STEP_LIMIT, doNothingAgent, TIMESTEP);
+            doNothingLength = doNothingLength < 0?  0 : doNothingLength; 
             
             doNothingLength = Math.min(doNothingLength, FEASIBILITY_STEP_LIMIT); 
 
             feas += (doNothingLength / FEASIBILITY_STEP_LIMIT) * 0.2;
          }
 
-         System.out.println("fitness after do nothing: " + feas); 
+         //System.out.println("fitness after do nothing: " + feas); 
 
          ArrayList<TerminationData> termaintations = gameDescription.getTerminationConditions(); 
 
@@ -409,16 +483,19 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
          ArrayList<String> spriteToCheck = new ArrayList<String>();
 
          for(TerminationData data: termaintations){
-            System.out.println(data.win);
-            if(data.win.equals("True")){
-                hadWin = true; 
-            }else{
-                hasLose = true; 
+            //System.out.println(data.win);
+            if(data != null && data.win != null){
+                if(data.win.equals("True")){
+                    hadWin = true; 
+                }else{
+                    hasLose = true; 
+                }
+    
+                if(data.type != "Timeout"){
+                    spriteToCheck.addAll(data.sprites); 
+                }
             }
-
-            if(data.type != "Timeout"){
-                spriteToCheck.addAll(data.sprites); 
-            }
+            
 
          }
          if(hadWin){
@@ -430,23 +507,23 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
             feas += 0.1; 
          }
 
-         System.out.println("fitness after do loss conditions: " + feas); 
+         //System.out.println("fitness after do loss conditions: " + feas); 
 
          if(spriteToCheck.size() != 0){
             double spritesWithInteractions = 0; 
 
             for(String sprite: spriteToCheck){
-                System.out.println(sprite); 
+                //System.out.println(sprite); 
                 if(checkSprite(sprite, gameDescription)){
                     spritesWithInteractions++; 
-                    System.out.println("\tpassed");
+                    //System.out.println("\tpassed");
                 }
             }
 
             feas += (spritesWithInteractions / spriteToCheck.size()) * 0.2; 
          }
 
-         System.out.println("fitness after termination interaction check " + feas); 
+         //System.out.println("fitness after termination interaction check " + feas); 
 
        
     
@@ -462,6 +539,19 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
      */
     private int checkIfOffScreen(StateObservation stateObs) {
         ArrayList<Observation> allSprites = new ArrayList<Observation>();
+        /*Vector2d pos = stateObs.getAvatarPosition(); 
+        int xMin = -1 * stateObs.getBlockSize();
+        int yMin = -1 * stateObs.getBlockSize();
+        int xMax = (width + 1) * stateObs.getBlockSize();
+        int yMax = (height + 1) * stateObs.getBlockSize();
+
+        if (pos.x < xMin || pos.x > xMax || pos.y < yMin || pos.y > yMax) {
+            return 1; 
+        }else{
+            return 0; 
+        } */ 
+
+        
         ArrayList<Observation>[] temp = stateObs.getNPCPositions();
         if (temp != null) {
             for (ArrayList<Observation> list : temp) {
@@ -500,7 +590,7 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
                 }
             }
         }
-        return counter;
+        return counter; 
 
     }
 
@@ -515,22 +605,28 @@ public abstract class MutantInterface implements Comparable<MutantInterface> {
     private int getAgentResult(StateObservation stateObs, int steps, AbstractPlayer agent, int time) {
         int i = 0;
         int k = 0;
-        for (i = 0; i < steps; i++) {
-            if (stateObs.isGameOver()) {
-                break;
+        try{
+
+            for (i = 0; i < steps; i++) {
+                if (stateObs.isGameOver()) {
+                    break;
+                }
+                ElapsedCpuTimer timer = new ElapsedCpuTimer();
+                timer.setMaxTimeMillis(time);
+                Types.ACTIONS bestAction = agent.act(stateObs, timer);
+                stateObs.advance(bestAction);
+                k += checkIfOffScreen(stateObs);
+    
             }
-            ElapsedCpuTimer timer = new ElapsedCpuTimer();
-            timer.setMaxTimeMillis(time);
-            Types.ACTIONS bestAction = agent.act(stateObs, timer);
-            stateObs.advance(bestAction);
-            k += checkIfOffScreen(stateObs);
+            if (k > 0) {
+                // add k to global var keeping track of this
+                this.badFrames += k;
+            }
+            return i;
+
+        }catch(Throwable t){
+        return -1; 
 
         }
-        if (k > 0) {
-            // add k to global var keeping track of this
-            this.badFrames += k;
-        }
-        return i;
     }
-
 }

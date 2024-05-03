@@ -121,9 +121,17 @@ public class LevelChain {
         ArrayList<String> levelMapping = parts.get(3); 
         HashMap<Character, Character> map = new  HashMap<Character, Character>();
         map.put(' ', '.');
-        Game toPlay = new VGDLParser().parseGameAsString(game); 
-        GameDescription gameDescription = new GameDescription(toPlay); 
-        GameAnalyzer gameAnalyzer = new GameAnalyzer(gameDescription); 
+        Game toPlay; 
+        GameDescription gameDescription; 
+        GameAnalyzer gameAnalyzer; 
+        try{
+            toPlay = new VGDLParser().parseGameAsString(game); 
+            gameDescription = new GameDescription(toPlay); 
+            gameAnalyzer = new GameAnalyzer(gameDescription); 
+        }catch (Throwable t){
+            return null; 
+        }
+       
     
 
         for(String line: levelMapping){
@@ -177,6 +185,9 @@ public class LevelChain {
 
     public static HashMap<Character, ArrayList<Character>> getSpecifyMap(String game){
         HashMap<Character, Character> generaMap = getGeneralizedCharacters(game); 
+        if(generaMap == null){
+            return null;
+        }
         HashMap<Character, ArrayList<Character>> specificMap = new HashMap<Character, ArrayList<Character>>();
 
         for(Character c : generaMap.keySet()){
@@ -195,6 +206,9 @@ public class LevelChain {
     public static char[][] generalizedLevel(String game, String levelString){
         char[][] level = getLevelArrayFromString(levelString); 
         HashMap<Character, Character> generalizedChars = getGeneralizedCharacters(game); 
+        if(generalizedChars == null){
+            return new char[0][0];
+        }
         for(int y = 0; y < level.length; y ++){
             for(int x = 0; x < level[0].length; x ++){
                 char c = level[y][x]; 
@@ -212,6 +226,9 @@ public class LevelChain {
     public static String specifyLevel(String game, char[][] generalLevel){
         Random random = new Random(); 
         HashMap<Character, ArrayList<Character>> specificMap = getSpecifyMap(game); 
+        if(specificMap == null){
+            return "";
+        }
         char[][] level = new char[generalLevel.length][generalLevel[0].length]; 
         for(int y = 0; y < level.length; y ++){
             for(int x = 0; x < level[0].length; x ++){
@@ -345,9 +362,12 @@ public class LevelChain {
         
         // get a new character 
         if(roll < 0.5){
-            System.out.println("New Character");
+            //System.out.println("New Character");
             HashMap<Character, Character> generalMap = getGeneralizedCharacters(game); 
             HashMap<Character, ArrayList<Character>> specifyMap = getSpecifyMap(game);
+            if(generalMap == null || specifyMap == null){
+                return "";
+            }
             int x = rand.nextInt(size[1]); 
             int y = rand.nextInt(size[0]); 
             // don't change avatar 
@@ -356,11 +376,11 @@ public class LevelChain {
                 y = rand.nextInt(size[0]); 
             }
 
-            System.out.println("selected: " + x + "," + y + " = " + levelArr[y][x]); 
+            //System.out.println("selected: " + x + "," + y + " = " + levelArr[y][x]); 
 
             String context  = getGeneralContext(x, y, levelArr, generalMap); 
             char generalChar = sampleFromContext(context, generalMap.get(levelArr[y][x]));
-            System.out.println("selected char: " + generalChar);  
+            //System.out.println("selected char: " + generalChar);  
             if(specifyMap.containsKey(generalChar)){
                 ArrayList<Character> options = specifyMap.get(generalChar); 
                 levelArr[y][x] = options.get(rand.nextInt(options.size()));
@@ -369,10 +389,13 @@ public class LevelChain {
                 levelArr[y][x] = ' ';
             }
 
-            System.out.println("changed to: " + levelArr[y][x]); 
+            //System.out.println("changed to: " + levelArr[y][x]); 
         }else{ //swap 
-            System.out.println("swapping");
+            //System.out.println("swapping");
             char[][] generalLevel = generalizedLevel(game, level);
+            if(generalLevel.length == 0){
+                return "";
+            }
             int x1 = rand.nextInt(size[1]); 
             int x2 = rand.nextInt(size[1]); 
             int y1 = rand.nextInt(size[0]); 
@@ -386,7 +409,7 @@ public class LevelChain {
                 i++; 
             }
 
-            System.out.println("Selected: " + levelArr[y1][x1]  + "," + levelArr[y2][x2]);
+            //System.out.println("Selected: " + levelArr[y1][x1]  + "," + levelArr[y2][x2]);
 
       
              // get probabilty before 
@@ -399,14 +422,14 @@ public class LevelChain {
             double acceptProb = Math.pow(Math.E, post - pre); 
 
             acceptProb = Math.min(1, acceptProb * 10); // inflating prob
-            System.out.println(acceptProb);
+            //System.out.println(acceptProb);
             boolean accept = rand.nextDouble() < acceptProb; 
             if(!accept){
-                System.out.println("rejected");
+                //System.out.println("rejected");
                 // select another mutation
                 return (mutateLevel(game, level)); 
             }else{ // swap on real level 
-                System.out.println("accepted");
+                //System.out.println("accepted");
                 swap(x1, y1, x2,y2, levelArr); 
             }
 

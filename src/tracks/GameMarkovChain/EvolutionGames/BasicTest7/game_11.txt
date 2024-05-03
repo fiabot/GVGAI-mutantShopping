@@ -1,0 +1,62 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Passive shrinkfactor=0.7 img=oryx/gold2
+    	sprite1 > Immovable color=BLUE img=dirt portal=True
+    	sprite2 > Portal invisible=True portal=True stype=sprite3
+    	sprite3 > Immovable img=oryx/diamond2 hidden=True
+    	sprite4 > Missile speed=0.5 img=newset/bomb orientation=LEFT
+    	sprite5 > ShootAvatar color=RED stype=sprite6 speed=1.0 img=oryx/archer1 rotateInPlace=False
+    	sprite6 > Missile color=WHITE img=newset/block3
+    	sprite7 > Immovable img=oryx/tree2
+    	sprite8 > Immovable color=DARKBLUE img=oryx/space4
+    	sprite9 > Immovable color=YELLOW img=oryx/circleEffect1
+    	sprite10 > Door color=GREEN img=oryx/dooropen1
+    	sprite11 > Resource invisible=True
+    	sprite12 > Chaser stype=sprite1 color=RED speed=0.4 img=newset/alienShotgun_0
+    	sprite14 > SpawnPoint img=newset/hole4 portal=True cooldown=16 total=10 stype=sprite4
+    	sprite15 > SpawnPoint img=newset/lasercannon_3 stype=sprite4
+    	sprite16 > Flicker
+    	sprite17 > RandomMissile img=oryx/fire1 shrinkfactor=0.5
+    	sprite18 > SpawnPoint img=newset/lasercannon_4 stype=sprite6
+    	sprite19 > MovingAvatar img=newset/girl1
+    	sprite20 > Bomber stype=sprite6 prob=0.04 cooldown=6 speed=0.5 img=oryx/alien1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+
+    InteractionSet
+    	sprite1 sprite6   > transformToSingleton > transformToSingleton stype=sprite2 stype_other=sprite7 takeOrientation=True
+    	sprite11 sprite1  > killSprite
+    	sprite8 sprite4   > transformToSingleton > transformToSingleton stype=sprite2 stype_other=sprite8
+    	sprite4 sprite3  > attractGaze
+    	sprite5 sprite4  > killSprite
+    	sprite4 EOS  > killSprite scoreChange=-10
+    	sprite4 sprite8  > wallBounce
+    	sprite10 sprite5  > killSprite
+    	sprite5 sprite6  > changeResource resource=sprite11 value=2 killResource=True scoreChange=1
+    	sprite6 sprite7  > transformTo stype=sprite6
+    	sprite9 sprite8  > stepBack
+    	sprite19 sprite7 EOS sprite14  > stepBack
+    	sprite20 sprite8  > transformTo stype=sprite3 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite8 stype2=sprite6 limit=1 win=True
+    	MultiSpriteCounter stype1=sprite8 limit=1 win=True
+    	SpriteCounterMore stype=sprite8 limit=1 win=False
+    	Timeout limit=1000

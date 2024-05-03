@@ -1,0 +1,10 @@
+CCC  CCD CAA  AC CAA
+  CC  AC        A   
+                C  A
+                    
+C                  C
+                    
+A                  D
+                   D
+     D             A
+A    DB             

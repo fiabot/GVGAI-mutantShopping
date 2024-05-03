@@ -1,0 +1,10 @@
+CAA  AAC ACC  AA ACC
+  AA CAA        C   
+                C  C
+                    
+C                  C
+                    
+C                  A
+                   C
+                   A
+C    CB             

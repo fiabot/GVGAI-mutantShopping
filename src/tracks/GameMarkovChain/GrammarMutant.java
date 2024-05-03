@@ -19,6 +19,7 @@ public class GrammarMutant extends MutantInterface{
         this.level = level; 
         this.game = game; 
         this.random = chain.random; 
+        setUp();
     }
 
     public GrammarMutant(String game, MarkovChain chain){
@@ -26,6 +27,7 @@ public class GrammarMutant extends MutantInterface{
         this.chain  = chain; 
         this.random = chain.random; 
         this.level = getLevel(); 
+        setUp();
          
     }
 
@@ -33,7 +35,8 @@ public class GrammarMutant extends MutantInterface{
         this.chain = chain; 
         this.game = chain.buildGame(); 
         this.random = chain.random; 
-        this.level = getLevel();  
+        this.level = getLevel();
+        setUp();  
     }
 
     public GrammarMutant(String cvsFile) throws IOException{
@@ -42,6 +45,7 @@ public class GrammarMutant extends MutantInterface{
         this.random = chain.random; 
         this.game = chain.buildGame(); 
         this.level = getLevel(); 
+        setUp();
     }
 
     @Override
@@ -51,8 +55,25 @@ public class GrammarMutant extends MutantInterface{
 
     @Override
     public MutantInterface mutate() {
-        String newGame = chain.mutateGame(game); 
-        return new GrammarMutant(newGame, chain); 
+        if(random.nextDouble() < 0.7){
+            int numMutations = random.nextInt(1,5); 
+            String newGame = game; 
+            for(int i = 0; i < numMutations; i ++){
+                newGame = chain.mutateGame(game); 
+            }
+            
+            char[][] generalLevel = LevelChain.generalizedLevel(getGame(), getLevel()); 
+            String newLevel = LevelChain.specifyLevel(newGame, generalLevel); 
+            return new GrammarMutant(newGame, newLevel, chain); 
+        }else{
+            int numMutations = random.nextInt(2,10); 
+            String newLevel = getLevel(); 
+            for(int i = 0; i < numMutations; i ++){
+                newLevel = chain.mutateLevel(getGame(), newLevel); 
+            }
+            return new GrammarMutant(getGame(), newLevel, chain); 
+        }
+        
     }
 
     @Override
@@ -68,10 +89,32 @@ public class GrammarMutant extends MutantInterface{
         return this.level;
     }
 
+    static int fact(int number) {  
+        int f = 1;  
+        int j = 1;  
+        while(j <= number) {  
+           f = f * j;  
+           j++;  
+        }  
+        return f;  
+     }  
+  
+
+    private int numInteractionPairs(String interaction){
+        int n = interaction.split(">")[0].split(" ").length;
+        
+        return fact(n) / (fact(2) * fact(n-2)); // combination formula 
+
+    }
+
     @Override
     public int getInteractionSize() {
         ArrayList<ArrayList<String>> parts = MarkovChain.parseInteractions(game); 
-        return parts.get(1).size();
+        int interactionSum = 0; 
+        for(String interaction : parts.get(1)){
+            interactionSum += numInteractionPairs(interaction); 
+        }
+        return interactionSum; 
     }
 
     public static String getSpriteName(String sprite){
@@ -250,9 +293,6 @@ public class GrammarMutant extends MutantInterface{
             for(String newName : namesToAdd){
 
                 if(newName.equals("EOS") || newName.equals(name)){
-                    if(name.equals("a2")){
-                        System.out.println("\tNot a sprite to add");
-                    }
                     continue;
                 }
                 String newSprite = MarkovChain.findSpriteWithName(newName, oldSprites);
@@ -492,7 +532,7 @@ public class GrammarMutant extends MutantInterface{
                 if(returnArr == null){
                     returnArr = addSprite(sprite, partsB, child2Sprites, child2Interactions, child2Terminations); 
                     if(returnArr == null){ // couldn't be added to either 
-                        partsA.get(0).remove(sprite); 
+                        partsB.get(0).remove(sprite); 
                         //System.out.println("couldnt add sprite: " + sprite); 
                     }else{
                         ArrayList<ArrayList<String>> newParts = returnArr[0];
@@ -518,7 +558,7 @@ public class GrammarMutant extends MutantInterface{
                 if(returnArr == null){
                     returnArr = addSprite(sprite, partsB, child1Sprites, child1Interactions, child1Terminations); 
                     if(returnArr == null){ // couldn't be added to either 
-                        partsA.get(0).remove(sprite); 
+                        partsB.get(0).remove(sprite); 
                         //System.out.println("couldnt add sprite: " + sprite); 
                     }else{
                         ArrayList<ArrayList<String>> newParts = returnArr[0];
@@ -538,7 +578,6 @@ public class GrammarMutant extends MutantInterface{
                 }
             }
         }
-
 
         // distbute remaining termination 
         while(partsA.get(2).size() > 0){
@@ -569,15 +608,18 @@ public class GrammarMutant extends MutantInterface{
             }
         }
 
+
         child1Sprites = MarkovChain.reNestSprites(child1Sprites);
         child2Sprites = MarkovChain.reNestSprites(child2Sprites);
 
+
         child1LevelMapping = MarkovChain.buildLevelMapping(child1Sprites); 
         child2LevelMapping = MarkovChain.buildLevelMapping(child2Sprites); 
+
         String gameChild1 = MarkovChain.buildGameDescription(partsA.get(4).get(0), child1Sprites, child1Interactions, child1Terminations, child1LevelMapping);
-        //gameChild1 = renameAllSprites(gameChild1, "sprite");
+        gameChild1 = renameAllSprites(gameChild1, "sprite");
         String gameChild2 = MarkovChain.buildGameDescription(partsB.get(4).get(0), child2Sprites, child2Interactions, child2Terminations, child2LevelMapping);
-        //gameChild2 = renameAllSprites(gameChild1, "sprite");
+        gameChild2 = renameAllSprites(gameChild2, "sprite");
 
         char[][] generalLevel1 = LevelChain.generalizedLevel(thisGame, this.getLevel()); 
         char[][] generalLevel2 = LevelChain.generalizedLevel(thatGame, other.getLevel()); 

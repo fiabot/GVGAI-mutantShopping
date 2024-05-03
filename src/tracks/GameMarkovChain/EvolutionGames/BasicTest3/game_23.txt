@@ -1,0 +1,58 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile orientation=LEFT speed=10 color=WHITE img=oryx/scorpion3
+    	sprite1 > Bomber stype=sprite0 img=oryx/alien3 prob=0.1 cooldown=6 speed=0.5 frameRate=8
+    	sprite2 > Bomber stype=sprite0 prob=0.4 cooldown=3 speed=1 img=newset/bandit1
+    	sprite3 > Bomber stype=sprite0 prob=0.1 orientation=LEFT speed=0.6 img=newset/zombie
+    	sprite4 > Immovable img=newset/bomb autotiling=True
+    	sprite5 > Missile healthPoints=10 speed=0.0 shrinkfactor=0.7 img=oryx/slime2 color=YELLOW orientation=DOWN
+    	sprite6 > Bomber stype=sprite5 prob=0.4 cooldown=6 speed=0.8 img=newset/zombie
+    	sprite7 > RandomMissile color=ORANGE speed=0.25 invisible=True hidden=True
+    	sprite8 > SpawnPoint invisible=True stype=sprite7 cooldown=10 total=40
+    	sprite9 > SpawnPoint img=newset/hole1 stype=sprite0
+    	sprite10 > Missile img=oryx/bullet1 speed=0.05 orientation=RIGHT
+    	sprite11 > Bomber stype=sprite10 prob=0.1 cooldown=4 speed=0.4 orientation=DOWN img=newset/chicken
+    	sprite12 > Immovable img=dirt
+    	sprite13 > Resource color=GREEN limit=11 shrinkfactor=0.5 img=oryx/sword4
+    	sprite14 > Immovable color=GRAY img=newset/water2
+    	sprite15 > Immovable img=newset/bomb autotiling=True
+    	sprite16 > ShootAvatar stype=sprite17 color=RED img=oryx/swordman1 frameRate=8
+    	sprite17 > Flicker invisible=TRUE
+    	sprite18 > Immovable color=RED img=newset/hole1
+    	sprite19 > Door img=oryx/doorclosed1
+    	sprite20 > Spreader img=oryx/fire1 color=ORANGE spreadprob=1 stype=sprite17
+    	sprite21 > Immovable img=dirt
+    	sprite22 > Missile orientation=RIGHT img=oryx/orb3 speed=0.07
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+
+    InteractionSet
+    	sprite16 sprite18 sprite15  > stepBack
+    	sprite16 sprite14 sprite12  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite16 limit=0 win=True
+    	Timeout limit=1000 win=True 

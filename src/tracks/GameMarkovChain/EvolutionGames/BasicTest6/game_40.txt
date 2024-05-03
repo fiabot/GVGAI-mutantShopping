@@ -1,0 +1,48 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/bullet1
+    	sprite1 > RandomNPC speed=0.25 cooldown=2 cons=1 img=newset/nurse
+    	sprite2 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite3 > MovingAvatar img=oryx/spelunky_0 frameRate=8
+    	sprite4 > Missile img=newset/tree2 orientation=LEFT speed=0.15 color=GRAY
+    	sprite5 > SpawnPoint invisible=True hidden=True stype=sprite4 cooldown=50 total=20
+    	sprite6 > SpawnPoint invisible=True stype=sprite4 cooldown=8 total=1
+    	sprite7 > Immovable img=oryx/backBlack
+    	sprite8 > Portal stype=sprite7 color=LIGHTBLUE img=newset/exit2
+    	sprite9 > Passive img=oryx/diamond3
+    	sprite10 > SpawnPoint img=newset/lasercannon_2 stype=sprite4
+    	sprite11 > SpawnPoint img=oryx/slash1 stype=sprite4
+    	sprite12 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite13 > MovingAvatar speed=1.0 img=newset/man4 frameRate=10
+    	sprite14 > Immovable img=oryx/wall3
+    	sprite15 > OrientedAvatar img=oryx/vampire1
+    	sprite16 > RandomPathAltChaser singleton=True stype1=sprite15 stype2=sprite15 cooldown=4 img=oryx/ghost5 cons=4
+    	sprite17 > Passive img=oryx/diamond3
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+
+    InteractionSet
+    	sprite2 sprite3  > killSprite scoreChange=1
+    	sprite12 sprite13  > killSprite scoreChange=1
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=True
+    	SpriteCounter stype=sprite12 limit=0 win=True

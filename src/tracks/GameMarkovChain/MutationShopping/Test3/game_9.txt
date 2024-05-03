@@ -1,0 +1,24 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar speed=1.0 img=newset/man3 img=newset/camel5L
+    	sprite1 > Immovable img=newset/chair1
+    	sprite3 > Immovable color=PINK img=oryx/backBlack
+    	sprite4 > Passive shrinkfactor=0.7 img=oryx/gold2
+    	sprite5 > RandomNPC cooldown=2 img=oryx/guard1
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite3
+    	D > sprite4
+    	E > sprite5
+
+    InteractionSet
+    	sprite1 sprite0   > killSprite scoreChange=1
+    	sprite0 sprite3  > stepBack
+    	sprite4 sprite1  > transformTo stype=sprite5 scoreChange=100
+    	sprite5 sprite0  > killSprite 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite1 limit=1 win=True
+    	SpriteCounter stype=sprite0 limit=0 win=False

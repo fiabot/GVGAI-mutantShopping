@@ -1,0 +1,25 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite1 > MovingAvatar img=newset/girl5 frameRate=8
+    	sprite2 > Passive img=oryx/diamond3
+    	sprite3 > Missile solid=True orientation=UP speed=0.05 color=BLUE
+    	sprite4 > ShootAvatar stype=sprite3 img=oryx/prince1
+    	sprite5 > Immovable color=BROWN img=oryx/fire1
+    	sprite6 > Immovable img=oryx/cloak2
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+
+    InteractionSet
+    	sprite0 sprite1  > killSprite scoreChange=1
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=True
+    	Timeout limit=1000 win=False

@@ -1,0 +1,10 @@
+ADC   CA DCD  DD  CA
+  CC DAD        A   
+                A  D
+                    
+A                  C
+                    
+C                  C
+                D  C
+                   D
+A    CB             

@@ -1,0 +1,10 @@
+      D        FE B 
+ E             F DD 
+D         E        F
+ F        DFE       
+                    
+E                   
+   F                
+                 D  
+          E  F      
+E      F   FF F  DFE

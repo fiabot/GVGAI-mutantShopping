@@ -1,0 +1,20 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=oryx/swordmankey1
+    	sprite1 > Immovable hidden=True invisible=True
+    	sprite2 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=True

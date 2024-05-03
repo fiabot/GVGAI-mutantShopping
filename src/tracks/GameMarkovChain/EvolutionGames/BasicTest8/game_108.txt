@@ -1,0 +1,38 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MissileAvatar img=oryx/ghost1 orientation=DOWN
+    	sprite1 > MissileAvatar img=oryx/bat1 speed=1
+    	sprite2 > MovingAvatar img=oryx/rogue
+    	sprite3 > Immovable img=dirt autotiling=True
+    	sprite4 > Immovable img=oryx/seaWater
+    	sprite5 > Door img=newset/exit2
+    	sprite6 > Chaser stype=sprite5 speed=0.3 img=oryx/bat2 singleton=True frameRate=8
+    	sprite7 > OrientedAvatar img=oryx/vampire1 rotateInPlace=false frameRate=8
+    	sprite8 > Chaser stype=sprite7 color=PINK speed=0.1 img=oryx/sparkle3
+    	sprite9 > Immovable hidden=True img=oryx/wall3 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+
+    InteractionSet
+    	sprite2 sprite3   > transformTo > transformTo stype=sprite3 scoreChange=-3
+    	sprite3 sprite2    > killIfOtherHasMore > killIfOtherHasMore resource=a7 limit=1 scoreChange=4
+    	sprite4 sprite2   > killSprite > killSprite scoreChange=1
+    	sprite3 sprite2  > killSprite scoreChange=-1
+    	sprite2 sprite3  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=False
+    	SpriteCounter stype=sprite2 limit=0 win=True
+    	SpriteCounter stype=sprite2 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=1500 win=False
+    	Timeout limit=500 win=True

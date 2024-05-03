@@ -1,0 +1,41 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Passive img=oryx/heart1 orientation=UP
+    	sprite1 > Immovable img=newset/city1
+    	sprite2 > Immovable img=oryx/space1
+    	sprite3 > Immovable color=GREEN img=oryx/wall3 invisible=True hidden=False
+    	sprite4 > MissileAvatar img=oryx/ghost1 orientation=DOWN
+    	sprite5 > MovingAvatar img=newset/girl2
+    	sprite6 > Immovable color=ORANGE img=oryx/doorclosed1
+    	sprite7 > Passive img=newset/block1
+    	sprite8 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=GREEN
+    	sprite9 > Resource value=1 limit=10 img=oryx/boots3
+    	sprite10 > Resource value=0 limit=4 img=oryx/boots3 color=BLUE 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+
+    InteractionSet
+    	sprite5 sprite6   > transformTo > transformTo stype=sprite6 scoreChange=-3
+    	sprite8 sprite5   > killSprite > killSprite scoreChange=1
+    	sprite6 sprite5  > killSprite scoreChange=-1
+    	sprite5 sprite6  > spawnIfHasMore resource=sprite9 limit=2 stype=sprite9
+    	sprite7 sprite6  > killBoth scoreChange=2
+
+    TerminationSet
+    	SpriteCounter stype=sprite5 limit=0 win=False
+    	SpriteCounter stype=sprite5 limit=0 win=False
+    	SpriteCounter stype=sprite6 win=False
+    	MultiSpriteCounter stype1=sprite8 limit=2 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=False
+    	Timeout limit=1500 win=True

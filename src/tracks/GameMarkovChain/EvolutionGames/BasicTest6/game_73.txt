@@ -1,0 +1,40 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile img=newset/tree2 orientation=LEFT speed=0.15 color=GRAY
+    	sprite1 > SpawnPoint invisible=True hidden=True stype=sprite0 cooldown=50 total=20
+    	sprite2 > Passive img=oryx/diamond3
+    	sprite3 > Immovable img=oryx/wall3
+    	sprite4 > SpawnPoint img=newset/lasercannon_2 stype=sprite0
+    	sprite5 > SpawnPoint img=oryx/slash1 stype=sprite0
+    	sprite6 > Missile color=RED shrinkfactor=0.7 speed=0.5 orientation=LEFT img=oryx/bullet1
+    	sprite7 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite8 > MovingAvatar img=oryx/spelunky_0 frameRate=8
+    	sprite9 > Missile img=newset/tree2 orientation=LEFT speed=0.15 color=GRAY
+    	sprite10 > SpawnPoint invisible=True hidden=True stype=sprite9 cooldown=50 total=20
+    	sprite11 > Immovable img=oryx/backBlack
+    	sprite12 > Portal stype=sprite11 color=LIGHTBLUE img=newset/exit2
+    	sprite13 > SpawnPoint img=newset/lasercannon_2 stype=sprite9
+    	sprite14 > SpawnPoint img=oryx/slash1 stype=sprite9
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+
+    InteractionSet
+    	sprite7 sprite8  > killSprite scoreChange=1
+
+    TerminationSet
+    	SpriteCounter stype=sprite7 limit=0 win=True

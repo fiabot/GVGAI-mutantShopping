@@ -1,0 +1,60 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/tombstone1
+    	sprite1 > Immovable color=BLUE img=dirt portal=True
+    	sprite2 > Portal invisible=True portal=True stype=sprite3
+    	sprite3 > Immovable img=oryx/diamond2 hidden=True
+    	sprite4 > Missile speed=0.5 img=newset/bomb orientation=LEFT
+    	sprite5 > ShootAvatar color=RED stype=sprite6 speed=1.0 img=oryx/archer1 rotateInPlace=False
+    	sprite6 > Missile color=WHITE img=newset/block3
+    	sprite9 > Immovable img=oryx/tree2
+    	sprite10 > Immovable color=DARKBLUE img=oryx/space4
+    	sprite11 > Immovable color=GREEN img=oryx/circleEffect1
+    	sprite12 > Bomber stype=sprite6 prob=0.1 cooldown=6 speed=1 img=oryx/angel1
+    	sprite13 > MovingAvatar img=newset/girl3
+    	sprite14 > Door color=GREEN img=oryx/dooropen1
+    	sprite15 > OrientedAvatar img=oryx/alien1 rotateInPlace=false speed=0.5 color=ORANGE
+    	sprite16 > Resource invisible=True
+    	sprite17 > SpawnPoint cooldown=50 stype=sprite4 img=newset/lasercannon_3 prob=0.05 portal=True stype=sprite6
+    	sprite18 > SpawnPoint img=newset/lasercannon_3 stype=sprite4
+    	sprite19 > SpawnPoint invisible=True hidden=True img=newset/hole1 stype=sprite4 cooldown=30 total=1
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+
+    InteractionSet
+    	sprite1 sprite6  > transformToSingleton stype=sprite2 stype_other=sprite3
+    	sprite16 sprite1  > killSprite
+    	sprite10 sprite4   > transformToSingleton > transformToSingleton stype=sprite2 stype_other=sprite10
+    	sprite4 sprite3  > attractGaze
+    	sprite6 sprite3  > transformTo stype=sprite15
+    	sprite5 sprite4  > killSprite
+    	sprite4 EOS  > killSprite scoreChange=-10
+    	sprite4 sprite10   > wallBounce > wallBounce
+    	sprite14 sprite5  > killSprite
+    	sprite5 sprite6  > changeResource resource=sprite16 value=2 killResource=True scoreChange=1
+    	sprite11 sprite10  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite4 win=False
+    	MultiSpriteCounter stype1=sprite10 stype2=sprite6 limit=1 win=True
+    	MultiSpriteCounter stype1=sprite10 limit=1 win=True
+    	MultiSpriteCounter stype1=sprite11 limit=1 win=False

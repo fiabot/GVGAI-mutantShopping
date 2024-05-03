@@ -1,0 +1,14 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=oryx/axeman1 
+    	sprite1 > Passive img=newset/snowmanchest 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+
+    InteractionSet
+    	sprite0 sprite1  > addHealthPoints value=10 killSecond=True 
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 win=True 

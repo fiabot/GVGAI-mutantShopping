@@ -1,0 +1,16 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile img=newset/laser1_1 speed=0.5 orientation=LEFT 
+    	sprite1 > ShootAvatar color=YELLOW stype=sprite0 img=oryx/prince1 healthPoints=10 limitHealthPoints=20 
+    	sprite2 > Immovable img=oryx/dirtwall 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite2 sprite1  > killSprite 
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=False 

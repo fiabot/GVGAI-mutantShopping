@@ -1,0 +1,14 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > OrientedAvatar img=oryx/knight1 rotateInPlace=false frameRate=8 
+    	sprite1 > Immovable img=oryx/backGrey orientation=RIGHT img=oryx/wall1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+
+    InteractionSet
+    	sprite1 sprite0  > killSprite scoreChange=-1 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite1 limit=1 win=False 

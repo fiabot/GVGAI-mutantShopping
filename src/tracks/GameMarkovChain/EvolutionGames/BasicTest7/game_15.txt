@@ -1,0 +1,70 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/tombstone1
+    	sprite1 > Missile speed=0.5 img=newset/bomb orientation=LEFT
+    	sprite2 > Portal invisible=True portal=True stype=sprite3
+    	sprite3 > Immovable img=oryx/diamond2 hidden=True
+    	sprite4 > OrientedAvatar img=oryx/alien1 rotateInPlace=false speed=0.5 color=ORANGE
+    	sprite5 > Missile color=WHITE img=newset/block3
+    	sprite6 > ShootAvatar color=RED stype=sprite5 speed=1.0 img=oryx/archer1 rotateInPlace=False
+    	sprite7 > Door color=GREEN img=oryx/dooropen1
+    	sprite8 > MovingAvatar img=oryx/mage1
+    	sprite9 > Immovable img=oryx/tree2
+    	sprite10 > Immovable color=DARKBLUE img=oryx/space4
+    	sprite11 > Bomber prob=0.05 cooldown=6 speed=0.8 orientation=LEFT spawnorientation=DOWN stype=sprite1 img=oryx/alien3
+    	sprite12 > Immovable color=BLUE img=dirt portal=True
+    	sprite13 > Resource invisible=True
+    	sprite14 > Chaser stype=sprite12 color=RED speed=0.4 img=newset/alienShotgun_0
+    	sprite15 > SpawnPoint stype=sprite14 prob=0.25 color=LIGHTGRAY img=newset/lasercannon_3
+    	sprite16 > SpawnPoint img=oryx/dooropen1 portal=True cooldown=8 total=5 stype=sprite0
+    	sprite17 > SpawnPoint img=newset/hole4 portal=True cooldown=16 total=10 stype=sprite1
+    	sprite18 > SpawnPoint img=newset/lasercannon_3 stype=sprite1
+    	sprite19 > Passive shrinkfactor=0.7 img=oryx/gold2
+    	sprite21 > Passive shrinkfactor=0.7 img=oryx/gold2
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+
+    InteractionSet
+    	sprite8 sprite0  > transformTo stype=sprite1
+    	sprite8 sprite0 EOS sprite15  > stepBack
+    	sprite10 sprite1  > transformToSingleton stype=sprite2 stype_other=sprite12
+    	sprite6 sprite1  > killSprite
+    	sprite1 EOS  > killSprite scoreChange=-10
+    	sprite1 sprite8  > killSprite
+    	sprite1 sprite3  > attractGaze
+    	sprite12 sprite5  > transformToSingleton stype=sprite2 stype_other=sprite3
+    	sprite5 sprite3  > transformTo stype=sprite4
+    	sprite6 sprite5  > changeResource resource=sprite13 value=2 killResource=True scoreChange=1
+    	sprite5 sprite8  > killSprite scoreChange=1
+    	sprite5 sprite9  > transformTo stype=sprite5
+    	sprite7 sprite6  > killSprite
+    	sprite11 sprite10  > stepBack
+    	sprite13 sprite12  > killSprite
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 win=False
+    	MultiSpriteCounter stype1=sprite10 stype2=sprite5 limit=1 win=True
+    	MultiSpriteCounter stype1=sprite10 limit=1 win=True
+    	SpriteCounter stype=sprite8 limit=0 win=True

@@ -1,0 +1,28 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar speed=1.0 img=newset/camel5
+    	sprite1 > Immovable color=GREEN color=GRAY
+    	sprite2 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+    	sprite3 > Passive img=newset/block2 shrinkfactor=0.8
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite3 sprite0  > bounceForward
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 limit=0 win=True
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	SpriteCounter stype=sprite0 win=False
+    	Timeout limit=1000 win=True
+    	Timeout limit=1000 win=False
+    	Timeout limit=1000 win=False
+    	Timeout limit=1500 win=True

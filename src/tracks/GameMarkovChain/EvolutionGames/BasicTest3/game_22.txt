@@ -1,0 +1,74 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Missile orientation=LEFT speed=10 color=WHITE img=oryx/scorpion3
+    	sprite1 > Bomber stype=sprite0 img=oryx/alien3 prob=0.1 cooldown=6 speed=0.5 frameRate=8
+    	sprite2 > Bomber stype=sprite0 prob=0.4 cooldown=3 speed=1 img=newset/bandit1
+    	sprite3 > Bomber stype=sprite0 prob=0.1 orientation=LEFT speed=0.6 img=newset/zombie
+    	sprite4 > Immovable color=DARKGRAY img=oryx/explosion2 autotiling=True
+    	sprite5 > RandomMissile color=ORANGE speed=0.25 invisible=True hidden=True
+    	sprite6 > SpawnPoint invisible=True stype=sprite5 cooldown=10 total=40
+    	sprite7 > SpawnPoint img=newset/hole1 stype=sprite0
+    	sprite8 > Missile img=oryx/bullet1 speed=0.05 orientation=RIGHT
+    	sprite9 > Bomber stype=sprite8 prob=0.1 cooldown=4 speed=0.4 orientation=DOWN img=newset/chicken
+    	sprite10 > Immovable img=dirt
+    	sprite11 > Resource color=GREEN limit=11 shrinkfactor=0.5 img=oryx/sword4
+    	sprite12 > Missile orientation=LEFT speed=10 color=WHITE img=oryx/scorpion3
+    	sprite13 > Bomber stype=sprite12 img=oryx/alien3 prob=0.1 cooldown=6 speed=0.5 frameRate=8
+    	sprite14 > Bomber stype=sprite12 prob=0.4 cooldown=3 speed=1 img=newset/bandit1
+    	sprite15 > Bomber stype=sprite12 prob=0.1 orientation=LEFT speed=0.6 img=newset/zombie
+    	sprite16 > Immovable img=newset/bomb autotiling=True
+    	sprite17 > SpawnPoint img=newset/hole1 stype=sprite12
+    	sprite18 > Missile img=oryx/bullet1 speed=0.05 orientation=RIGHT
+    	sprite19 > Bomber stype=sprite18 prob=0.1 cooldown=4 speed=0.4 orientation=DOWN img=newset/chicken
+    	sprite20 > Immovable img=dirt
+    	sprite21 > ShootAvatar stype=sprite22 color=RED img=oryx/swordman1 frameRate=8
+    	sprite22 > Flicker invisible=TRUE
+    	sprite23 > Immovable invisible=True hidden=True 
+    	sprite24 > Immovable img=newset/bomb autotiling=True
+    	sprite25 > Immovable color=GRAY img=newset/water2
+    	sprite26 > Resource color=GREEN limit=11 shrinkfactor=0.5 img=oryx/sword4
+    	sprite27 > Door img=oryx/doorclosed1
+    	sprite28 > Spreader img=oryx/fire1 color=ORANGE spreadprob=1 stype=sprite22
+    	sprite29 > Immovable img=dirt
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+    	Z > sprite24
+    	a > sprite25
+    	b > sprite26
+    	c > sprite27
+    	d > sprite28
+    	e > sprite29
+    	f > sprite30
+
+    InteractionSet
+    	sprite21 sprite25 sprite20  > stepBack
+    	sprite21 sprite23 sprite24  > stepBack
+
+    TerminationSet
+    	SpriteCounter stype=sprite21 limit=0 win=True
+    	Timeout limit=1000 win=False
+    	SpriteCounter stype=sprite21 limit=0 win=True

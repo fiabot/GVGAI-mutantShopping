@@ -1,0 +1,29 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/girl2
+    	sprite1 > Immovable color=GREEN color=GRAY
+    	sprite2 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+    	sprite4 > MissileAvatar img=oryx/ghost1 orientation=DOWN
+    	sprite5 > MissileAvatar img=oryx/bat1 speed=1
+    	sprite6 > MissileAvatar img=oryx/bat1 orientation=DOWN color=RED
+    	sprite7 > MissileAvatar img=oryx/bat1 speed=1
+    	sprite8 > RandomNPC cons=1 color=GREEN img=newset/man3
+    	sprite9 > RandomNPC speed=0.001 cooldown=8 cons=6 invisible=True hidden=True
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite2 sprite0  > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite8 sprite0  > killSprite scoreChange=4
+    	sprite0 sprite2  > stepBack
+    	sprite0 sprite2  > transformTo stype=sprite2 scoreChange=2
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 limit=0 win=False
+    	Timeout limit=500 win=True
+    	SpriteCounter stype=sprite1 limit=0 win=False

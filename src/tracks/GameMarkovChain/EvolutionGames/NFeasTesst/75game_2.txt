@@ -1,0 +1,16 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar img=newset/man3 
+    	sprite1 > Immovable img=oryx/wall1 
+    	sprite2 > Resource limit=1 color=GOLD shrinkfactor=0.7 img=oryx/boots2 shrinkfactor=0.7 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+
+    InteractionSet
+    	sprite0 sprite1  > changeResource resource=sprite2 value=-1 
+
+    TerminationSet
+    	SpriteCounter stype=sprite0 win=True 

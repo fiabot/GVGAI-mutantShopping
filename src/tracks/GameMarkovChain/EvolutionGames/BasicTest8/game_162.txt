@@ -1,0 +1,35 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar speed=1.0 img=newset/girl4
+    	sprite1 > MovingAvatar img=oryx/angel1
+    	sprite2 > Missile speed=1.0 img=newset/cloud2 orientation=RIGHT
+    	sprite3 > Immovable orientation=UP color=BLUE img=oryx/backLBrown
+    	sprite4 > Immovable color=GREEN img=oryx/wall3 orientation=UP color=RED
+    	sprite5 > Door img=oryx/door2
+    	sprite6 > Immovable
+    	sprite7 > Immovable img=newset/dock2
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+
+    InteractionSet
+    	sprite1 sprite3  > transformTo stype=sprite2
+    	sprite3 sprite1  > killIfOtherHasMore resource=b14 limit=1
+    	sprite4 sprite1    > killSprite > killSprite scoreChange=5
+    	sprite5 sprite1  > killSprite scoreChange=-15
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 limit=0 win=False
+    	SpriteCounter stype=sprite1 limit=0 win=True
+    	SpriteCounter stype=sprite3 limit=0 win=False
+    	SpriteCounter stype=sprite5 limit=0 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True

@@ -1,0 +1,14 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > OrientedAvatar rotateInPlace=false img=oryx/ghost2 frameRate=8 
+    	sprite1 > Immovable color=DARKGRAY img=oryx/eye1 
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+
+    InteractionSet
+    	sprite1 sprite0  > killSprite 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite1 limit=1 win=True 

@@ -1,0 +1,10 @@
+C      C B     B    
+   B                
+                A   
+  D       B         
+C                   
+                    
+B                   
+B           C  CD   
+                    
+B          CB    B C

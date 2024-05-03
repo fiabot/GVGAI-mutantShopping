@@ -209,17 +209,19 @@ public class MarkovChain {
 
      private ArrayList<String> selectSpriteTypes(int[] spriteContext){
         String closestVec = getClosestSpriteContext(spriteContext); 
-        if (interactionsPairs.containsKey(closestVec )){
+        //if (interactionsPairs.containsKey(closestVec )){
+        if(false){
             return selectFromList(interactionsPairs.get(closestVec)); 
         }else{ 
-            System.out.println("ERROR IN CONTEXT, CHOOSING RANDOM");
+            //System.out.println("ERROR IN CONTEXT, CHOOSING RANDOM");
             String randomContext = selectFromList(new ArrayList<String> (interactionsPairs.keySet())); 
             return selectFromList(interactionsPairs.get(randomContext));
         }
      }
 
      private String selectTerminationType(String interactionContext){
-        if (terminationTypes.containsKey(interactionContext)){
+        //if (terminationTypes.containsKey(interactionContext)){
+        if(false){
             return selectFromList(terminationTypes.get(interactionContext)); 
         }else{ 
             //TODO: find closest vector 
@@ -267,11 +269,122 @@ public class MarkovChain {
                 //TODO: if there is a floor sprite, add that before each char 
                 String sprite = sprites.get(i); 
                 String name = sprite.split(">")[0].strip(); 
-                levelMapping.add(levelChars[i] + " > " + name); 
+                if(i < levelChars.length){
+                    levelMapping.add(levelChars[i] + " > " + name); 
+                }
+                
         }
 
         return levelMapping;
      }
+
+     private ArrayList<String> getAvatarTypes(){
+        ArrayList<String> sprites = new ArrayList<String>(); 
+        for(ArrayList<String> spriteList : spriteType.values()){
+            for(String sprite: spriteList){
+                if(sprite.contains("Avatar")){
+                    sprites.add(sprite); 
+                }   
+            }
+           
+        }
+
+        return sprites; 
+     }
+
+     private ArrayList<String> allSpriteTypes(){
+        ArrayList<String> sprites = new ArrayList<String>(); 
+        for(ArrayList<String> spriteList : spriteType.values()){
+            for(String sprite: spriteList){
+                    sprites.add(sprite); 
+                  
+            }
+           
+        }
+
+        return sprites; 
+     }
+
+     public String buildSimpleGame(){
+        nextSpriteInt = 0;
+        //1: add an avatar and one other sprite 
+            ArrayList<String> sprites = new ArrayList<String>(); 
+            // 1.1: choose intial sprite 
+            String avatar = selectFromList(getAvatarTypes()); 
+            addSprite((buildSpriteFromType(avatar, sprites)), sprites);
+        
+
+            String nextType = selectFromList(allSpriteTypes()); 
+            // choose params from type 
+            // choose values from type and param 
+
+            addSprite((buildSpriteFromType(nextType, sprites)), sprites);
+        
+            
+
+        
+        // 2: add an interaction between sprites 
+        ArrayList<String> interactions = new ArrayList<String>();
+        int[] spriteContext = getSpriteVector(sprites); 
+        HashMap<String, ArrayList<String>> spriteMap =getTypeMapping(sprites); 
+        ArrayList<String> spriteTypes = new ArrayList<String>(); 
+        if(random.nextDouble() > 0.5){
+            spriteTypes.add(avatar); 
+            spriteTypes.add(nextType);
+        }else{
+            spriteTypes.add(nextType); 
+            spriteTypes.add(avatar);
+        }
+        
+        try{
+            String interactionSeed = getInteractionStarter(spriteTypes, spriteMap);  
+            String type  = selectFromList(interactionTypes.get(arrayToString(spriteTypes))); 
+            String interaction = buildInteraction(interactionSeed, type, sprites); 
+                    
+            interactions.add(interaction);
+        } catch (Throwable t){
+            // can't use sprite types 
+            // default to useual behavor 
+            /*spriteTypes = selectSpriteTypes(spriteContext); 
+            // if context doesn't exist, find closest 
+            // add any new sprites if need be 
+            
+            for(String type: spriteTypes){
+                if(!spriteMap.containsKey(type) && spriteParams.containsKey(type)){
+                    addSprite((buildSpriteFromType(type, sprites)), sprites); 
+                    spriteMap =getTypeMapping(sprites);  
+                }
+            }
+            // replace sprite types with real names   
+            String interactionSeed = getInteractionStarter(spriteTypes, spriteMap);  
+                    
+            // select interaction type based on sprites 
+            String type  = selectFromList(interactionTypes.get(arrayToString(spriteTypes))); 
+            String interaction = buildInteraction(interactionSeed, type, sprites); 
+            
+            interactions.add(interaction);*/ 
+        }
+       
+        
+        // 3: Build termination set 
+        String interactionContext = getInteractionContext(interactions); 
+        ArrayList<String> terminations = new ArrayList<String>(); 
+        // select interaction type based on termination context 
+        String type = selectTerminationType(interactionContext);
+                
+        // select params baased on termination type 
+        ArrayList<String> params = selectFromList(terminationParams.get(type));
+        
+        // select values based on type and param 
+        String termination = addParams(type + " ",  type, params, sprites); 
+        terminations.add(termination); 
+        
+
+        // 5: Build Level mapping 
+        ArrayList<String> levelMapping = buildLevelMapping(sprites);
+        
+        return buildGameDescription("BasicGame \n", sprites, interactions, terminations, levelMapping); 
+    }
 
     public String buildGame(){
         nextSpriteInt = 0;
@@ -365,6 +478,16 @@ public class MarkovChain {
         String level = LevelChain.specifyLevel(game, generalLevel); 
 
         return level; 
+    }
+
+    public String mutateLevel(String game, String level){
+        ArrayList<ArrayList<String>> parts = parseInteractions(game); 
+        ArrayList<String> sprites = parts.get(0); 
+        int[] spriteVector = getSpriteVector(sprites); 
+        String spriteContext = getClosestSpriteContext(spriteVector); 
+        LevelChain chain = levelChains.get(spriteContext); 
+
+        return chain.mutateLevel(game, level);
     }
 
     /*
@@ -813,6 +936,8 @@ public class MarkovChain {
     public String mutateGame(String game){
         String[] mutationTypes = {"sprite", "interaction", "termination"};
         String[] mutationSubTypes = {"add", "remove", "modify"}; 
+        //String[] mutationSubTypes = {"add",  "modify"}; 
+
 
         ArrayList<ArrayList<String>> parts = parseInteractions(game);
         ArrayList<String> sprites = removeNestedSprites(parts.get(0)); 
@@ -825,7 +950,12 @@ public class MarkovChain {
         String mutationSubType = mutationSubTypes[random.nextInt(mutationSubTypes.length)]; 
         //System.out.println(mutationType + "," + mutationSubType);
 
-        nextSpriteInt = Integer.valueOf(sprites.get(sprites.size() - 1).split(">")[0].replace("sprite", "").strip()) + 1;
+        try{
+            nextSpriteInt = Integer.valueOf(sprites.get(sprites.size() - 1).split(">")[0].replace("sprite", "").strip()) + 1;
+        }catch(Throwable t){
+            //System.out.println("ERROR IN INTEGER VALUE"); 
+            //System.out.println(game);
+        }
         
    
         
@@ -836,7 +966,8 @@ public class MarkovChain {
                     String lastSprite =  sprites.get(sprites.size() - 1); 
                     String lastSpriteType = getSpriteType(lastSprite); 
 
-                    String nextType = selectFromList(spriteType.get(lastSpriteType));  
+                    //String nextType = selectFromList(spriteType.get(lastSpriteType));  
+                    String nextType = selectFromList(allSpriteTypes());
                     addSprite((buildSpriteFromType(nextType, sprites)), sprites);
                 
                 // 1.2 modifify sprite 
@@ -850,11 +981,14 @@ public class MarkovChain {
                         String lastSprite =  sprites.get(index > 0 ? index - 1: sprites.size() - 1) ; 
                         String lastSpriteType = getSpriteType(lastSprite); 
     
-                        String nextType = selectFromList(spriteType.get(lastSpriteType));  
+                        //String nextType = selectFromList(spriteType.get(lastSpriteType));  
+                        String nextType = selectFromList(allSpriteTypes());
                         String newSprite = buildSpriteFromType(nextType, sprites); 
                         newSprite = spriteName + " > " + newSprite; 
 
                         sprites.set(index, newSprite );
+
+                 
                     }
                      
                     // 1.2.2 change sprite params 
@@ -964,7 +1098,7 @@ public class MarkovChain {
                     }else if (subsubtype == 1){
                         // 2.2.3 change params 
                         String type = getInteractinType(interaction);
-                        String interactionSeed = interaction.split(">")[0] + " > " + type; 
+                        String interactionSeed = interaction.split(">")[0]; 
                         String newInteraction = buildInteraction(interactionSeed, type, sprites); 
                         
                         interactions.set(index, newInteraction);
@@ -1055,10 +1189,18 @@ public class MarkovChain {
                 terminations.remove(termination);
             } 
         }
+
+        levelMapping = buildLevelMapping(sprites);
         
         String newGame = buildGameDescription(parts.get(4).get(0), sprites, interactions, terminations, levelMapping); 
 
-         return newGame;
+        if(newGame.equals(game)){
+            return mutateGame(game);
+        }else{
+            return newGame;
+        }
+
+     
     }
     public static String getSpriteType(String sprite) {
         for (String line : sprite.split("\n")) {

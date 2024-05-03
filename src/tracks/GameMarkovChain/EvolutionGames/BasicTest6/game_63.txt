@@ -1,0 +1,34 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable img=oryx/bullet1
+    	sprite1 > RandomNPC speed=0.25 cooldown=2 cons=1 img=newset/monkey2
+    	sprite2 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite3 > MovingAvatar img=oryx/spelunky_0 frameRate=8
+    	sprite4 > Immovable img=oryx/explosion2
+    	sprite5 > Portal stype=sprite4 color=LIGHTBLUE img=newset/exit2
+    	sprite6 > Passive img=oryx/diamond3
+    	sprite7 > Immovable img=oryx/wall3
+    	sprite8 > Immovable color=DARKBLUE img=oryx/backBiege portal=true
+    	sprite9 > MovingAvatar img=newset/girl5 frameRate=8
+    	sprite10 > Immovable color=BLUE img=oryx/fire1
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+
+    InteractionSet
+    	sprite2 sprite3  > killSprite scoreChange=1
+    	sprite8 sprite9  > killSprite scoreChange=1
+
+    TerminationSet
+    	SpriteCounter stype=sprite2 limit=0 win=True
+    	SpriteCounter stype=sprite8 limit=0 win=True

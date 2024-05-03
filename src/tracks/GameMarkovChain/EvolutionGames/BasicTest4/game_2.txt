@@ -1,0 +1,70 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > Immovable color=BLACK img=oryx/wall3
+    	sprite1 > Immovable img=newset/pipeUD
+    	sprite2 > Passive img=newset/block2 invisible=True hidden=TRUE
+    	sprite3 > Passive color=GOLD img=newset/mirror_u
+    	sprite4 > Immovable img=oryx/grass invisible=true hidden=True
+    	sprite5 > Immovable invisible=True hidden=True orientation=UP img=newset/chair4
+    	sprite6 > Immovable color=GREEN img=oryx/doorclosed1
+    	sprite7 > Immovable autotiling=True img=oryx/floor3
+    	sprite8 > Immovable img=newset/egg hidden=True
+    	sprite9 > Missile orientation=LEFT speed=0.0 color=BROWN img=newset/whale
+    	sprite10 > SpaceshipAvatar stype=sprite9 physicstype=CONT img=oryx/spaceship3
+    	sprite11 > Missile color=RED shrinkfactor=0.5 speed=0.5 orientation=UP img=newset/potatoeyesnose
+    	sprite12 > Missile color=RED shrinkfactor=0.5 speed=15 orientation=LEFT img=oryx/bush1
+    	sprite13 > Immovable img=oryx/cspell4
+    	sprite14 > Immovable img=newset/win4 autotiling=True
+    	sprite15 > Missile color=YELLOW orientation=RIGHT cooldown=3 img=newset/block3
+    	sprite16 > Missile speed=0.15 hMult=2 img=newset/car1R
+    	sprite17 > Missile orientation=RIGHT speed=0.3 color=RED img=oryx/icedown1
+    	sprite18 > Immovable color=GRAY img=oryx/diamond2
+    	sprite19 > Immovable img=oryx/fire1 autotiling=True
+    	sprite20 > MovingAvatar shrinkfactor=0.8 img=newset/winterelf1
+    	sprite21 > MovingAvatar img=oryx/princess1
+    	sprite22 > Resource limit=1 value=10000 shrinkfactor=0.9 img=oryx/sword3
+    	sprite23 > Door img=oryx/door2
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+    	E > sprite4
+    	F > sprite5
+    	G > sprite6
+    	H > sprite7
+    	I > sprite8
+    	J > sprite9
+    	K > sprite10
+    	L > sprite11
+    	M > sprite12
+    	N > sprite13
+    	O > sprite14
+    	P > sprite15
+    	Q > sprite16
+    	R > sprite17
+    	S > sprite18
+    	T > sprite19
+    	U > sprite20
+    	V > sprite21
+    	X > sprite22
+    	Y > sprite23
+
+    InteractionSet
+    	sprite2 sprite14  > killSprite scoreChange=2
+    	sprite3 sprite13  > killBoth scoreChange=1
+    	sprite12 sprite6 sprite1  > killSprite
+    	sprite3 sprite22  > undoAll
+    	sprite21 sprite0  > killIfHasLess resource=sprite22 limit=15
+    	sprite21 sprite0  > spawnIfHasMore resource=sprite22 limit=1 stype=sprite13
+    	sprite21 sprite18  > changeResource resource=sprite22
+    	sprite9 sprite18 sprite8  > killSprite
+    	sprite16 sprite23  > transformTo stype=sprite21
+    	sprite20 sprite4  > transformTo stype=sprite11
+    	sprite15 sprite18 sprite1  > stepBack
+    	sprite20 sprite13  > stepBack pixelPerfect=True 
+
+    TerminationSet
+    	MultiSpriteCounter stype1=sprite14 stype2=sprite21 limit=0 win=False
+    	Timeout limit=1500 win=True

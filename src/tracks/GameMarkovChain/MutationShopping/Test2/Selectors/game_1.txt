@@ -1,0 +1,20 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar speed=1.0 img=oryx/princess1 frameRate=8
+    	sprite1 > Immovable img=oryx/backOBrown
+    	sprite2 > OrientedAvatar rotateInPlace=false img=newset/pacman color=ORANGE speed=0.4 frameRate=8
+    	sprite3 > RandomNPC speed=0.25 cooldown=2 img=oryx/bat1 cons=1
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite1 sprite0   > killSprite scoreChange=2
+    	sprite2 sprite3   > killSprite 
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 win=True
+    	Timeout limit=1000 win=False

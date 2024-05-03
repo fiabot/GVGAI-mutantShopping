@@ -1,0 +1,14 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar speed=1.0 img=oryx/princess1 frameRate=8
+    	sprite1 > Immovable img=oryx/backOBrown
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+
+    InteractionSet
+    	sprite1 sprite0   > killSprite scoreChange=2 
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 win=True

@@ -1,0 +1,32 @@
+BasicGame 
+    SpriteSet
+    	sprite0 > MovingAvatar frameRate=8 img=oryx/spelunky_0
+    	sprite1 > Immovable color=GREEN color=GRAY
+    	sprite2 > Immovable color=GREEN img=oryx/cspell4 orientation=UP color=RED
+    	sprite3 > Immovable img=oryx/tree2
+    	sprite4 > Immovable img=oryx/dirtWall autotiling=True
+
+    LevelMapping
+    	A > sprite0
+    	B > sprite1
+    	C > sprite2
+    	D > sprite3
+
+    InteractionSet
+    	sprite0 sprite1   > transformTo > transformTo stype=sprite1 scoreChange=-3
+    	sprite1 sprite0    > killIfOtherHasMore > killIfOtherHasMore resource=a7 limit=1 scoreChange=4
+    	sprite2 sprite0   > killSprite > killSprite scoreChange=1
+    	sprite1 sprite0  > killSprite scoreChange=-1
+    	sprite3 sprite0  > bounceForward
+
+    TerminationSet
+    	SpriteCounter stype=sprite1 win=False
+    	SpriteCounter stype=sprite1 limit=0 win=True
+    	MultiSpriteCounter stype1=sprite2 limit=2 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=False
+    	Timeout limit=500 win=True
+    	Timeout limit=1000 win=False
